@@ -1,33 +1,30 @@
-# PV168 Project: {{ PROJECT NAME }}
+# PV168 Project: TODO List
 
-<!--- FIXME: fill in the PROJECT NAME above and include short description of what the project is about -->
-{{ PROJECT DESCRIPTION }}
+The desktop application will help me with organizing tasks I should do. The task should tell me what should I do, where should I do it, when is the due time, and what is the estimated time for the task. I would like to categorize the tasks. I want to filter the tasks by their progress.
 
 ## Team Information
 
-| Seminar Group | Team |
-|-------------- | ---- |
-| PV168/0X      | Y    | <!--- FIXME: fill in the seminar group and team identification -->
+| Seminar Group | Team     |
+|---------------|----------|
+| PV168/04      | TODO 🏆  |
 
 ### Members
 
-| Role           | Person               |
-|----------------|----------------------|
-|Team Lead       | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Member          | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
+| Role           | Person                                                 |
+|----------------|--------------------------------------------------------|
+|Team Lead       | [Patrik Rosecky](https://is.muni.cz/auth/osoba/525015) |
+|Member          | [Jakub Nezval](https://is.muni.cz/auth/osoba/525004)   | <!--- FIXME: fill in the name and UCO -->
+|Member          | [Jan Polacek](https://is.muni.cz/auth/osoba/536681)    | <!--- FIXME: fill in the name and UCO -->
+|Member          | [Radim Rychlik](https://is.muni.cz/auth/osoba/514233)  | <!--- FIXME: fill in the name and UCO -->
 
 ### Evaluators
 
-| Role           | Person               |
-|----------------|----------------------|
-|PM              | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
-|Technical Coach | [Name Surname](https://is.muni.cz/auth/osoba/UCO) | <!--- FIXME: fill in the name and UCO -->
+| Role           | Person                                                   |
+|----------------|----------------------------------------------------------|
+|PM              | [Andrej Vaculciak](https://is.muni.cz/auth/osoba/248487) | 
+|Technical Coach | [Ondrej Konecny](https://is.muni.cz/auth/osoba/248483)   | 
 
 ## TODO
 
-- Update the [`README.md`](#) - fill in the project and team details (resolve all the `FIXME` comments and remove them).
-- Update the [`pom.xml`](pom.xml) - fill in the project and team details (resolve all the `FIXME` comments and remove them).
 - Start with [`Main.java`](src/main/java/cz/muni/fi/pv168/project/Main.java) as the _main class_ for your application.
 - Get rid of this TODO section. 😉
