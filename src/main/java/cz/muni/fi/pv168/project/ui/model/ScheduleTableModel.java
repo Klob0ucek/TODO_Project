@@ -3,13 +3,14 @@ package cz.muni.fi.pv168.project.ui.model;
 import cz.muni.fi.pv168.project.model.Event;
 
 import javax.swing.table.AbstractTableModel;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ScheduleTableModel extends AbstractTableModel {
-    private final List<Event> events;
+    private final List<Event> events = new LinkedList<>();
 
     private final List<Column<Event, ?>> columns = List.of(
             Column.editable("Done?", Boolean.class, Event::isDone, Event::setDone),
@@ -21,10 +22,17 @@ public class ScheduleTableModel extends AbstractTableModel {
     );
 
     public ScheduleTableModel() {
-        events = new ArrayList<>();
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
-        events.add(new Event(false, "Tennis", "Sport", "Tennis Hala Lužánky", date, time));
+        events.add(
+                new Event(
+                        false,
+                        "Tennis",
+                        "Sport",
+                        "Tennis Hala Lužánky",
+                        date, time
+                )
+        );
     }
 
     @Override
@@ -83,5 +91,4 @@ public class ScheduleTableModel extends AbstractTableModel {
     public Event getEntity(int rowIndex) {
         return events.get(rowIndex);
     }
-
 }
