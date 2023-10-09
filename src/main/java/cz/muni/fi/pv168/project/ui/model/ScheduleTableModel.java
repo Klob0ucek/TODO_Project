@@ -1,0 +1,87 @@
+package cz.muni.fi.pv168.project.ui.model;
+
+import cz.muni.fi.pv168.project.model.Event;
+
+import javax.swing.table.AbstractTableModel;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScheduleTableModel extends AbstractTableModel {
+    private final List<Event> events;
+
+    private final List<Column<Event, ?>> columns = List.of(
+            Column.editable("Done?", Boolean.class, Event::isDone, Event::setDone),
+            Column.editable("Name", String.class, Event::getName, Event::setName),
+            Column.editable("Category", String.class, Event::getCategory, Event::setCategory),
+            Column.editable("Location", String.class, Event::getLocation, Event::setLocation),
+            Column.editable("Date", LocalDate.class, Event::getDate, Event::setDate),
+            Column.editable("Time", LocalTime.class, Event::getTime, Event::setTime)
+    );
+
+    public ScheduleTableModel() {
+        events = new ArrayList<>();
+        LocalDate date = LocalDate.of(2023, 10, 10);
+        LocalTime time = LocalTime.of(10, 0);
+        events.add(new Event(false, "Tennis", "Sport", "Tennis Hala Lužánky", date, time));
+    }
+
+    @Override
+    public int getRowCount() {
+        return events.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return columns.size();
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        var event = getEntity(rowIndex);
+        return columns.get(columnIndex).getValue(event);
+    }
+
+    @Override
+    public String getColumnName(int columnIndex) {
+        return columns.get(columnIndex).getName();
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return columns.get(columnIndex).getColumnType();
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columns.get(columnIndex).isEditable();
+    }
+
+    @Override
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        var event = getEntity(rowIndex);
+        columns.get(columnIndex).setValue(value, event);
+    }
+
+    public void deleteRow(int rowIndex) {
+        events.remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+
+    public void addRow(Event event) {
+        int newRowIndex = events.size();
+        events.add(event);
+        fireTableRowsInserted(newRowIndex, newRowIndex);
+    }
+
+    public void updateRow(Event event) {
+        int rowIndex = events.indexOf(event);
+        fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    public Event getEntity(int rowIndex) {
+        return events.get(rowIndex);
+    }
+
+}
