@@ -2,25 +2,58 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.ui.model.ScheduleTableModel;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 public class MainWindow {
     private final JFrame frame;
 
     public MainWindow() {
         frame = createFrame();
-        var scheduleTableModel = createScheduleTableModel();
-        frame.add(new JScrollPane(scheduleTableModel), BorderLayout.CENTER);
+
+        JTabbedPane tabs = createTabs();
+        frame.add(new JScrollPane(tabs), BorderLayout.NORTH);
+
         frame.pack();
     }
 
     private JTable createScheduleTableModel() {
         return new JTable(new ScheduleTableModel());
+    }
+
+    // only for testing
+    // src: https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
+    protected JComponent makeTextPanel(String text) {
+        JPanel panel = new JPanel(false);
+        JLabel filler = new JLabel(text);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        panel.setLayout(new GridLayout(1, 1));
+        panel.add(filler);
+        return panel;
+    }
+
+    private JTabbedPane createTabs() {
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        JComponent tab1 = new JScrollPane(createScheduleTableModel());
+        tabbedPane.addTab("Tab 1", null, tab1, "Does nothing");
+
+        JComponent tab2 = makeTextPanel("#2");
+        tabbedPane.addTab("Tab 2", null, tab2, "Still nothing");
+
+        JComponent tab3 = makeTextPanel("#3");
+        tabbedPane.addTab("Tab 3", null, tab3, "Nothing here");
+
+        return tabbedPane;
     }
 
     private JFrame createFrame() {
