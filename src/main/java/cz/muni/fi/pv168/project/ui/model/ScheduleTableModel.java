@@ -22,6 +22,9 @@ public class ScheduleTableModel extends AbstractTableModel {
     );
 
     public ScheduleTableModel() {
+        // columns are draggable
+        // Local[Date|Time] isn't really editable
+
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
         events.add(
