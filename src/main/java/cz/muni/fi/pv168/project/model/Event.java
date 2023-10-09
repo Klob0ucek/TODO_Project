@@ -103,13 +103,13 @@ public class Event {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isDone, name, category, location, date, time);
+        return Objects.hash(name, category, location, date, time);
     }
 
     @Override
     public String toString() {
-        return "event{" +
-                "done=" + isDone +
+        return "Event:{" +
+                "isDone=" + isDone +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 ", location='" + location + '\'' +
