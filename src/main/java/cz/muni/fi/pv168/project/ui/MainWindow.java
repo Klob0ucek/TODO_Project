@@ -2,8 +2,12 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.ui.model.ScheduleTableModel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.WindowConstants;
+
+import java.awt.BorderLayout;
 
 public class MainWindow {
     private final JFrame frame;
