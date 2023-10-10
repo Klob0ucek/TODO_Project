@@ -56,14 +56,23 @@ public class MainWindow {
     private JTabbedPane createTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        JComponent tab1 = new JScrollPane(createScheduleTableModel());
-        tabbedPane.addTab("Tab 1", null, tab1, "Does nothing");
+        JComponent scheduleTab = new JScrollPane(createScheduleTableModel());
+        tabbedPane.addTab("Tasks", null, scheduleTab, "tasks_-_TIP");
 
-        JComponent tab2 = makeTextPanel("#2");
-        tabbedPane.addTab("Tab 2", null, tab2, "Still nothing");
+        JComponent categoriesTab = makeTextPanel("categories_-_PLACEHOLDER");
+        tabbedPane.addTab("Categories", null, categoriesTab, "categories_-_TIP");
 
-        JComponent tab3 = makeTextPanel("#3");
-        tabbedPane.addTab("Tab 3", null, tab3, "Nothing here");
+        JComponent templatesTab = makeTextPanel("templates_-_PLACEHOLDER");
+        tabbedPane.addTab("Templates", null, templatesTab, "templates_-_TIP");
+
+        JComponent intervalsTab = makeTextPanel("intervals_-_PLACEHOLDER");
+        tabbedPane.addTab("Intervals", null, intervalsTab, "intervals_-_TIP");
+
+        JComponent statisticsTab = makeTextPanel("statistics_-_PLACEHOLDER");
+        tabbedPane.addTab("Statistics", null, statisticsTab, "statistics_-_TIP");
+
+        JComponent helpTab = makeTextPanel("help_-_PLACEHOLDER");
+        tabbedPane.addTab("Help", null, helpTab, "help_-_TIP");
 
         return tabbedPane;
     }
