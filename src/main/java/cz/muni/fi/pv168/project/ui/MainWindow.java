@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.ui;
 
 import cz.muni.fi.pv168.project.ui.model.ScheduleTableModel;
 
-import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,8 +14,6 @@ import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 
 public class MainWindow {
     private final JFrame frame;
