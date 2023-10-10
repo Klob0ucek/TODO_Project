@@ -1,7 +1,14 @@
 package cz.muni.fi.pv168.project.ui;
 
+import cz.muni.fi.pv168.project.ui.action.DeleteAction;
+import cz.muni.fi.pv168.project.ui.action.EditAction;
+import cz.muni.fi.pv168.project.ui.action.ExportAction;
+import cz.muni.fi.pv168.project.ui.action.FilterAction;
+import cz.muni.fi.pv168.project.ui.action.ImportAction;
+import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.ScheduleTableModel;
 
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,11 +49,43 @@ public class MainWindow {
         return panel;
     }
 
-    private JToolBar createToolBar() {
-        JToolBar toolBar = new JToolBar();
-        toolBar.addSeparator();
+    private JToolBar createVerticalToolBar() {
+        JToolBar verticalTools = new JToolBar();
+        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
+        verticalTools.setFloatable(false);
 
-        toolBar.setFloatable(false);
+        return verticalTools;
+    }
+
+    private JToolBar northTools() {
+        JToolBar toolBar = createVerticalToolBar();
+
+        toolBar.add(new FilterAction());
+        toolBar.addSeparator();
+        toolBar.add(new EditAction());
+        toolBar.add(new DeleteAction());
+
+        return toolBar;
+    }
+
+    private JToolBar southTools() {
+        JToolBar toolBar = createVerticalToolBar();
+
+        toolBar.add(new ImportAction());
+        toolBar.add(new ExportAction());
+        toolBar.addSeparator();
+        toolBar.add(new QuitAction());
+
+        return toolBar;
+    }
+
+    private JPanel createToolBar() {
+        JPanel toolBar = new JPanel();
+        toolBar.setLayout(new BorderLayout());
+
+        toolBar.add(northTools(), BorderLayout.NORTH);
+        toolBar.add(southTools(), BorderLayout.SOUTH);
+
         return toolBar;
     }
 
