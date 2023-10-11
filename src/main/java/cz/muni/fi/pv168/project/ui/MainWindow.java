@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -23,6 +24,14 @@ import java.awt.Dimension;
 
 public class MainWindow {
     private final JFrame frame;
+
+    private final Action addAction = new AddAction();
+    private final Action deleteAction = new DeleteAction();
+    private final Action editAction = new EditAction();
+    private final Action exportAction = new ExportAction();
+    private final Action filterAction = new FilterAction();
+    private final Action importAction = new ImportAction();
+    private final Action quitAction = new QuitAction();
 
     public MainWindow() {
         frame = createFrame();
@@ -44,11 +53,11 @@ public class MainWindow {
     private JToolBar northTools() {
         JToolBar toolBar = createVerticalToolBar();
 
-        toolBar.add(new FilterAction());
+        toolBar.add(filterAction);
         toolBar.addSeparator();
-        toolBar.add(new AddAction());
-        toolBar.add(new EditAction());
-        toolBar.add(new DeleteAction());
+        toolBar.add(addAction);
+        toolBar.add(editAction);
+        toolBar.add(deleteAction);
 
         return toolBar;
     }
@@ -56,10 +65,10 @@ public class MainWindow {
     private JToolBar southTools() {
         JToolBar toolBar = createVerticalToolBar();
 
-        toolBar.add(new ImportAction());
-        toolBar.add(new ExportAction());
+        toolBar.add(importAction);
+        toolBar.add(exportAction);
         toolBar.addSeparator();
-        toolBar.add(new QuitAction());
+        toolBar.add(quitAction);
 
         return toolBar;
     }
