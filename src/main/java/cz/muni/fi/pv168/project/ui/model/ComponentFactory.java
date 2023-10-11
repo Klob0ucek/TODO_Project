@@ -25,8 +25,15 @@ public class ComponentFactory {
         };
     }
 
+    private static JTable disableColumnDragging(
+            JTable table
+    ) {
+        table.getTableHeader().setReorderingAllowed(false);
+        return table;
+    }
+
     public static JTable createScheduleTable() {
-        return new JTable(new ScheduleTableModel());
+        return disableColumnDragging(new JTable(new ScheduleTableModel()));
     }
 
     public static JTable createCategoryTable() {
