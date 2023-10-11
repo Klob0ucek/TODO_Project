@@ -102,9 +102,6 @@ public class MainWindow {
         JComponent intervalsTab = makeTextPanel("intervals_-_PLACEHOLDER");
         tabbedPane.addTab("Intervals", null, intervalsTab, "intervals_-_TIP");
 
-        JComponent statisticsTab = makeTextPanel("statistics_-_PLACEHOLDER");
-        tabbedPane.addTab("Statistics", null, statisticsTab, "statistics_-_TIP");
-
         JComponent helpTab = makeTextPanel("help_-_PLACEHOLDER");
         tabbedPane.addTab("Help", null, helpTab, "help_-_TIP");
 
