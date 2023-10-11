@@ -12,7 +12,6 @@ import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -21,7 +20,6 @@ import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 public class MainWindow {
     private final JFrame frame;
@@ -33,17 +31,6 @@ public class MainWindow {
         frame.add(createToolBar(), BorderLayout.WEST);
 
         frame.pack();
-    }
-
-    // only for testing
-    // src: https://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
-    protected JComponent makeTextPanel(String text) {
-        JPanel panel = new JPanel(false);
-        JLabel filler = new JLabel(text);
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(filler);
-        return panel;
     }
 
     private JToolBar createVerticalToolBar() {
@@ -91,18 +78,18 @@ public class MainWindow {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         JComponent scheduleTab = new JScrollPane(ComponentFactory.createScheduleTable());
-        tabbedPane.addTab("Tasks", null, scheduleTab, "tasks_-_TIP");
+        tabbedPane.addTab("Events", null, scheduleTab, "events_-_TIP");
 
-        JComponent categoriesTab = makeTextPanel("categories_-_PLACEHOLDER");
+        JComponent categoriesTab = new JScrollPane(ComponentFactory.createCategoryTable());
         tabbedPane.addTab("Categories", null, categoriesTab, "categories_-_TIP");
 
-        JComponent templatesTab = makeTextPanel("templates_-_PLACEHOLDER");
+        JComponent templatesTab = new JScrollPane(ComponentFactory.createTemplateTable());
         tabbedPane.addTab("Templates", null, templatesTab, "templates_-_TIP");
 
-        JComponent intervalsTab = makeTextPanel("intervals_-_PLACEHOLDER");
+        JComponent intervalsTab = new JScrollPane(ComponentFactory.createIntervalTable());
         tabbedPane.addTab("Intervals", null, intervalsTab, "intervals_-_TIP");
 
-        JComponent helpTab = makeTextPanel("help_-_PLACEHOLDER");
+        JComponent helpTab = new JScrollPane(ComponentFactory.createHelp());
         tabbedPane.addTab("Help", null, helpTab, "help_-_TIP");
 
         return tabbedPane;

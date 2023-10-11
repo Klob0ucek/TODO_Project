@@ -16,18 +16,18 @@ public class ComponentFactory {
     }
 
     public static JTable createCategoryTable() {
-        throw new UnknownError("Not implemented");
+        return new JTable();  // TODO
     }
 
     public static JTable createTemplateTable() {
-        throw new UnknownError("Not implemented");
+        return new JTable();  // TODO
     }
 
     public static JTable createIntervalTable() {
-        throw new UnknownError("Not implemented");
+        return new JTable();  // TODO
     }
 
     public static JComponent createHelp() {
-        throw new UnknownError("Not implemented");
+        return new JTable();  // TODO
     }
 }
