@@ -7,7 +7,7 @@ import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.FilterAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -16,11 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 public class MainWindow {
@@ -33,10 +33,6 @@ public class MainWindow {
         frame.add(createToolBar(), BorderLayout.WEST);
 
         frame.pack();
-    }
-
-    private JTable createScheduleTableModel() {
-        return new JTable(new ScheduleTableModel());
     }
 
     // only for testing
@@ -94,7 +90,7 @@ public class MainWindow {
     private JTabbedPane createTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        JComponent scheduleTab = new JScrollPane(createScheduleTableModel());
+        JComponent scheduleTab = new JScrollPane(ComponentFactory.createScheduleTable());
         tabbedPane.addTab("Tasks", null, scheduleTab, "tasks_-_TIP");
 
         JComponent categoriesTab = makeTextPanel("categories_-_PLACEHOLDER");
@@ -117,6 +113,7 @@ public class MainWindow {
 
     private JFrame createFrame() {
         var frame = new JFrame("TODO App");
+        frame.setMinimumSize(new Dimension(750, 500));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return frame;
     }
