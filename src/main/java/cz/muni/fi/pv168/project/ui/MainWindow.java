@@ -11,7 +11,6 @@ import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 
 import javax.swing.Action;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,6 +31,8 @@ public class MainWindow {
     private final Action filterAction = new FilterAction();
     private final Action importAction = new ImportAction();
     private final Action quitAction = new QuitAction();
+
+    private final JTabbedPane tabbedPane = new JTabbedPane();
 
     public MainWindow() {
         frame = createFrame();
@@ -84,22 +85,14 @@ public class MainWindow {
     }
 
     private JTabbedPane createTabs() {
-        JTabbedPane tabbedPane = new JTabbedPane();
-
-        JComponent scheduleTab = new JScrollPane(ComponentFactory.createScheduleTable());
-        tabbedPane.addTab("Events", null, scheduleTab, "events_-_TIP");
-
-        JComponent categoriesTab = new JScrollPane(ComponentFactory.createCategoryTable());
-        tabbedPane.addTab("Categories", null, categoriesTab, "categories_-_TIP");
-
-        JComponent templatesTab = new JScrollPane(ComponentFactory.createTemplateTable());
-        tabbedPane.addTab("Templates", null, templatesTab, "templates_-_TIP");
-
-        JComponent intervalsTab = new JScrollPane(ComponentFactory.createIntervalTable());
-        tabbedPane.addTab("Intervals", null, intervalsTab, "intervals_-_TIP");
-
-        JComponent helpTab = new JScrollPane(ComponentFactory.createHelp());
-        tabbedPane.addTab("Help", null, helpTab, "help_-_TIP");
+        for (Tab tab : Tab.values()) {
+            tabbedPane.addTab(
+                    tab.getStringValue(),
+                    null,
+                    new JScrollPane(ComponentFactory.createTab(tab)),
+                    tab.getTabTip()
+            );
+        }
 
         return tabbedPane;
     }
