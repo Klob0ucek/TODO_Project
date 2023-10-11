@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.ui;
+package cz.muni.fi.pv168.project.ui.tab;
 
 public enum Tab {
     EVENTS, CATEGORIES, TEMPLATES, INTERVALS, HELP;

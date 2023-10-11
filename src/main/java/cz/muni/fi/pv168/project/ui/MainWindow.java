@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 
+import cz.muni.fi.pv168.project.ui.tab.Tab;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;

@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.ui.Tab;
+import cz.muni.fi.pv168.project.ui.tab.Tab;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
