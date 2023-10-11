@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui;
 
+import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
 import cz.muni.fi.pv168.project.ui.action.ExportAction;
@@ -62,6 +63,7 @@ public class MainWindow {
 
         toolBar.add(new FilterAction());
         toolBar.addSeparator();
+        toolBar.add(new AddAction());
         toolBar.add(new EditAction());
         toolBar.add(new DeleteAction());
 
