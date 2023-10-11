@@ -10,6 +10,7 @@ import cz.muni.fi.pv168.project.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
 
 import cz.muni.fi.pv168.project.ui.tab.Tab;
+import cz.muni.fi.pv168.project.ui.tab.TabHolder;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -25,23 +26,32 @@ import java.awt.Dimension;
 public class MainWindow {
     private final JFrame frame;
 
-    private final Action addAction = new AddAction();
-    private final Action deleteAction = new DeleteAction();
-    private final Action editAction = new EditAction();
-    private final Action exportAction = new ExportAction();
-    private final Action filterAction = new FilterAction();
-    private final Action importAction = new ImportAction();
-    private final Action quitAction = new QuitAction();
+    private final Action addAction;
+    private final Action deleteAction;
+    private final Action editAction;
+    private final Action exportAction;
+    private final Action filterAction;
+    private final Action importAction;
+    private final Action quitAction;
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
+    private final TabHolder tabHolder;
 
     public MainWindow() {
         frame = createFrame();
-
         frame.add(new JScrollPane(createTabs()), BorderLayout.CENTER);
         frame.add(createToolBar(), BorderLayout.WEST);
-
         frame.pack();
+
+        tabHolder = new TabHolder(tabbedPane);
+
+        addAction = new AddAction();
+        deleteAction = new DeleteAction();
+        editAction = new EditAction();
+        exportAction = new ExportAction();
+        filterAction = new FilterAction();
+        importAction = new ImportAction();
+        quitAction = new QuitAction();
     }
 
     private JToolBar createVerticalToolBar() {
