@@ -34,7 +34,9 @@ public class Event {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(
+            boolean done
+    ) {
         this.isDone = done;
     }
 
@@ -89,7 +91,9 @@ public class Event {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(
+            Object o
+    ) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
