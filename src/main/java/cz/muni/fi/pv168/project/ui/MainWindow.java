@@ -35,23 +35,23 @@ public class MainWindow {
     private final Action quitAction;
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
-    private final TabHolder tabHolder;
 
     public MainWindow() {
+        var tabHolder = new TabHolder(tabbedPane);
+
+        addAction = new AddAction(tabHolder);
+        deleteAction = new DeleteAction(tabHolder);
+        editAction = new EditAction(tabHolder);
+        exportAction = new ExportAction(tabHolder);
+        filterAction = new FilterAction(tabHolder);
+        importAction = new ImportAction(tabHolder);
+
+        quitAction = new QuitAction();
+
         frame = createFrame();
         frame.add(new JScrollPane(createTabs()), BorderLayout.CENTER);
         frame.add(createToolBar(), BorderLayout.WEST);
         frame.pack();
-
-        tabHolder = new TabHolder(tabbedPane);
-
-        addAction = new AddAction();
-        deleteAction = new DeleteAction();
-        editAction = new EditAction();
-        exportAction = new ExportAction();
-        filterAction = new FilterAction();
-        importAction = new ImportAction();
-        quitAction = new QuitAction();
     }
 
     private JToolBar createVerticalToolBar() {
