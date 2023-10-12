@@ -38,7 +38,7 @@ public class ComponentFactory {
     }
 
     public static JTable createIntervalTable() {
-        return new JTable();  // TODO
+        return new JTable(new IntervalTableModel());
     }
 
     public static JComponent createHelp() {
