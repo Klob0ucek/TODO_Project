@@ -30,7 +30,7 @@ public class ComponentFactory {
     }
 
     public static JTable createCategoryTable() {
-        return new JTable();  // TODO
+        return new JTable(new CategoryTableModel());
     }
 
     public static JTable createTemplateTable() {
