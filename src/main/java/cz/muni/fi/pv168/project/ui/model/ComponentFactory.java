@@ -30,7 +30,11 @@ public class ComponentFactory {
     }
 
     public static JTable createCategoryTable() {
-        return new JTable(new CategoryTableModel());
+        CategoryTableModel model = new CategoryTableModel();
+        JTable table = new JTable(model);
+        
+        model.setRowBackgroundColors(table);
+        return table;
     }
 
     public static JTable createTemplateTable() {

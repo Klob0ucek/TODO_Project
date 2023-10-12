@@ -2,7 +2,9 @@ package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.Category;
 import cz.muni.fi.pv168.project.model.Event;
+import cz.muni.fi.pv168.project.ui.renderer.ColorRowRenderer;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.time.LocalDate;
@@ -14,14 +16,16 @@ public class CategoryTableModel extends AbstractTableModel {
     private final List<Category> categories = new LinkedList<>();
 
     private final List<Column<Category, ?>> columns = List.of(
-            Column.editable("Name", String.class, Category::getName, Category::setName),
-            Column.readonly("Color", Color.class, Category::getColor)
+            Column.readonly("Color", Color.class, Category::getColor),
+            Column.editable("Name", String.class, Category::getName, Category::setName)
     );
 
     public CategoryTableModel() {
-        Color color = Color.BLUE;
-        categories.add(new Category("Work", color));
+        categories.add(new Category("Work", Color.PINK));
+        categories.add(new Category("Exercise", Color.green));
+        categories.add(new Category("Work", Color.RED));
     }
+
 
     @Override
     public int getRowCount() {
@@ -74,6 +78,10 @@ public class CategoryTableModel extends AbstractTableModel {
     public void updateRow(Category category) {
         int rowIndex = categories.indexOf(category);
         fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    public void setRowBackgroundColors(JTable table) {
+        table.setDefaultRenderer(Object.class, new ColorRowRenderer());
     }
 
     public Category getEntity(int rowIndex) {
