@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.ui;
 
+import cz.muni.fi.pv168.project.ui.action.ActionType;
 import cz.muni.fi.pv168.project.ui.action.AddAction;
 import cz.muni.fi.pv168.project.ui.action.DeleteAction;
 import cz.muni.fi.pv168.project.ui.action.EditAction;
@@ -7,11 +8,12 @@ import cz.muni.fi.pv168.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.ui.action.FilterAction;
 import cz.muni.fi.pv168.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.ui.action.SmartAction;
 import cz.muni.fi.pv168.project.ui.model.ComponentFactory;
-
 import cz.muni.fi.pv168.project.ui.tab.Tab;
+import cz.muni.fi.pv168.project.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.ui.tab.TabHolder;
-import javax.swing.Action;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,22 +24,27 @@ import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainWindow {
-    private final JFrame frame;
+    private final JFrame frame = createFrame();
 
-    private final Action addAction;
-    private final Action deleteAction;
-    private final Action editAction;
-    private final Action exportAction;
-    private final Action filterAction;
-    private final Action importAction;
-    private final Action quitAction;
+    private final SmartAction addAction;
+    private final SmartAction deleteAction;
+    private final SmartAction editAction;
+    private final SmartAction exportAction;
+    private final SmartAction filterAction;
+    private final SmartAction importAction;
+    private final QuitAction quitAction;
 
-    private final JTabbedPane tabbedPane = new JTabbedPane();
+    private final List<SmartAction> actions;
+
+    private final List<Tab> tabs = new ArrayList<>();
 
     public MainWindow() {
-        var tabHolder = new TabHolder(tabbedPane);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
 
         addAction = new AddAction(tabHolder);
         deleteAction = new DeleteAction(tabHolder);
@@ -45,11 +52,20 @@ public class MainWindow {
         exportAction = new ExportAction(tabHolder);
         filterAction = new FilterAction(tabHolder);
         importAction = new ImportAction(tabHolder);
-
         quitAction = new QuitAction();
 
-        frame = createFrame();
-        frame.add(new JScrollPane(createTabs()), BorderLayout.CENTER);
+        actions = List.of(
+                addAction, deleteAction, editAction,
+                exportAction, filterAction, importAction
+        );
+
+        createTabs(tabbedPane);
+
+//        tabbedPane.setSelectedIndex(1);
+        tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
+//        tabbedPane.setSelectedIndex(0);
+
+        frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
         frame.add(createToolBar(), BorderLayout.WEST);
         frame.pack();
     }
@@ -95,17 +111,36 @@ public class MainWindow {
         return toolBar;
     }
 
-    private JTabbedPane createTabs() {
-        for (Tab tab : Tab.values()) {
-            tabbedPane.addTab(
-                    tab.getStringValue(),
-                    null,
-                    new JScrollPane(ComponentFactory.createTab(tab)),
-                    tab.getTabTip()
-            );
-        }
+    private void createTabs(
+            JTabbedPane tabbedPane
+    ) {
+        tabs.addAll(
+            List.of(
+                new Tab
+                    .Builder("Tasks", ComponentFactory.createScheduleTable(), actions)
+                    .enableActions(ActionType.all())
+                    .build(),
+                new Tab
+                    .Builder("Categories", ComponentFactory.createCategoryTable(), actions)
+                    .enableActions(ActionType.basic())
+                    .build(),
+                new Tab
+                    .Builder("Templates", ComponentFactory.createTemplateTable(), actions)
+                    .enableActions(ActionType.basic())
+                    .build(),
+                new Tab
+                    .Builder("Intervals", ComponentFactory.createIntervalTable(), actions)
+                    .enableActions(ActionType.basic())
+                    .build(),
+                new Tab
+                    .Builder("Help", ComponentFactory.createHelp(), actions)
+                    .build()
+            )
+        );
 
-        return tabbedPane;
+        for (var tab : tabs) {
+            tab.addToPane(tabbedPane);
+        }
     }
 
     private JFrame createFrame() {
