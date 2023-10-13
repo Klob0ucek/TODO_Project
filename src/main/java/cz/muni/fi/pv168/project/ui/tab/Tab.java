@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.ui.tab;
 import cz.muni.fi.pv168.project.ui.action.ActionType;
 import cz.muni.fi.pv168.project.ui.action.SmartAction;
 import javax.swing.Icon;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import java.awt.Component;
@@ -88,6 +89,6 @@ public class Tab {
     public void addToPane(
             JTabbedPane tabbedPane
     ) {
-        tabbedPane.addTab(title, icon, component, tip);
+        tabbedPane.addTab(title, icon, new JScrollPane(component), tip);
     }
 }
