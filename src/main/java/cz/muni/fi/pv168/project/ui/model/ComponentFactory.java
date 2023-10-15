@@ -23,7 +23,13 @@ public class ComponentFactory {
     }
 
     public static JTable createCategoryTable() {
-        return new JTable();  // TODO
+        CategoryTableModel model = new CategoryTableModel();
+        JTable table = new JTable(model);
+
+        var genderComboBox = new JComboBox<>(CategoryColor.values());
+        table.setDefaultEditor(CategoryColor.class, new DefaultCellEditor(genderComboBox));
+        model.setRowBackgroundColors(table);
+        return table;
     }
 
     public static JTable createTemplateTable() {
