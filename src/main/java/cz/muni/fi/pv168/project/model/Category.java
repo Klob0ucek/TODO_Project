@@ -6,9 +6,9 @@ import java.util.Objects;
 public class Category {
     private String name;
 
-    private Color color;
+    private CategoryColor color;
 
-    public Category(String name, Color color) {
+    public Category(String name, CategoryColor color) {
         this.name = name;
         this.color = color;
     }
@@ -21,11 +21,11 @@ public class Category {
         this.name = name;
     }
 
-    public Color getColor() {
+    public CategoryColor getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(CategoryColor color) {
         this.color = color;
     }
 

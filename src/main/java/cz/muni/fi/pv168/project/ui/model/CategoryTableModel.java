@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.Category;
+import cz.muni.fi.pv168.project.model.CategoryColor;
 import cz.muni.fi.pv168.project.ui.renderer.ColorRowRenderer;
 
 import javax.swing.JTable;
@@ -13,14 +14,14 @@ public class CategoryTableModel extends AbstractTableModel {
     private final List<Category> categories = new LinkedList<>();
 
     private final List<Column<Category, ?>> columns = List.of(
-            Column.editable("Color", Color.class, Category::getColor, Category::setColor),
+            Column.editable("Color", CategoryColor.class, Category::getColor, Category::setColor),
             Column.editable("Name", String.class, Category::getName, Category::setName)
     );
 
     public CategoryTableModel() {
-        categories.add(new Category("Work", Color.PINK));
-        categories.add(new Category("Exercise", Color.green));
-        categories.add(new Category("Work", Color.RED));
+        categories.add(new Category("Work", CategoryColor.RED));
+        categories.add(new Category("Exercise", CategoryColor.BLUE));
+        categories.add(new Category("Work", CategoryColor.PINK));
     }
 
 
