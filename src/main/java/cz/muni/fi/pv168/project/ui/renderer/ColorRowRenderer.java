@@ -4,9 +4,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.Component;
 import java.awt.Color;
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import cz.muni.fi.pv168.project.model.CategoryColor;
