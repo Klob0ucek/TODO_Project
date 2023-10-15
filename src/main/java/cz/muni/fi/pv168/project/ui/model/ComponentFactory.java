@@ -38,7 +38,7 @@ public class ComponentFactory {
     }
 
     public static JTable createTemplateTable() {
-        return new JTable();  // TODO
+        return new JTable(new TemplateTableModel());
     }
 
     public static JTable createIntervalTable() {

@@ -2,72 +2,23 @@ package cz.muni.fi.pv168.project.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
-public class Event {
-    private boolean isDone;
-    private String name;
-
-    private String category;
-    private String location;
-
+public class Event extends AbstractCoreEvent {
     private LocalDate date;
-    private LocalTime time;
 
     public Event(
             boolean isDone,
             String name,
-            String category,
+            List<Category> categories,
             String location,
             LocalDate date,
-            LocalTime time
-    ) {
-        this.isDone = isDone;
-        this.name = name;
-        this.category = category;
-        this.location = location;
+            LocalTime time,
+            LocalTime duration
+            ) {
+        super(isDone, name, categories, location, time, duration);
         this.date = date;
-        this.time = time;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(
-            boolean done
-    ) {
-        this.isDone = done;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(
-            String name
-    ) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(
-            String category
-    ) {
-        this.category = category;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(
-            String location
-    ) {
-        this.location = location;
     }
 
     public LocalDate getDate() {
@@ -80,45 +31,29 @@ public class Event {
         this.date = date;
     }
 
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(
-            LocalTime time
-    ) {
-        this.time = time;
+    @Override
+    public String toString() {
+        return "Event{" +
+                "date=" + date +
+                ", isDone=" + isDone +
+                ", name='" + name + '\'' +
+                ", categories=" + categories +
+                ", location='" + location + '\'' +
+                ", time=" + time +
+                ", duration=" + duration +
+                '}';
     }
 
     @Override
-    public boolean equals(
-            Object o
-    ) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return isDone == event.isDone
-                && Objects.equals(name, event.name)
-                && Objects.equals(category, event.category)
-                && Objects.equals(location, event.location)
-                && Objects.equals(date, event.date)
-                && Objects.equals(time, event.time);
+        if (!(o instanceof Event event)) return false;
+
+        return date.equals(event.date) && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, location, date, time);
-    }
-
-    @Override
-    public String toString() {
-        return "Event:{" +
-                "isDone=" + isDone +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", location='" + location + '\'' +
-                ", date=" + date +
-                ", time=" + time +
-                '}';
+        return Objects.hash(date, super.hashCode());
     }
 }
