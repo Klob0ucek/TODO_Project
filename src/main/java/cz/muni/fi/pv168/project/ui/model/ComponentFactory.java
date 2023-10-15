@@ -1,10 +1,5 @@
 package cz.muni.fi.pv168.project.ui.model;
 
-import cz.muni.fi.pv168.project.ui.Tab;
-
-import javax.swing.JComponent;
-import javax.swing.JTable;
-
 /**
  * Static factory class for components.
  */
@@ -32,7 +27,9 @@ public class ComponentFactory {
     public static JTable createCategoryTable() {
         CategoryTableModel model = new CategoryTableModel();
         JTable table = new JTable(model);
-        
+
+        var genderComboBox = new JComboBox<>(CategoryColor.values());
+        table.setDefaultEditor(CategoryColor.class, new DefaultCellEditor(genderComboBox));
         model.setRowBackgroundColors(table);
         return table;
     }
