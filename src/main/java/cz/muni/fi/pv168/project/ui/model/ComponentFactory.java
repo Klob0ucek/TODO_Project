@@ -1,5 +1,8 @@
 package cz.muni.fi.pv168.project.ui.model;
 
+import javax.swing.JComponent;
+import javax.swing.JTable;
+
 /**
  * Static factory class for components.
  */
@@ -8,20 +11,15 @@ public class ComponentFactory {
         // not meant for instancing
     }
 
-    public static JComponent createTab(
-            Tab tab
+    private static JTable disableColumnDragging(
+            JTable table
     ) {
-        return switch (tab) {
-            case EVENTS -> createScheduleTable();
-            case CATEGORIES -> createCategoryTable();
-            case TEMPLATES -> createTemplateTable();
-            case INTERVALS -> createIntervalTable();
-            case HELP -> createHelp();
-        };
+        table.getTableHeader().setReorderingAllowed(false);
+        return table;
     }
 
     public static JTable createScheduleTable() {
-        return new JTable(new ScheduleTableModel());
+        return disableColumnDragging(new JTable(new ScheduleTableModel()));
     }
 
     public static JTable createCategoryTable() {
@@ -39,7 +37,7 @@ public class ComponentFactory {
     }
 
     public static JTable createIntervalTable() {
-        return new JTable();  // TODO
+        return disableColumnDragging(new JTable(new IntervalTableModel()));
     }
 
     public static JComponent createHelp() {

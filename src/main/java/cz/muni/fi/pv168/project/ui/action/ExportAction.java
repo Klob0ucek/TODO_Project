@@ -1,12 +1,14 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import javax.swing.AbstractAction;
+import cz.muni.fi.pv168.project.ui.tab.TabHolder;
 
 import java.awt.event.ActionEvent;
 
-public class ExportAction extends AbstractAction {
-    public ExportAction() {
-        super("Export", null);  // TODO: add *icon*
+public class ExportAction extends SmartAction {
+    public ExportAction(
+            TabHolder tabHolder
+    ) {
+        super("Export", null, ActionType.EXPORT, tabHolder);  // TODO: add *icon*
     }
 
     @Override

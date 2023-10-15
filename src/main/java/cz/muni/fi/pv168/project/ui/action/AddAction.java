@@ -1,13 +1,16 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import javax.swing.AbstractAction;
+import cz.muni.fi.pv168.project.ui.tab.TabHolder;
 
 import java.awt.event.ActionEvent;
 
-public class AddAction extends AbstractAction {
-    public AddAction() {
-        super("Add", null);  // TODO: add *icon*
+public class AddAction extends SmartAction {
+    public AddAction(
+            TabHolder tabHolder
+    ) {
+        super("Add", null, ActionType.ADD, tabHolder);  // TODO: add *icon*
     }
+
     @Override
     public void actionPerformed(
             ActionEvent e

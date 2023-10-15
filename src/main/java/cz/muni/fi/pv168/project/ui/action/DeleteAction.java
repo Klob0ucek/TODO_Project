@@ -1,12 +1,14 @@
 package cz.muni.fi.pv168.project.ui.action;
 
-import javax.swing.AbstractAction;
+import cz.muni.fi.pv168.project.ui.tab.TabHolder;
 
 import java.awt.event.ActionEvent;
 
-public class DeleteAction extends AbstractAction {
-    public DeleteAction() {
-        super("Delete", null);  // TODO: add *icon*
+public class DeleteAction extends SmartAction {
+    public DeleteAction(
+            TabHolder tabHolder
+    ) {
+        super("Delete", null, ActionType.DELETE, tabHolder);  // TODO: add *icon*
     }
 
     @Override
