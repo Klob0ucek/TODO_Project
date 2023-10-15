@@ -1,8 +1,9 @@
 package cz.muni.fi.pv168.project.ui.renderer;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Color;
 
 public class ColorRowRenderer extends DefaultTableCellRenderer {
     @Override

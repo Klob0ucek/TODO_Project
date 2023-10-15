@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.employees.ui.model;
+package cz.muni.fi.pv168.project.ui.model;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;

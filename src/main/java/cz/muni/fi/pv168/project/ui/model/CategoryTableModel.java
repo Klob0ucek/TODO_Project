@@ -1,14 +1,11 @@
 package cz.muni.fi.pv168.project.ui.model;
 
 import cz.muni.fi.pv168.project.model.Category;
-import cz.muni.fi.pv168.project.model.Event;
 import cz.muni.fi.pv168.project.ui.renderer.ColorRowRenderer;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-import java.awt.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class CategoryTableModel extends AbstractTableModel {
     private final List<Category> categories = new LinkedList<>();
 
     private final List<Column<Category, ?>> columns = List.of(
-            Column.readonly("Color", Color.class, Category::getColor),
+            Column.editable("Color", Color.class, Category::getColor, Category::setColor),
             Column.editable("Name", String.class, Category::getName, Category::setName)
     );
 
