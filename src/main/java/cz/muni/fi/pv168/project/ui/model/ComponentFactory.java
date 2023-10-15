@@ -1,5 +1,9 @@
 package cz.muni.fi.pv168.project.ui.model;
 
+import cz.muni.fi.pv168.project.model.CategoryColor;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 
@@ -29,7 +33,8 @@ public class ComponentFactory {
         var genderComboBox = new JComboBox<>(CategoryColor.values());
         table.setDefaultEditor(CategoryColor.class, new DefaultCellEditor(genderComboBox));
         model.setRowBackgroundColors(table);
-        return table;
+
+        return disableColumnDragging(table);
     }
 
     public static JTable createTemplateTable() {
