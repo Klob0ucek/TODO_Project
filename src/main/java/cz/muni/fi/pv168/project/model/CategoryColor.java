@@ -3,15 +3,14 @@ package cz.muni.fi.pv168.project.model;
 import java.awt.Color;
 
 public enum CategoryColor {
-    ORANGE(new Color(238, 171, 109)),
-    GREEN(new Color(152, 218, 108)),
-    BLUE(new Color(142, 189, 255)),
-    YELLOW(new Color(246, 237, 142)),
-    RED(new Color(232, 97, 102)),
-    PURPLE(new Color(175, 90, 170)),
-    PINK(new Color(255, 133, 239)),
-
-    CYAN(new Color(150, 240, 250));
+    ORANGE(new Color(255, 128, 16)),
+    GREEN(new Color(42, 114, 1)),
+    BLUE(new Color(5, 65, 143)),
+    YELLOW(new Color(168, 156, 17)),
+    RED(new Color(154, 23, 25)),
+    PURPLE(new Color(101, 8, 93)),
+    PINK(new Color(241, 33, 209)),
+    CYAN(new Color(4, 128, 147));
 
     private final Color color;
 
