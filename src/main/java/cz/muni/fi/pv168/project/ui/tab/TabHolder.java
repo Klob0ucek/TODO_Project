@@ -19,4 +19,8 @@ public class TabHolder {
     public Tab getCurrentTab() {
         return tabs.get(tabbedPane.getSelectedIndex());
     }
+
+    public Tab getTabAt(int index) {
+        return tabs.get(index);
+    }
 }
