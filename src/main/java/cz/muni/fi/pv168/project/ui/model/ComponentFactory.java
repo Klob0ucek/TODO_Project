@@ -46,6 +46,6 @@ public class ComponentFactory {
     }
 
     public static JComponent createHelp() {
-        return new JTable();  // TODO
+        return new HelpTab();
     }
 }
