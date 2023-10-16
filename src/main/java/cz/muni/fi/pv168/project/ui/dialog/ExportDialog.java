@@ -8,18 +8,21 @@ import java.io.File;
 public class ExportDialog extends JDialog {
 
     public ExportDialog() {
-        // TODO need to select a folder
         File selectedFile = showFileChooserDialog();
         if (selectedFile != null) {
-
-            // TODO save export file into selected folder
-
-            JOptionPane.showMessageDialog(null, "Selected export file: " + selectedFile.getAbsolutePath());
+            int ret = JOptionPane.showConfirmDialog(null,
+                    "Export into folder: " + selectedFile.getAbsolutePath(),
+                    "Confirm export folder",
+                    JOptionPane.YES_NO_OPTION);
+            // TODO finish file export
+            // ret == 0 = export confirmed by user
+            // ret == 1 = export folder declined
         }
     }
 
     private File showFileChooserDialog() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnValue = fileChooser.showSaveDialog(this);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
