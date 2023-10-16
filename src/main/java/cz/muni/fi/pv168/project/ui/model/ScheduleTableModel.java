@@ -1,6 +1,9 @@
 package cz.muni.fi.pv168.project.ui.model;
 
+import cz.muni.fi.pv168.project.model.Category;
+import cz.muni.fi.pv168.project.model.CategoryColor;
 import cz.muni.fi.pv168.project.model.Event;
+import cz.muni.fi.pv168.project.model.Template;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -15,10 +18,12 @@ public class ScheduleTableModel extends AbstractTableModel {
     private final List<Column<Event, ?>> columns = List.of(
             Column.editable("Done?", Boolean.class, Event::isDone, Event::setDone),
             Column.editable("Name", String.class, Event::getName, Event::setName),
-            Column.editable("Category", String.class, Event::getCategory, Event::setCategory),
+            Column.editable("Category", List.class, Event::getCategories, Event::setCategories),
             Column.editable("Location", String.class, Event::getLocation, Event::setLocation),
             Column.editable("Date", LocalDate.class, Event::getDate, Event::setDate),
-            Column.editable("Time", LocalTime.class, Event::getTime, Event::setTime)
+            Column.editable("Time", LocalTime.class, Event::getTime, Event::setTime),
+            Column.editable("Duration", LocalTime.class, Event::getDuration, Event::setDuration)
+
     );
 
     public ScheduleTableModel() {
@@ -26,13 +31,14 @@ public class ScheduleTableModel extends AbstractTableModel {
 
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
+        LocalTime duration = LocalTime.of(4, 0);
         events.add(
                 new Event(
                         false,
                         "Tennis",
-                        "Sport",
+                        List.of(new Category("Sport", CategoryColor.BLUE)),
                         "Tennis Hala Lužánky",
-                        date, time
+                        date, time, duration
                 )
         );
     }
@@ -49,8 +55,12 @@ public class ScheduleTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        var event = getEntity(rowIndex);
-        return columns.get(columnIndex).getValue(event);
+        Event event = getEntity(rowIndex);
+        Object o =  columns.get(columnIndex).getValue(event);
+        if (o instanceof List){
+            return Category.listToString((List<Category>) o);
+        }
+        return o;
     }
 
     @Override
