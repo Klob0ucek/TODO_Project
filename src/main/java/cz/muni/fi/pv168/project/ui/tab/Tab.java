@@ -91,4 +91,8 @@ public class Tab {
     ) {
         tabbedPane.addTab(title, icon, new JScrollPane(component), tip);
     }
+
+    public Component getComponent() {
+        return component;
+    }
 }

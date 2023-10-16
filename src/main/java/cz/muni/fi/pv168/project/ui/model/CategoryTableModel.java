@@ -85,4 +85,8 @@ public class CategoryTableModel extends AbstractTableModel {
     public Category getEntity(int rowIndex) {
         return categories.get(rowIndex);
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
 }
