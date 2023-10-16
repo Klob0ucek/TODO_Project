@@ -24,7 +24,3 @@ The desktop application will help me with organizing tasks I should do. The task
 |PM              | [Andrej Vaculciak](https://is.muni.cz/auth/osoba/248487) | 
 |Technical Coach | [Ondrej Konecny](https://is.muni.cz/auth/osoba/248483)   | 
 
-## TODO
-
-- Start with [`Main.java`](src/main/java/cz/muni/fi/pv168/project/Main.java) as the _main class_ for your application.
-- Get rid of this TODO section. 😉
