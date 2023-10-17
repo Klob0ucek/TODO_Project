@@ -8,18 +8,7 @@ import java.io.File;
 
 public class ImportDialog extends JDialog {
     public ImportDialog() {
-        File selectedFile = showFileChooserDialog();
-        if (selectedFile != null) {
-            JOptionPane.showConfirmDialog(null,
-                    "Import Selected file: " + selectedFile.getAbsolutePath(),
-                    "Confirm import file",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            // TODO Handle the selected file
-            // ret == 0 = file confirmed
-            // ret == 1 = file declined
-        }
+        selectImportFile();
     }
 
     private File showFileChooserDialog() {
@@ -32,5 +21,20 @@ public class ImportDialog extends JDialog {
         }
 
         return null;
+    }
+
+    private void selectImportFile() {
+        File selectedFile = showFileChooserDialog();
+        if (selectedFile != null) {
+            JOptionPane.showConfirmDialog(null,
+                    "Import Selected file: " + selectedFile.getAbsolutePath(),
+                    "Confirm import file",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            // TODO Handle the selected file
+            // ret == 0 = file confirmed
+            // ret == 1 = file declined
+        }
     }
 }
