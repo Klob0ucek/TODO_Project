@@ -7,6 +7,7 @@ import cz.muni.fi.pv168.todo.project.ui.model.ComboBoxModelAdapter;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class AddDialog extends EntityDialog<Event> {
     private final JTextField nameField = new JTextField();
@@ -31,7 +32,7 @@ public class AddDialog extends EntityDialog<Event> {
     Event getEntity() {
         event.setDone(false);
         event.setName(nameField.getText());
-        event.setCategory(((Category) categoryModel.getSelectedItem()).getName());
+        event.setCategories(List.of((Category) categoryModel.getSelectedItem()));
         event.setLocation(locationField.getText());
         event.setDate(LocalDate.of(2023, 10, 10));
         event.setTime(LocalTime.of(10, 0));

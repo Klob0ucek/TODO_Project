@@ -21,6 +21,9 @@ public class Event extends AbstractCoreEvent {
         this.date = date;
     }
 
+    public Event() {
+    }
+
     public LocalDate getDate() {
         return date;
     }

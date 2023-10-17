@@ -22,6 +22,9 @@ public abstract class AbstractCoreEvent {
         this.duration = duration;
     }
 
+    protected AbstractCoreEvent() {
+    }
+
     public boolean isDone() {
         return isDone;
     }
