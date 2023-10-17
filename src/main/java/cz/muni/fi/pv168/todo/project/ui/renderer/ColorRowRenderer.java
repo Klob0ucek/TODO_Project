@@ -32,6 +32,7 @@ public class ColorRowRenderer extends DefaultTableCellRenderer {
                 component.setBackground(rowMap.get(row));
             }
         }
+        System.out.println("Row: " + row + ", Column: " + column + " - " + value + " is selected " + isSelected);
         return component;
     }
 }
