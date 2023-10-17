@@ -1,36 +1,36 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.ui.action.events.ExportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.events.ImportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.Tab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.HelpTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.IntervalsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
-import javax.swing.Action;
-import javax.swing.BoxLayout;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
-
-    private final List<Tab> tabs = new ArrayList<>();
+    private final ToolBarManager toolBarManager;
+    private List<GeneralTab> tabs;
 
     public MainWindow() {
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-        JComponent verticalToolBar = new JToolBar();
+
+        JComponent verticalToolBar = new JPanel();
+        toolBarManager = new ToolBarManager(verticalToolBar);
 
         createTabs(tabbedPane);
 
@@ -43,71 +43,44 @@ public class MainWindow {
         frame.pack();
     }
 
-//    private JToolBar createVerticalToolBar() {
-//        JToolBar verticalTools = new JToolBar();
-//        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
-//        verticalTools.setFloatable(false);
-//
-//        return verticalTools;
-//    }
-
-    private JToolBar northTools() {
-        JToolBar toolBar = createVerticalToolBar();
-
-        toolBar.add(filterAction);
-        toolBar.addSeparator();
-        toolBar.add(addAction);
-        toolBar.add(editAction);
-        toolBar.add(deleteAction);
-
-        return toolBar;
-    }
-
-    private JToolBar southTools() {
-        JToolBar toolBar = createVerticalToolBar();
-
-        toolBar.add(importAction);
-        toolBar.add(exportAction);
-        toolBar.addSeparator();
-        toolBar.add(quitAction);
-
-        return toolBar;
-    }
-
-    private JPanel createToolBar() {
-        JPanel toolBar = new JPanel();
-        toolBar.setLayout(new BorderLayout());
-
-        toolBar.add(northTools(), BorderLayout.NORTH);
-        toolBar.add(southTools(), BorderLayout.SOUTH);
-
-        return toolBar;
-    }
-
     private void createTabs(
             JTabbedPane tabbedPane
     ) {
-        tabs.addAll(
-                List.of(
-                        new Tab
-                                .Builder("Events", ComponentFactory.createScheduleTable(), actions)
-                                .enableActions(ActionType.all())
-                                .build(),
-                        new Tab
-                                .Builder("Categories", ComponentFactory.createCategoryTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Templates", ComponentFactory.createTemplateTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Intervals", ComponentFactory.createIntervalTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Help", ComponentFactory.createHelp(), actions)
-                                .build()
+        tabs = List.of(
+                new EventsTab(
+                        "Events",
+                        null,
+                        ComponentFactory.createScheduleTable(),
+                        null,
+                        toolBarManager
+                ),
+                new CategoriesTab(
+                        "Categories",
+                        null,
+                        ComponentFactory.createCategoryTable(),
+                        null,
+                        toolBarManager
+                ),
+                new TemplatesTab(
+                        "Templates",
+                        null,
+                        ComponentFactory.createTemplateTable(),
+                        null,
+                        toolBarManager
+                ),
+                new IntervalsTab(
+                        "Intervals",
+                        null,
+                        ComponentFactory.createIntervalTable(),
+                        null,
+                        toolBarManager
+                ),
+                new HelpTab(
+                        "Help",
+                        null,
+                        ComponentFactory.createHelp(),
+                        null,
+                        toolBarManager
                 )
         );
 

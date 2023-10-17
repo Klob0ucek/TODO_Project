@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.ui.ToolBarHolder;
+import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
+
 import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -12,14 +13,14 @@ public abstract class GeneralTab {
     private final String tip;
     private final Icon icon;
     private final Component component;
-    private final ToolBarHolder toolBarHolder;
+    private final ToolBarManager toolBarManager;
 
     public Component getComponent() {
         return component;
     }
 
-    public ToolBarHolder getToolBarHolder() {
-        return toolBarHolder;
+    public ToolBarManager getToolBarManager() {
+        return toolBarManager;
     }
 
     public GeneralTab(
@@ -27,13 +28,13 @@ public abstract class GeneralTab {
             Icon icon,
             Component component,
             String tip,
-            ToolBarHolder toolBarHolder
+            ToolBarManager toolBarHolder
     ) {
         this.title = title;
         this.tip = tip;
         this.icon = icon;
         this.component = component;
-        this.toolBarHolder = toolBarHolder;
+        this.toolBarManager = toolBarHolder;
     }
 
     // TODO: add javadoc
