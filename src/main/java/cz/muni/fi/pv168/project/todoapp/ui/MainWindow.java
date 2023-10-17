@@ -116,7 +116,7 @@ public class MainWindow {
         tabs.addAll(
                 List.of(
                         new Tab
-                                .Builder("Tasks", ComponentFactory.createScheduleTable(), actions)
+                                .Builder("Events", ComponentFactory.createScheduleTable(), actions)
                                 .enableActions(ActionType.all())
                                 .build(),
                         new Tab
