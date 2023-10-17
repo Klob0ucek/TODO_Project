@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.ComboBoxModel;
 import javax.swing.ListModel;
 import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 import java.time.Duration;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class AddDialog extends EntityDialog<Event> {
     private final ComboBoxModel<Category> categoryModel;
     private final JTextField locationField = new JTextField();
     private final DateTimePicker dateTimePicker = new DateTimePicker();
+    private final JSpinner durationSpinner = new JSpinner();
 
     private final Event event;
 
@@ -31,6 +33,7 @@ public class AddDialog extends EntityDialog<Event> {
         add("Category:", new JComboBox<>(categoryModel));
         add("Location:", locationField);
         add("Date and time:", dateTimePicker);
+        add("Duration in minutes", durationSpinner);
     }
 
     @Override
@@ -41,7 +44,7 @@ public class AddDialog extends EntityDialog<Event> {
         event.setLocation(locationField.getText());
         event.setDate(dateTimePicker.getDatePicker().getDate());
         event.setTime(dateTimePicker.getTimePicker().getTime());
-        event.setDuration(Duration.ofMinutes(30));
+        event.setDuration(Duration.ofMinutes((Integer) durationSpinner.getValue()));
         return event;
     }
 }
