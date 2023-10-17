@@ -1,16 +1,17 @@
 package cz.muni.fi.pv168.todo.project.model;
 
+import java.time.Duration;
 import java.util.Objects;
 
 public class Interval {
     private String name;
     private String abbreviation;
-    private Integer duration;
+    private Duration duration;
 
     public Interval(
             String name,
             String abbreviation,
-            Integer duration
+            Duration duration
     ) {
         this.name = name;
         this.abbreviation = abbreviation;
@@ -37,12 +38,12 @@ public class Interval {
         this.abbreviation = abbreviation;
     }
 
-    public Integer getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
     public void setDuration(
-            Integer duration
+            Duration duration
     ) {
         this.duration = duration;
     }
