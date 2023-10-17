@@ -14,7 +14,7 @@ public class CategoryTableModel extends AbstractTableModel {
     private final List<Category> categories = new LinkedList<>();
 
     private final List<Column<Category, ?>> columns = List.of(
-            Column.editable("Color", CategoryColor.class, Category::getColor, Category::setColor),
+            Column.readonly("Color", CategoryColor.class, Category::getColor),
             Column.editable("Name", String.class, Category::getName, Category::setName)
     );
 
