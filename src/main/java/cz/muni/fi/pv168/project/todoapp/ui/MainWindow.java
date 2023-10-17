@@ -1,14 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.ui.action.ActionType;
-import cz.muni.fi.pv168.project.todoapp.ui.action.AddAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.DeleteAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.EditAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.FilterAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.events.ExportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.events.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.SmartAction;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.Tab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;

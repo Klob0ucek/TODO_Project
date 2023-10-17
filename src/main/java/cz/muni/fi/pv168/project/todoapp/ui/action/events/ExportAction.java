@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.ui.action;
+package cz.muni.fi.pv168.project.todoapp.ui.action.events;
 
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ExportDialog;

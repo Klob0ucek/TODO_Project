@@ -1,8 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.ui.action.ActionType;
-import cz.muni.fi.pv168.project.todoapp.ui.action.SmartAction;
-
 import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
