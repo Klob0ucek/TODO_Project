@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.model;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -10,10 +11,10 @@ public abstract class AbstractCoreEvent {
     protected List<Category> categories;
     protected String location;
     protected LocalTime time;
-    protected LocalTime duration;
+    protected Duration duration;
 
     protected AbstractCoreEvent(boolean isDone, String name, List<Category> categories,
-                                String location, LocalTime time, LocalTime duration) {
+                                String location, LocalTime time, Duration duration) {
         this.isDone = isDone;
         this.name = name;
         this.categories = categories;
@@ -66,11 +67,11 @@ public abstract class AbstractCoreEvent {
         this.time = time;
     }
 
-    public LocalTime getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(LocalTime duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
