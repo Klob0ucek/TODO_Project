@@ -11,7 +11,7 @@ import java.awt.BorderLayout;
 import java.util.Arrays;
 
 
-public class ToolBarHolder {
+public class ToolBarManager {
     private final JToolBar modifyActions = createVerticalToolBar();
     private final JToolBar portActions = createVerticalToolBar();
 
@@ -38,13 +38,13 @@ public class ToolBarHolder {
                 + enumValue.name().substring(1).toLowerCase();
     }
 
-    public ToolBarHolder(
-            JComponent toolBar
+    public ToolBarManager(
+            JComponent toolBarComponent
     ) {
-        toolBar.setLayout(new BorderLayout());
+        toolBarComponent.setLayout(new BorderLayout());
 
-        toolBar.add(modifyActions, BorderLayout.NORTH);
-        toolBar.add(portActions, BorderLayout.SOUTH);
+        toolBarComponent.add(modifyActions, BorderLayout.NORTH);
+        toolBarComponent.add(portActions, BorderLayout.SOUTH);
 
         initPlaceholders();
     }
@@ -66,23 +66,26 @@ public class ToolBarHolder {
         return verticalTools;
     }
 
-    public void reset() {
+    public ToolBarManager reset() {
         Arrays.fill(modifyActionsBuffer, null);
         Arrays.fill(portActionsBuffer, null);
+        return this;
     }
 
-    public void addAction(
+    public ToolBarManager addAction(
             ModifyAction typeOfAction,
             Action action
     ) {
         modifyActionsBuffer[typeOfAction.ordinal()] = action;
+        return this;
     }
 
-    public void addAction(
+    public ToolBarManager addAction(
             PortAction typeOfAction,
             Action action
     ) {
         portActionsBuffer[typeOfAction.ordinal()] = action;
+        return this;
     }
 
     public void saveChanges() {
