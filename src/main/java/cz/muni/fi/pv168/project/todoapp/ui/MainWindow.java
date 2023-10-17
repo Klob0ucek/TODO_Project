@@ -7,7 +7,9 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.Tab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
+import javax.swing.Action;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,34 +25,12 @@ import java.util.List;
 public class MainWindow {
     private final JFrame frame = createFrame();
 
-    private final SmartAction addAction;
-    private final SmartAction deleteAction;
-    private final SmartAction editAction;
-    private final SmartAction exportAction;
-    private final SmartAction filterAction;
-    private final SmartAction importAction;
-    private final QuitAction quitAction;
-
-    private final List<SmartAction> actions;
-
     private final List<Tab> tabs = new ArrayList<>();
 
     public MainWindow() {
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-
-        addAction = new AddAction(tabHolder);
-        deleteAction = new DeleteAction(tabHolder);
-        editAction = new EditAction(tabHolder);
-        exportAction = new ExportAction(tabHolder);
-        filterAction = new FilterAction(tabHolder);
-        importAction = new ImportAction(tabHolder);
-        quitAction = new QuitAction();
-
-        actions = List.of(
-                addAction, deleteAction, editAction,
-                exportAction, filterAction, importAction
-        );
+        JComponent verticalToolBar = new JToolBar();
 
         createTabs(tabbedPane);
 
@@ -59,17 +39,17 @@ public class MainWindow {
 //        tabbedPane.setSelectedIndex(0);
 
         frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
-        frame.add(createToolBar(), BorderLayout.WEST);
+        frame.add(verticalToolBar, BorderLayout.WEST);
         frame.pack();
     }
 
-    private JToolBar createVerticalToolBar() {
-        JToolBar verticalTools = new JToolBar();
-        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
-        verticalTools.setFloatable(false);
-
-        return verticalTools;
-    }
+//    private JToolBar createVerticalToolBar() {
+//        JToolBar verticalTools = new JToolBar();
+//        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
+//        verticalTools.setFloatable(false);
+//
+//        return verticalTools;
+//    }
 
     private JToolBar northTools() {
         JToolBar toolBar = createVerticalToolBar();

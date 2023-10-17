@@ -1,0 +1,106 @@
+package cz.muni.fi.pv168.project.todoapp.ui;
+
+import cz.muni.fi.pv168.project.todoapp.ui.action.PlaceholderAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
+import javax.swing.Action;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JToolBar;
+
+import java.awt.BorderLayout;
+import java.util.Arrays;
+
+
+public class ToolBarHolder {
+    private final JToolBar modifyActions = createVerticalToolBar();
+    private final JToolBar portActions = createVerticalToolBar();
+
+    private final Action[] modifyActionsBuffer = new Action[ModifyAction.values().length];
+    private final Action[] portActionsBuffer = new Action[PortAction.values().length];
+
+    private final Action[] modifyPlaceholders = new Action[ModifyAction.values().length];
+    private final Action[] portPlaceholders = new Action[PortAction.values().length];
+
+    private final Action quitAction = new QuitAction();
+
+    public enum ModifyAction {
+        ADD, EDIT, DELETE;
+    }
+
+    public enum PortAction {
+        IMPORT, EXPORT;
+    }
+
+    private static String toTitle(
+            Enum enumValue
+    ) {
+        return enumValue.name().charAt(0)
+                + enumValue.name().substring(1).toLowerCase();
+    }
+
+    public ToolBarHolder(
+            JComponent toolBar
+    ) {
+        toolBar.setLayout(new BorderLayout());
+
+        toolBar.add(modifyActions, BorderLayout.NORTH);
+        toolBar.add(portActions, BorderLayout.SOUTH);
+
+        initPlaceholders();
+    }
+
+    private void initPlaceholders() {
+        for (var modify : ModifyAction.values()) {
+            modifyPlaceholders[modify.ordinal()] = new PlaceholderAction(toTitle(modify), null);
+        }
+        for (var port : PortAction.values()) {
+            portPlaceholders[port.ordinal()] = new PlaceholderAction(toTitle(port), null);
+        }
+    }
+
+    private JToolBar createVerticalToolBar() {
+        JToolBar verticalTools = new JToolBar();
+        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
+        verticalTools.setFloatable(false);
+
+        return verticalTools;
+    }
+
+    public void reset() {
+        Arrays.fill(modifyActionsBuffer, null);
+        Arrays.fill(portActionsBuffer, null);
+    }
+
+    public void addAction(
+            ModifyAction typeOfAction,
+            Action action
+    ) {
+        modifyActionsBuffer[typeOfAction.ordinal()] = action;
+    }
+
+    public void addAction(
+            PortAction typeOfAction,
+            Action action
+    ) {
+        portActionsBuffer[typeOfAction.ordinal()] = action;
+    }
+
+    public void saveChanges() {
+        Action bufferedAction;
+
+        for (int i = 0; i < modifyActionsBuffer.length; i++) {
+            bufferedAction = modifyActionsBuffer[i];
+            modifyActions.add(
+                    bufferedAction == null ? modifyPlaceholders[i] : bufferedAction
+            );
+        }
+
+        for (int i = 0; i < portActionsBuffer.length; i++) {
+            bufferedAction = portActionsBuffer[i];
+            portActions.add(
+                    bufferedAction == null ? portPlaceholders[i] : bufferedAction
+            );
+        }
+        portActions.add(quitAction);
+    }
+}
