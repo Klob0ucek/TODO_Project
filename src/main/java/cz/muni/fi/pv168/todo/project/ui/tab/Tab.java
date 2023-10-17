@@ -1,11 +1,11 @@
 package cz.muni.fi.pv168.todo.project.ui.tab;
 
-import cz.muni.fi.pv168.todo.project.ui.action.ActionType;
-import cz.muni.fi.pv168.todo.project.ui.action.SmartAction;
+import cz.muni.fi.pv168.todo.project.ui.action.*;
 
 import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.Action;
 
 import java.awt.Component;
 import java.util.Collections;
@@ -18,13 +18,13 @@ public class Tab {
     private final String tip;
     private final Icon icon;
     private final Component component;
-    private final List<SmartAction> actions;
+    private final List<Action> actions;
     private final Set<ActionType> enabledActions;
 
     public static class Builder {
         private final String title;
         private final Component component;
-        private final List<SmartAction> actions;
+        private final List<Action> actions;
         private final Set<ActionType> enabledActions = new HashSet<>();
         private Icon icon = null;
         private String tip = null;
@@ -32,7 +32,7 @@ public class Tab {
         public Builder(
                 String title,
                 Component component,
-                List<SmartAction> actions
+                List<Action> actions
         ) {
             this.title = title;
             this.component = component;
@@ -70,7 +70,7 @@ public class Tab {
             Icon icon,
             Component component,
             String tip,
-            List<SmartAction> actions,
+            List<Action> actions,
             Set<ActionType> enabledActions
     ) {
         this.title = title;
@@ -83,7 +83,19 @@ public class Tab {
 
     public void updateActions() {
         for (var action : actions) {
-            action.setEnabled(enabledActions.contains(action.getActionType()));
+            if (action instanceof AddAction) {
+                action.setEnabled(enabledActions.contains(ActionType.ADD));
+            } else if (action instanceof DeleteAction) {
+                action.setEnabled(enabledActions.contains(ActionType.DELETE));
+            } else if (action instanceof EditAction) {
+                action.setEnabled(enabledActions.contains(ActionType.EDIT));
+            } else if (action instanceof FilterAction) {
+                action.setEnabled(enabledActions.contains(ActionType.FILTER));
+            } else if (action instanceof ImportAction) {
+                action.setEnabled(enabledActions.contains(ActionType.IMPORT));
+            } else if (action instanceof ExportAction) {
+                action.setEnabled(enabledActions.contains(ActionType.EXPORT));
+            }
         }
     }
 

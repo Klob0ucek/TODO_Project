@@ -1,7 +1,12 @@
 package cz.muni.fi.pv168.todo.project.ui.action;
 
 public enum ActionType {
-    ADD, DELETE, EDIT, EXPORT, FILTER, IMPORT;
+    ADD,
+    DELETE,
+    EDIT,
+    EXPORT,
+    FILTER,
+    IMPORT;
 
     public static ActionType[] all() {
         return ActionType.values();

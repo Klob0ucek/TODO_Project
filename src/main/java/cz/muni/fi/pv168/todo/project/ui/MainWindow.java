@@ -8,7 +8,6 @@ import cz.muni.fi.pv168.todo.project.ui.action.ExportAction;
 import cz.muni.fi.pv168.todo.project.ui.action.FilterAction;
 import cz.muni.fi.pv168.todo.project.ui.action.ImportAction;
 import cz.muni.fi.pv168.todo.project.ui.action.QuitAction;
-import cz.muni.fi.pv168.todo.project.ui.action.SmartAction;
 import cz.muni.fi.pv168.todo.project.ui.tab.Tab;
 import cz.muni.fi.pv168.todo.project.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.todo.project.ui.tab.TabHolder;
@@ -20,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
+import javax.swing.Action;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,15 +29,15 @@ import java.util.List;
 public class MainWindow {
     private final JFrame frame = createFrame();
 
-    private final SmartAction addAction;
-    private final SmartAction deleteAction;
-    private final SmartAction editAction;
-    private final SmartAction exportAction;
-    private final SmartAction filterAction;
-    private final SmartAction importAction;
-    private final QuitAction quitAction;
+    private final Action addAction;
+    private final Action deleteAction;
+    private final Action editAction;
+    private final Action exportAction;
+    private final Action filterAction;
+    private final Action importAction;
+    private final Action quitAction;
 
-    private final List<SmartAction> actions;
+    private final List<Action> actions;
 
     private final List<Tab> tabs = new ArrayList<>();
 

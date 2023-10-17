@@ -3,12 +3,17 @@ package cz.muni.fi.pv168.todo.project.ui.action;
 import cz.muni.fi.pv168.todo.project.ui.dialog.ImportDialog;
 import cz.muni.fi.pv168.todo.project.ui.tab.TabHolder;
 
+import javax.swing.AbstractAction;
+
 import java.awt.event.ActionEvent;
 
-public class ImportAction extends SmartAction {
+public class ImportAction extends AbstractAction {
+    private final ActionType actionType = ActionType.IMPORT;
+    private final TabHolder tabHolder;
+
     public ImportAction(TabHolder tabHolder) {
-        super("Import", null, ActionType.IMPORT, tabHolder);  // TODO: add *icon*
-        putValue(SHORT_DESCRIPTION, "Edits selected employee");
+        super("Import", null); // TODO: add *icon*
+        this.tabHolder = tabHolder;
     }
 
     @Override
@@ -17,5 +22,13 @@ public class ImportAction extends SmartAction {
 
         // TODO Import success popup message
 
+    }
+
+    public ActionType getActionType() {
+        return actionType;
+    }
+
+    public TabHolder getTabHolder() {
+        return tabHolder;
     }
 }
