@@ -24,4 +24,20 @@ public class Template extends AbstractCoreEvent {
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Template template)) return false;
+        if (!super.equals(o)) return false;
+
+        return templateName.equals(template.templateName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + templateName.hashCode();
+        return result;
+    }
 }

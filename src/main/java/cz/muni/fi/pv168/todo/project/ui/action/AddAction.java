@@ -27,16 +27,16 @@ public class AddAction extends AbstractAction {
     public void actionPerformed(
             ActionEvent e
     ) {
-        var table = (JTable) tabHolder.getCurrentTab().getComponent();
-        ScheduleTableModel tableModel = (ScheduleTableModel) table.getModel();
+        var scheduleTable = (JTable) tabHolder.getCurrentTab().getComponent();
+        ScheduleTableModel scheduleTableModel = (ScheduleTableModel) scheduleTable.getModel();
 
         var categoryTable = (JTable) tabHolder.getTabAt(1).getComponent();
         CategoryTableModel categoryTableModel = (CategoryTableModel) categoryTable.getModel();
         List<Category> categories = categoryTableModel.getCategories();
 
         var dialog = new AddDialog(new Event(), new CategoryListModel(categories));
-        dialog.show(table, "Add event")
-                .ifPresent(tableModel::addRow);
+        dialog.show(scheduleTable, "Add event")
+                .ifPresent(scheduleTableModel::addRow);
     }
 
     public ActionType getActionType() {
