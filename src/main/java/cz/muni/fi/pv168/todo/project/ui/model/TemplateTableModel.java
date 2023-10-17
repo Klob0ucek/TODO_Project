@@ -21,6 +21,6 @@ public class TemplateTableModel extends BasicTableModel<Template> {
         rows.add(new Template("English classes", false, "Lesson",
                 List.of(new Category("School", CategoryColor.GREEN)), "MUNI FI", LocalTime.of(8, 30), LocalTime.of(9, 0)));
         rows.add(new Template("Running", false, "Morning run",
-                null, null, null, LocalTime.of(6, 30)));
+                List.of(new Category("Free Time", CategoryColor.PINK), new Category("Health", CategoryColor.RED)), null, null, LocalTime.of(6, 30)));
     }
 }

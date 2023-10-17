@@ -22,9 +22,9 @@ public abstract class BasicTableModel<T> extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        T row = getEntity(rowIndex);
-        Object o = columns.get(columnIndex).getValue(row);
-        if (o instanceof List) {
+        Object o = columns.get(columnIndex).getValue(getEntity(rowIndex));
+
+        if (o instanceof List && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof Category) {
             return Category.listToString((List<Category>) o);
         }
         return o;
