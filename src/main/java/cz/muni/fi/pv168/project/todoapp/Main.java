@@ -10,7 +10,7 @@ public class Main {
          *  - FlatDarkLaf
          *  - FlatDarculaLaf
          */
-        // FlatDarkLaf.setup();
+        FlatDarkLaf.setup();
 
         MainWindow mainWindow = new MainWindow();
         mainWindow.show();
