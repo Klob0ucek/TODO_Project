@@ -47,6 +47,7 @@ public class ToolBarManager {
         toolBarComponent.add(portActions, BorderLayout.SOUTH);
 
         initPlaceholders();
+        saveChanges();
     }
 
     private void initPlaceholders() {
