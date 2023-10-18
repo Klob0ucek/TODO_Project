@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.todo.project.ui.dialog;
 
-import cz.muni.fi.pv168.todo.project.model.Event;
 import cz.muni.fi.pv168.todo.project.model.Interval;
 
 import javax.swing.*;
