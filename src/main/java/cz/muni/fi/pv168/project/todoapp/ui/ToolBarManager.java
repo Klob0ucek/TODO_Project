@@ -68,8 +68,12 @@ public class ToolBarManager {
     }
 
     public ToolBarManager reset() {
+        modifyActions.removeAll();
+        portActions.removeAll();
+
         Arrays.fill(modifyActionsBuffer, null);
         Arrays.fill(portActionsBuffer, null);
+
         return this;
     }
 
