@@ -13,7 +13,7 @@ import javax.swing.JSpinner;
 import java.time.Duration;
 import java.util.List;
 
-public class AddDialog extends EntityDialog<Event> {
+public class AddEventDialog extends EntityDialog<Event> {
     private final JTextField nameField = new JTextField();
     private final ComboBoxModel<Category> categoryModel;
     private final JTextField locationField = new JTextField();
@@ -22,7 +22,7 @@ public class AddDialog extends EntityDialog<Event> {
 
     private final Event event;
 
-    public AddDialog(Event event, ListModel<Category> categoryModel) {
+    public AddEventDialog(Event event, ListModel<Category> categoryModel) {
         this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
         this.event = event;
         addFields();

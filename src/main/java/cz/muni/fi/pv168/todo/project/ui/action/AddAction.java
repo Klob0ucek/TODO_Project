@@ -2,7 +2,8 @@ package cz.muni.fi.pv168.todo.project.ui.action;
 
 import cz.muni.fi.pv168.todo.project.model.Category;
 import cz.muni.fi.pv168.todo.project.model.Event;
-import cz.muni.fi.pv168.todo.project.ui.dialog.AddDialog;
+import cz.muni.fi.pv168.todo.project.ui.dialog.AddEventDialog;
+import cz.muni.fi.pv168.todo.project.ui.model.BasicTableModel;
 import cz.muni.fi.pv168.todo.project.ui.model.CategoryListModel;
 import cz.muni.fi.pv168.todo.project.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.todo.project.ui.model.ScheduleTableModel;
@@ -27,16 +28,18 @@ public class AddAction extends AbstractAction {
     public void actionPerformed(
             ActionEvent e
     ) {
-        var scheduleTable = (JTable) tabHolder.getCurrentTab().getComponent();
-        ScheduleTableModel scheduleTableModel = (ScheduleTableModel) scheduleTable.getModel();
+        var currentTable = (JTable) tabHolder.getCurrentTab().getComponent();
+        var currentTableModel = (BasicTableModel) currentTable.getModel();
 
         var categoryTable = (JTable) tabHolder.getTabAt(1).getComponent();
         CategoryTableModel categoryTableModel = (CategoryTableModel) categoryTable.getModel();
         List<Category> categories = categoryTableModel.getCategories();
 
-        var dialog = new AddDialog(new Event(), new CategoryListModel(categories));
-        dialog.show(scheduleTable, "Add event")
-                .ifPresent(scheduleTableModel::addRow);
+        if (currentTableModel instanceof ScheduleTableModel) {
+            var dialog = new AddEventDialog(new Event(), new CategoryListModel(categories));
+            dialog.show(currentTable, "Add event")
+                    .ifPresent(currentTableModel::addRow);
+        }
     }
 
     public ActionType getActionType() {
