@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
 import cz.muni.fi.pv168.project.todoapp.model.Category;
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.CategoryListRenderer;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -26,7 +27,7 @@ public abstract class BasicTableModel<T> extends AbstractTableModel {
         Object o = columns.get(columnIndex).getValue(getEntity(rowIndex));
 
         if (o instanceof List && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof Category) {
-            return Category.listToString((List<Category>) o);
+            return CategoryListRenderer.renderListCategory((List<Category>) o);
         }
         return o;
     }
