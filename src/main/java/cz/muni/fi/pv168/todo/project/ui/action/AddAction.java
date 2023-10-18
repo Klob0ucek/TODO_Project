@@ -3,10 +3,7 @@ package cz.muni.fi.pv168.todo.project.ui.action;
 import cz.muni.fi.pv168.todo.project.model.Category;
 import cz.muni.fi.pv168.todo.project.model.Event;
 import cz.muni.fi.pv168.todo.project.ui.dialog.AddEventDialog;
-import cz.muni.fi.pv168.todo.project.ui.model.BasicTableModel;
-import cz.muni.fi.pv168.todo.project.ui.model.CategoryListModel;
-import cz.muni.fi.pv168.todo.project.ui.model.CategoryTableModel;
-import cz.muni.fi.pv168.todo.project.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.todo.project.ui.model.*;
 import cz.muni.fi.pv168.todo.project.ui.tab.TabHolder;
 
 import javax.swing.AbstractAction;
@@ -39,6 +36,12 @@ public class AddAction extends AbstractAction {
             var dialog = new AddEventDialog(new Event(), new CategoryListModel(categories));
             dialog.show(currentTable, "Add event")
                     .ifPresent(currentTableModel::addRow);
+        } else if (currentTableModel instanceof CategoryTableModel) {
+            // TODO
+        } else if (currentTableModel instanceof TemplateTableModel) {
+            // TODO
+        } else if (currentTableModel instanceof IntervalTableModel) {
+            // TODO
         }
     }
 
