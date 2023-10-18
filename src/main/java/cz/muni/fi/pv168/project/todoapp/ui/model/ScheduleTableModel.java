@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.model.Event;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -17,13 +18,13 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
                 Column.editable("Location", String.class, Event::getLocation, Event::setLocation),
                 Column.editable("Date", LocalDate.class, Event::getDate, Event::setDate),
                 Column.editable("Time", LocalTime.class, Event::getTime, Event::setTime),
-                Column.editable("Duration", LocalTime.class, Event::getDuration, Event::setDuration)
+                Column.editable("Duration", Duration.class, Event::getDuration, Event::setDuration)
 
         );
         // Local[Date|Time] isn't really editable
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
-        LocalTime duration = LocalTime.of(4, 0);
+        Duration duration = Duration.ofMinutes(145);
         rows.add(
                 new Event(
                         false,
