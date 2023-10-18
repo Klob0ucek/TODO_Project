@@ -20,15 +20,16 @@ public class ComponentFactory {
         // not meant for instancing
     }
 
-    private static JTable disableColumnDragging(
-            JTable table
-    ) {
+    private static JTable setCommonTableSetting(JTable table) {
+        // disable column dragging
         table.getTableHeader().setReorderingAllowed(false);
+        // enable row sorting by clicking on column
+        table.setAutoCreateRowSorter(true);
         return table;
     }
 
     public static JTable createScheduleTable() {
-        return disableColumnDragging(new JTable(new ScheduleTableModel()));
+        return setCommonTableSetting(new JTable(new ScheduleTableModel()));
     }
 
     public static JTable createCategoryTable() {
@@ -39,15 +40,15 @@ public class ComponentFactory {
         table.setDefaultEditor(CategoryColor.class, new DefaultCellEditor(genderComboBox));
         model.setRowBackgroundColors(table);
 
-        return disableColumnDragging(table);
+        return setCommonTableSetting(table);
     }
 
     public static JTable createTemplateTable() {
-        return new JTable(new TemplateTableModel());
+        return setCommonTableSetting(new JTable(new TemplateTableModel()));
     }
 
     public static JTable createIntervalTable() {
-        return disableColumnDragging(new JTable(new IntervalTableModel()));
+        return setCommonTableSetting(new JTable(new IntervalTableModel()));
     }
 
     public static JComponent createHelp() {
