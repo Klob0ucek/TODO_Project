@@ -47,10 +47,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", color=" + color +
-                '}';
+        return name;
     }
 
     public static String listToString(List<Category> categories) {
