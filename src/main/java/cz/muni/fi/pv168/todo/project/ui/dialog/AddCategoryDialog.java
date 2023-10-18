@@ -3,7 +3,10 @@ package cz.muni.fi.pv168.todo.project.ui.dialog;
 import cz.muni.fi.pv168.todo.project.model.Category;
 import cz.muni.fi.pv168.todo.project.model.CategoryColor;
 
-import javax.swing.*;
+import javax.swing.JTextField;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AddCategoryDialog extends EntityDialog<Category> {
     private final JTextField nameField = new JTextField();

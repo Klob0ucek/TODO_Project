@@ -2,7 +2,8 @@ package cz.muni.fi.pv168.todo.project.ui.dialog;
 
 import cz.muni.fi.pv168.todo.project.model.Interval;
 
-import javax.swing.*;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
 import java.time.Duration;
 
 public class AddIntervalDialog extends EntityDialog<Interval> {
