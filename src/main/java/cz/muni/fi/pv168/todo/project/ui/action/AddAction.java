@@ -2,7 +2,9 @@ package cz.muni.fi.pv168.todo.project.ui.action;
 
 import cz.muni.fi.pv168.todo.project.model.Category;
 import cz.muni.fi.pv168.todo.project.model.Event;
+import cz.muni.fi.pv168.todo.project.model.Interval;
 import cz.muni.fi.pv168.todo.project.ui.dialog.AddEventDialog;
+import cz.muni.fi.pv168.todo.project.ui.dialog.AddIntervalDialog;
 import cz.muni.fi.pv168.todo.project.ui.model.*;
 import cz.muni.fi.pv168.todo.project.ui.tab.TabHolder;
 
@@ -41,7 +43,9 @@ public class AddAction extends AbstractAction {
         } else if (currentTableModel instanceof TemplateTableModel) {
             // TODO
         } else if (currentTableModel instanceof IntervalTableModel) {
-            // TODO
+            var dialog = new AddIntervalDialog(new Interval());
+            dialog.show(currentTable, "Add interval")
+                    .ifPresent(currentTableModel::addRow);
         }
     }
 

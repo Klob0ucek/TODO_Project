@@ -18,6 +18,9 @@ public class Interval {
         this.duration = duration;
     }
 
+    public Interval() {
+    }
+
     public String getName() {
         return name;
     }
