@@ -2,8 +2,10 @@ package cz.muni.fi.pv168.project.todoapp.ui.model;
 
 import cz.muni.fi.pv168.project.todoapp.model.Category;
 
-import javax.swing.table.AbstractTableModel;
+import cz.muni.fi.pv168.todo.project.ui.renderer.DurationRenderer;
 
+import javax.swing.table.AbstractTableModel;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public abstract class BasicTableModel<T> extends AbstractTableModel {
 
         if (o instanceof List && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof Category) {
             return Category.listToString((List<Category>) o);
+        } else if (o instanceof Duration) {
+            return DurationRenderer.renderDuration((Duration) o);
         }
         return o;
     }
