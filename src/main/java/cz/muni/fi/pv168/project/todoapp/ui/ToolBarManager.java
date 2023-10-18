@@ -15,12 +15,12 @@ import java.util.Arrays;
 public class ToolBarManager {
     private final static Dimension MODIFY_TOOLS_OFFSET;
     private final static Dimension QUIT_OFFSET;
-    private final static Dimension SEPARATOR_SIZE;
+    private final static Dimension SEPARATOR;
 
     static {
         MODIFY_TOOLS_OFFSET = new Dimension(0, 25);
-        QUIT_OFFSET = new Dimension(0, 15);
-        SEPARATOR_SIZE = new Dimension(0, 2);
+        QUIT_OFFSET = new Dimension(0, 10);
+        SEPARATOR = new Dimension(0, 3);
     }
 
     private final JToolBar modifyActions = createVerticalToolBar();
@@ -108,12 +108,13 @@ public class ToolBarManager {
         Action bufferedAction;
 
         modifyActions.addSeparator(MODIFY_TOOLS_OFFSET);
+
         for (int i = 0; i < modifyActionsBuffer.length; i++) {
             bufferedAction = modifyActionsBuffer[i];
             modifyActions.add(
                     bufferedAction == null ? modifyPlaceholders[i] : bufferedAction
             );
-            modifyActions.addSeparator(SEPARATOR_SIZE);
+            modifyActions.addSeparator(SEPARATOR);
         }
 
         for (int i = 0; i < portActionsBuffer.length; i++) {
@@ -121,8 +122,9 @@ public class ToolBarManager {
             portActions.add(
                     bufferedAction == null ? portPlaceholders[i] : bufferedAction
             );
-            portActions.addSeparator(SEPARATOR_SIZE);
+            portActions.addSeparator(SEPARATOR);
         }
+
         portActions.addSeparator(QUIT_OFFSET);
         portActions.add(quitAction);
     }
