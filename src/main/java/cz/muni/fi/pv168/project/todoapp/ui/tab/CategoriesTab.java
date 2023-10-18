@@ -1,9 +1,9 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
-import cz.muni.fi.pv168.project.todoapp.ui.action.categories.AddCategory;
-import cz.muni.fi.pv168.project.todoapp.ui.action.categories.DeleteCategory;
-import cz.muni.fi.pv168.project.todoapp.ui.action.categories.EditCategory;
+import cz.muni.fi.pv168.project.todoapp.ui.action.category.AddCategory;
+import cz.muni.fi.pv168.project.todoapp.ui.action.category.DeleteCategory;
+import cz.muni.fi.pv168.project.todoapp.ui.action.category.EditCategory;
 
 import javax.swing.Action;
 import javax.swing.Icon;
