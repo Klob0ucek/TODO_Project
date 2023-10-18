@@ -9,13 +9,17 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
+
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -36,9 +40,19 @@ public class MainWindow {
 
         tabHolder.getCurrentTab().updateToolBar();
 
-        frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
+        frame.add(createTopPanel(), BorderLayout.NORTH);
+        frame.add(tabbedPane, BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
+        frame.add(createBottomLine(), BorderLayout.SOUTH);
         frame.pack();
+    }
+
+    private JLabel createTopPanel() {
+        return new JLabel("TOP-SIDE");
+    }
+
+    private JLabel createBottomLine() {
+        return new JLabel("BOTTOM-SIDE");
     }
 
     private JTabbedPane createTabbedPane(

@@ -8,10 +8,21 @@ import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.Arrays;
 
 
 public class ToolBarManager {
+    private final static Dimension MODIFY_TOOLS_OFFSET;
+    private final static Dimension QUIT_OFFSET;
+    private final static Dimension SEPARATOR_SIZE;
+
+    static {
+        MODIFY_TOOLS_OFFSET = new Dimension(0, 25);
+        QUIT_OFFSET = new Dimension(0, 15);
+        SEPARATOR_SIZE = new Dimension(0, 2);
+    }
+
     private final JToolBar modifyActions = createVerticalToolBar();
     private final JToolBar portActions = createVerticalToolBar();
 
@@ -96,11 +107,13 @@ public class ToolBarManager {
     public void saveChanges() {
         Action bufferedAction;
 
+        modifyActions.addSeparator(MODIFY_TOOLS_OFFSET);
         for (int i = 0; i < modifyActionsBuffer.length; i++) {
             bufferedAction = modifyActionsBuffer[i];
             modifyActions.add(
                     bufferedAction == null ? modifyPlaceholders[i] : bufferedAction
             );
+            modifyActions.addSeparator(SEPARATOR_SIZE);
         }
 
         for (int i = 0; i < portActionsBuffer.length; i++) {
@@ -108,7 +121,9 @@ public class ToolBarManager {
             portActions.add(
                     bufferedAction == null ? portPlaceholders[i] : bufferedAction
             );
+            portActions.addSeparator(SEPARATOR_SIZE);
         }
+        portActions.addSeparator(QUIT_OFFSET);
         portActions.add(quitAction);
     }
 }
