@@ -10,16 +10,13 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
