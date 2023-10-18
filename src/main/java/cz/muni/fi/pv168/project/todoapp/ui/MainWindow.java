@@ -22,31 +22,41 @@ import java.util.List;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
-    private final ToolBarManager toolBarManager;
-    private List<GeneralTab> tabs;
 
     public MainWindow() {
-        JTabbedPane tabbedPane = new JTabbedPane();
+        JComponent verticalToolBar = new JPanel();
+        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+
+        List<GeneralTab> tabs = createTabs(toolBarManager);
+        JTabbedPane tabbedPane = createTabbedPane(tabs);
+
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
 
-        JComponent verticalToolBar = new JPanel();
-        toolBarManager = new ToolBarManager(verticalToolBar);
-
-        createTabs(tabbedPane);
-
-//        tabbedPane.setSelectedIndex(1);
+        // tabbedPane.setSelectedIndex(1);
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
-//        tabbedPane.setSelectedIndex(0);
+        // tabbedPane.setSelectedIndex(0);
 
         frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
         frame.pack();
     }
 
-    private void createTabs(
-            JTabbedPane tabbedPane
+    private JTabbedPane createTabbedPane(
+            List<GeneralTab> tabs
     ) {
-        tabs = List.of(
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        for (var tab : tabs) {
+            tab.addToPane(tabbedPane);
+        }
+
+        return tabbedPane;
+    }
+
+    private List<GeneralTab> createTabs(
+            ToolBarManager toolBarManager
+    ) {
+        return List.of(
                 new EventsTab(
                         "Events",
                         null,
@@ -83,10 +93,6 @@ public class MainWindow {
                         toolBarManager
                 )
         );
-
-        for (var tab : tabs) {
-            tab.addToPane(tabbedPane);
-        }
     }
 
     private JFrame createFrame() {
