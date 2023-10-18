@@ -16,6 +16,7 @@ public class ExportAction extends SmartAction {
     public void actionPerformed(ActionEvent e) {
         // TODO we will probably need a file a file to save here
         var dialog = new ExportDialog();
+        dialog.selectExportFolder();
         // TODO confirm export success
     }
 }

@@ -7,7 +7,6 @@ import java.io.File;
 public class ExportDialog extends JDialog {
 
     public ExportDialog() {
-        selectExportFolder();
     }
 
     private File showFileChooserDialog() {
@@ -22,7 +21,7 @@ public class ExportDialog extends JDialog {
         return null;
     }
 
-    private void selectExportFolder() {
+    public File selectExportFolder() {
         File selectedFolder = showFileChooserDialog();
         if (selectedFolder != null) {
             int ret = JOptionPane.showConfirmDialog(null,
@@ -33,5 +32,6 @@ public class ExportDialog extends JDialog {
             // ret == 0 = export confirmed by user
             // ret == 1 = export folder declined
         }
+        return selectedFolder;
     }
 }

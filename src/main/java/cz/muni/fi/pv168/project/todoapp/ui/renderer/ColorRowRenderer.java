@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
 import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -32,7 +33,6 @@ public class ColorRowRenderer extends DefaultTableCellRenderer {
                 component.setBackground(rowMap.get(row));
             }
         }
-        System.out.println("Row: " + row + ", Column: " + column + " - " + value + " is selected " + isSelected);
         return component;
     }
 }
