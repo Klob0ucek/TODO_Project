@@ -15,6 +15,7 @@ public class ImportAction extends SmartAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         var dialog = new ImportDialog();
+        dialog.selectImportFile();
 
         // TODO Import success popup message
 
