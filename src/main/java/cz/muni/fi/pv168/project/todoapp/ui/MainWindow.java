@@ -32,9 +32,9 @@ public class MainWindow {
 
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
 
-        // tabbedPane.setSelectedIndex(1);
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
-        // tabbedPane.setSelectedIndex(0);
+
+        tabHolder.getCurrentTab().updateToolBar();
 
         frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
