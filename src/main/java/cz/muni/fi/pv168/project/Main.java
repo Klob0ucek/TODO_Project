@@ -1,16 +1,18 @@
 package cz.muni.fi.pv168.project;
 
-/**
- * The entry point of the application.
- */
+import com.formdev.flatlaf.FlatDarkLaf;
+import cz.muni.fi.pv168.project.ui.MainWindow;
+
 public class Main {
-
-    private Main() {
-        throw new AssertionError("This class is not intended for instantiation.");
-    }
-
     public static void main(String[] args) {
-        // TODO: Replace with your code
-        System.out.println("Hello World!");
+        /* Setup for FlatLookAndFeel:
+         *  - FlatLightLaf
+         *  - FlatDarkLaf
+         *  - FlatDarculaLaf
+         */
+        FlatDarkLaf.setup();
+
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.show();
     }
 }
