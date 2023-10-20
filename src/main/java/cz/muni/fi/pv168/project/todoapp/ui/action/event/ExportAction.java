@@ -1,16 +1,16 @@
-package cz.muni.fi.pv168.project.todoapp.ui.action;
+package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ExportDialog;
+import javax.swing.AbstractAction;
 
 
 import java.awt.event.ActionEvent;
 
-public class ExportAction extends SmartAction {
-    public ExportAction(TabHolder tabHolder) {
-        super("Export", null, ActionType.EXPORT, tabHolder);
+public class ExportAction extends AbstractAction {
+    public ExportAction() {
+        super("Export", null);
         // TODO: add *icon*
-        putValue(SHORT_DESCRIPTION, "Exports copy of current workspace");
+        // putValue(SHORT_DESCRIPTION, "");
     }
 
     @Override
