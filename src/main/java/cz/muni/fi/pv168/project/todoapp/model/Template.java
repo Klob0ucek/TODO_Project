@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.model;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Template extends AbstractCoreEvent {
                     List<Category> categories,
                     String location,
                     LocalTime time,
-                    LocalTime duration) {
+                    Duration duration) {
         super(isDone, eventName, categories, location, time, duration);
         this.templateName = templateName;
     }

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.model;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Event extends AbstractCoreEvent {
             String location,
             LocalDate date,
             LocalTime time,
-            LocalTime duration
+            Duration duration
     ) {
         super(isDone, name, categories, location, time, duration);
         this.date = date;

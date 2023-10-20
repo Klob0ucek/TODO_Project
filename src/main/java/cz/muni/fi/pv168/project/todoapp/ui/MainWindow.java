@@ -1,145 +1,109 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.ui.action.ActionType;
-import cz.muni.fi.pv168.project.todoapp.ui.action.AddAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.DeleteAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.EditAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.FilterAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.SmartAction;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.Tab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.HelpTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.IntervalsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
-import javax.swing.BoxLayout;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
 
-    private final SmartAction addAction;
-    private final SmartAction deleteAction;
-    private final SmartAction editAction;
-    private final SmartAction exportAction;
-    private final SmartAction filterAction;
-    private final SmartAction importAction;
-    private final QuitAction quitAction;
-
-    private final List<SmartAction> actions;
-
-    private final List<Tab> tabs = new ArrayList<>();
-
     public MainWindow() {
-        JTabbedPane tabbedPane = new JTabbedPane();
+        JComponent verticalToolBar = new JPanel();
+        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+
+        List<GeneralTab> tabs = createTabs(toolBarManager);
+        JTabbedPane tabbedPane = createTabbedPane(tabs);
+
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
 
-        addAction = new AddAction(tabHolder);
-        deleteAction = new DeleteAction(tabHolder);
-        editAction = new EditAction(tabHolder);
-        exportAction = new ExportAction(tabHolder);
-        filterAction = new FilterAction(tabHolder);
-        importAction = new ImportAction(tabHolder);
-        quitAction = new QuitAction();
-
-        actions = List.of(
-                addAction, deleteAction, editAction,
-                exportAction, filterAction, importAction
-        );
-
-        createTabs(tabbedPane);
-
-//        tabbedPane.setSelectedIndex(1);
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
-//        tabbedPane.setSelectedIndex(0);
 
-        frame.add(new JScrollPane(tabbedPane), BorderLayout.CENTER);
-        frame.add(createToolBar(), BorderLayout.WEST);
+        tabHolder.getCurrentTab().updateToolBar();
+
+        frame.add(createTopPanel(), BorderLayout.NORTH);
+        frame.add(tabbedPane, BorderLayout.CENTER);
+        frame.add(verticalToolBar, BorderLayout.WEST);
+        frame.add(createBottomLine(), BorderLayout.SOUTH);
         frame.pack();
     }
 
-    private JToolBar createVerticalToolBar() {
-        JToolBar verticalTools = new JToolBar();
-        verticalTools.setLayout(new BoxLayout(verticalTools, BoxLayout.Y_AXIS));
-        verticalTools.setFloatable(false);
-
-        return verticalTools;
+    private JLabel createTopPanel() {
+        return new JLabel("TOP-SIDE");
     }
 
-    private JToolBar northTools() {
-        JToolBar toolBar = createVerticalToolBar();
-
-        toolBar.add(filterAction);
-        toolBar.addSeparator();
-        toolBar.add(addAction);
-        toolBar.add(editAction);
-        toolBar.add(deleteAction);
-
-        return toolBar;
+    private JLabel createBottomLine() {
+        return new JLabel("BOTTOM-SIDE");
     }
 
-    private JToolBar southTools() {
-        JToolBar toolBar = createVerticalToolBar();
-
-        toolBar.add(importAction);
-        toolBar.add(exportAction);
-        toolBar.addSeparator();
-        toolBar.add(quitAction);
-
-        return toolBar;
-    }
-
-    private JPanel createToolBar() {
-        JPanel toolBar = new JPanel();
-        toolBar.setLayout(new BorderLayout());
-
-        toolBar.add(northTools(), BorderLayout.NORTH);
-        toolBar.add(southTools(), BorderLayout.SOUTH);
-
-        return toolBar;
-    }
-
-    private void createTabs(
-            JTabbedPane tabbedPane
+    private JTabbedPane createTabbedPane(
+            List<GeneralTab> tabs
     ) {
-        tabs.addAll(
-                List.of(
-                        new Tab
-                                .Builder("Tasks", ComponentFactory.createScheduleTable(), actions)
-                                .enableActions(ActionType.all())
-                                .build(),
-                        new Tab
-                                .Builder("Categories", ComponentFactory.createCategoryTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Templates", ComponentFactory.createTemplateTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Intervals", ComponentFactory.createIntervalTable(), actions)
-                                .enableActions(ActionType.basic())
-                                .build(),
-                        new Tab
-                                .Builder("Help", ComponentFactory.createHelp(), actions)
-                                .build()
-                )
-        );
+        JTabbedPane tabbedPane = new JTabbedPane();
 
         for (var tab : tabs) {
             tab.addToPane(tabbedPane);
         }
+
+        return tabbedPane;
+    }
+
+    private List<GeneralTab> createTabs(
+            ToolBarManager toolBarManager
+    ) {
+        return List.of(
+                new EventsTab(
+                        "Events",
+                        null,
+                        ComponentFactory.createScheduleTable(),
+                        null,
+                        toolBarManager
+                ),
+                new CategoriesTab(
+                        "Categories",
+                        null,
+                        ComponentFactory.createCategoryTable(),
+                        null,
+                        toolBarManager
+                ),
+                new TemplatesTab(
+                        "Templates",
+                        null,
+                        ComponentFactory.createTemplateTable(),
+                        null,
+                        toolBarManager
+                ),
+                new IntervalsTab(
+                        "Intervals",
+                        null,
+                        ComponentFactory.createIntervalTable(),
+                        null,
+                        toolBarManager
+                ),
+                new HelpTab(
+                        "Help",
+                        null,
+                        ComponentFactory.createHelp(),
+                        null,
+                        toolBarManager
+                )
+        );
     }
 
     private JFrame createFrame() {

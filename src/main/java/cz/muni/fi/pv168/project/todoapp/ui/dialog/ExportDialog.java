@@ -7,16 +7,6 @@ import java.io.File;
 public class ExportDialog extends JDialog {
 
     public ExportDialog() {
-        File selectedFile = showFileChooserDialog();
-        if (selectedFile != null) {
-            int ret = JOptionPane.showConfirmDialog(null,
-                    "Export into folder: " + selectedFile.getAbsolutePath(),
-                    "Confirm export folder",
-                    JOptionPane.YES_NO_OPTION);
-            // TODO finish file export
-            // ret == 0 = export confirmed by user
-            // ret == 1 = export folder declined
-        }
     }
 
     private File showFileChooserDialog() {
@@ -29,5 +19,19 @@ public class ExportDialog extends JDialog {
         }
 
         return null;
+    }
+
+    public File selectExportFolder() {
+        File selectedFolder = showFileChooserDialog();
+        if (selectedFolder != null) {
+            int ret = JOptionPane.showConfirmDialog(null,
+                    "Export into folder: " + selectedFolder.getAbsolutePath(),
+                    "Confirm export folder",
+                    JOptionPane.YES_NO_OPTION);
+            // TODO finish file export
+            // ret == 0 = export confirmed by user
+            // ret == 1 = export folder declined
+        }
+        return selectedFolder;
     }
 }

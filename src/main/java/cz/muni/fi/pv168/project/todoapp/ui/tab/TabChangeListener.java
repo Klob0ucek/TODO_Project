@@ -14,6 +14,6 @@ public class TabChangeListener implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        tabHolder.getCurrentTab().updateActions();
+        tabHolder.getCurrentTab().updateToolBar();
     }
 }
