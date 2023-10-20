@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.model;
 
 import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.model.Event;
 import cz.muni.fi.pv168.project.todoapp.model.Template;
 
 import java.time.Duration;
@@ -13,6 +14,7 @@ public class TemplateTableModel extends BasicTableModel<Template> {
     public TemplateTableModel() {
         columns = List.of(
                 Column.editable("Template Name", String.class, Template::getTemplateName, Template::setTemplateName),
+                Column.editable("Done?", Boolean.class, Template::isDone, Template::setDone),
                 Column.editable("Event Name", String.class, Template::getName, Template::setName),
                 Column.editable("Categories", List.class, Template::getCategories, Template::setCategories),
                 Column.editable("Location", String.class, Template::getLocation, Template::setLocation),
