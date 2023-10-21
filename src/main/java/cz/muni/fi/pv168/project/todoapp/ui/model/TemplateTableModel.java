@@ -13,6 +13,7 @@ public class TemplateTableModel extends BasicTableModel<Template> {
     public TemplateTableModel() {
         columns = List.of(
                 Column.editable("Template Name", String.class, Template::getTemplateName, Template::setTemplateName),
+                Column.editable("Done?", Boolean.class, Template::isDone, Template::setDone),
                 Column.editable("Event Name", String.class, Template::getName, Template::setName),
                 Column.editable("Categories", List.class, Template::getCategories, Template::setCategories),
                 Column.editable("Location", String.class, Template::getLocation, Template::setLocation),
@@ -22,6 +23,6 @@ public class TemplateTableModel extends BasicTableModel<Template> {
         rows.add(new Template("English classes", false, "Lesson",
                 List.of(new Category("School", CategoryColor.GREEN)), "MUNI FI", LocalTime.of(8, 30), Duration.ofMinutes(45)));
         rows.add(new Template("Running", false, "Morning run",
-                List.of(new Category("Free Time", CategoryColor.PINK), new Category("Health", CategoryColor.RED)), null, null, Duration.ofMinutes(45)));
+                List.of(new Category("Free Time", CategoryColor.PINK), new Category("Health", CategoryColor.RED)), null, null, Duration.ofMinutes(75)));
     }
 }

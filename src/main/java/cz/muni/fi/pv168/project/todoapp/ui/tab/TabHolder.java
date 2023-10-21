@@ -4,23 +4,13 @@ import javax.swing.JTabbedPane;
 
 import java.util.List;
 
-public class TabHolder {
-    private final JTabbedPane tabbedPane;
-    private final List<Tab> tabs;
+public record TabHolder(JTabbedPane tabbedPane, List<GeneralTab> tabs) {
 
-    public TabHolder(
-            JTabbedPane tabbedPane,
-            List<Tab> tabs
-    ) {
-        this.tabbedPane = tabbedPane;
-        this.tabs = tabs;
-    }
-
-    public Tab getCurrentTab() {
+    public GeneralTab getCurrentTab() {
         return tabs.get(tabbedPane.getSelectedIndex());
     }
 
-    public Tab getTabAt(int index) {
+    public GeneralTab getTabAt(int index) {
         return tabs.get(index);
     }
 }

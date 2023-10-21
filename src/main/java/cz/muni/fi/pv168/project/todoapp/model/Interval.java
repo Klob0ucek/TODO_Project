@@ -25,9 +25,7 @@ public class Interval {
         return name;
     }
 
-    public void setName(
-            String name
-    ) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -35,9 +33,7 @@ public class Interval {
         return abbreviation;
     }
 
-    public void setAbbreviation(
-            String abbreviation
-    ) {
+    public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
 
@@ -52,9 +48,7 @@ public class Interval {
     }
 
     @Override
-    public boolean equals(
-            Object o
-    ) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Interval interval = (Interval) o;

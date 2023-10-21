@@ -11,6 +11,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 /**
  * Static factory class for components.
@@ -20,34 +21,47 @@ public class ComponentFactory {
         // not meant for instancing
     }
 
-    private static JTable disableColumnDragging(
-            JTable table
-    ) {
+    private static void disableColumnDragging(JTable table) {
         table.getTableHeader().setReorderingAllowed(false);
+    }
+
+    private static void setColumnSorting(JTable table) {
+        table.setAutoCreateRowSorter(true);
+    }
+
+    private static void setupTable(JTable table) {
+        disableColumnDragging(table);
+        setColumnSorting(table);
+    }
+
+    private static JTable createTableFromModel(AbstractTableModel model) {
+        var table = new JTable(model);
+        setupTable(table);
         return table;
     }
 
     public static JTable createScheduleTable() {
-        return disableColumnDragging(new JTable(new ScheduleTableModel()));
+        return createTableFromModel(new ScheduleTableModel());
     }
 
     public static JTable createCategoryTable() {
         CategoryTableModel model = new CategoryTableModel();
         JTable table = new JTable(model);
+        setupTable(table);
 
         var genderComboBox = new JComboBox<>(CategoryColor.values());
         table.setDefaultEditor(CategoryColor.class, new DefaultCellEditor(genderComboBox));
         model.setRowBackgroundColors(table);
 
-        return disableColumnDragging(table);
+        return table;
     }
 
     public static JTable createTemplateTable() {
-        return new JTable(new TemplateTableModel());
+        return createTableFromModel(new TemplateTableModel());
     }
 
     public static JTable createIntervalTable() {
-        return disableColumnDragging(new JTable(new IntervalTableModel()));
+        return createTableFromModel(new IntervalTableModel());
     }
 
     public static JComponent createHelp() {

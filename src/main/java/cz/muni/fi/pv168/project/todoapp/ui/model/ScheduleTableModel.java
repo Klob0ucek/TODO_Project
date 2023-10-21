@@ -24,7 +24,7 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
         // Local[Date|Time] isn't really editable
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
-        LocalTime duration = LocalTime.of(4, 0);
+        Duration duration = Duration.ofMinutes(145);
         rows.add(
                 new Event(
                         false,

@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.model;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Category {
@@ -48,16 +47,5 @@ public class Category {
     @Override
     public String toString() {
         return name;
-    }
-
-    public static String listToString(List<Category> categories) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < categories.size(); i++) {
-            stringBuilder.append(categories.get(i).name);
-            if (i != categories.size() - 1) {
-                stringBuilder.append(", ");
-            }
-        }
-        return stringBuilder.toString();
     }
 }
