@@ -31,21 +31,24 @@ public class AddEventDialog extends EntityDialog<Event> {
     public AddEventDialog(Event event, ListModel<Category> categoryModel) {
         this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
         this.event = event;
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanelSetup();
         addFields();
     }
 
     private void addFields() {
-        topPanel.add(new JLabel(" Done? "));
-        topPanel.add(doneField);
-        topPanel.add(new JLabel(" Name: "));
-        topPanel.add(nameField);
         panel.add(topPanel);
-
         add("Category:", new JComboBox<>(categoryModel));
         add("Location:", locationField);
         add("Date and time:", dateTimePicker);
         add("Duration in minutes:", durationSpinner);
+    }
+
+    private void topPanelSetup() {
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.add(new JLabel(" Done? "));
+        topPanel.add(doneField);
+        topPanel.add(new JLabel(" Name: "));
+        topPanel.add(nameField);
     }
 
     @Override

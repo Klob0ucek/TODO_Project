@@ -5,15 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.model.Template;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JTextField;
-import javax.swing.ComboBoxModel;
-import javax.swing.ListModel;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JSpinner;
+import javax.swing.*;
 import java.time.Duration;
 import java.util.List;
 
@@ -32,24 +24,26 @@ public class AddTemplateDialog extends EntityDialog<Template> {
     public AddTemplateDialog(Template template, ListModel<Category> categoryModel) {
         this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
         this.template = template;
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanelSetup();
         addFields();
     }
 
     private void addFields() {
         add("Template name:", templateNameField);
-
-        panel.add(new JLabel(" "));
-        topPanel.add(new JLabel(" Done? "));
-        topPanel.add(doneField);
-        topPanel.add(new JLabel(" Event name: "));
-        topPanel.add(eventNameField);
         panel.add(topPanel);
-
         add("Category:", new JComboBox<>(categoryModel));
         add("Location:", locationField);
         add("Time:", timePicker);
         add("Duration in minutes:", durationSpinner);
+    }
+
+    private void topPanelSetup() {
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        topPanel.add(new JLabel(" Done? "));
+        topPanel.add(doneField);
+        topPanel.add(new JLabel(" Event name: "));
+        topPanel.add(eventNameField);
     }
 
     @Override
