@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Filter {
     private final JCheckBox isDoneCheckBox = new JCheckBox();
@@ -31,6 +29,7 @@ public class Filter {
             /* should have access to all currently existing Categories */
     ) {
         resetButton.addActionListener(e -> { /* reset filters */ });
+        /* ^^ or implement class that implements ActionListener ^^ */
     }
 
     private static JComponent createNamedComponent(
