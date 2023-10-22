@@ -7,7 +7,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.HelpTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.IntervalsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
 
 import javax.swing.JComponent;
