@@ -18,9 +18,6 @@ public class Template extends AbstractCoreEvent {
         this.templateName = templateName;
     }
 
-    public Template() {
-    }
-
     public String getTemplateName() {
         return templateName;
     }

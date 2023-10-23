@@ -11,10 +11,7 @@ public class AddIntervalDialog extends EntityDialog<Interval> {
     private final JTextField abbreviationField = new JTextField();
     private final JSpinner durationSpinner = new JSpinner();
 
-    private final Interval interval;
-
-    public AddIntervalDialog(Interval interval) {
-        this.interval = interval;
+    public AddIntervalDialog() {
         addFields();
     }
 
@@ -26,9 +23,9 @@ public class AddIntervalDialog extends EntityDialog<Interval> {
 
     @Override
     Interval getEntity() {
-        interval.setName(nameField.getText());
-        interval.setAbbreviation(abbreviationField.getText());
-        interval.setDuration(Duration.ofMinutes((Integer) durationSpinner.getValue()));
-        return interval;
+        String name = nameField.getText();
+        String abbreviation = abbreviationField.getText();
+        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
+        return new Interval(name, abbreviation, duration);
     }
 }

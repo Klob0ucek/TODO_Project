@@ -1,28 +1,26 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddCategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 
 public class AddCategory extends AbstractAddAction {
     public AddCategory(
-            TabHolder tabHolder
+            TabHolder tabHolder,
+            JTable table
     ) {
-        super(null, tabHolder);
+        super(null, tabHolder, table);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var currentTable = (JTable) tabHolder.getCurrentTab().getComponent();
-        var currentTableModel = (CategoryTableModel) currentTable.getModel();
+        var categoryTableModel = (CategoryTableModel) table.getModel();
 
-        var dialog = new AddCategoryDialog(new Category());
-        dialog.show(currentTable, "Add category")
-                .ifPresent(currentTableModel::addRow);
+        var dialog = new AddCategoryDialog();
+        dialog.show(table, "Add category").ifPresent(categoryTableModel::addRow);
     }
 }

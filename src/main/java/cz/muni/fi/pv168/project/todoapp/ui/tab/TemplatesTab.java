@@ -7,13 +7,14 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.template.EditTemplate;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JTable;
 
 import java.awt.Component;
 
 public class TemplatesTab extends GeneralTab {
-    private final Action add = new AddTemplate(tabHolder);
-    private final Action edit = new EditTemplate(tabHolder);
-    private final Action delete = new DeleteTemplate(tabHolder);
+    private final Action add = new AddTemplate(tabHolder, (JTable) component);
+    private final Action edit = new EditTemplate(tabHolder, (JTable) component);
+    private final Action delete = new DeleteTemplate(tabHolder, (JTable) component);
 
     public TemplatesTab(
             String title,

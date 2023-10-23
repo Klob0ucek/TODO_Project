@@ -15,6 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class AddEventDialog extends EntityDialog<Event> {
@@ -26,11 +28,8 @@ public class AddEventDialog extends EntityDialog<Event> {
     private final DateTimePicker dateTimePicker = new DateTimePicker();
     private final JSpinner durationSpinner = new JSpinner();
 
-    private final Event event;
-
-    public AddEventDialog(Event event, ListModel<Category> categoryModel) {
+    public AddEventDialog(ListModel<Category> categoryModel) {
         this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
-        this.event = event;
         topPanelSetup();
         addFields();
     }
@@ -53,13 +52,13 @@ public class AddEventDialog extends EntityDialog<Event> {
 
     @Override
     Event getEntity() {
-        event.setDone(doneField.isSelected());
-        event.setName(nameField.getText());
-        event.setCategories(List.of((Category) categoryModel.getSelectedItem()));
-        event.setLocation(locationField.getText());
-        event.setDate(dateTimePicker.getDatePicker().getDate());
-        event.setTime(dateTimePicker.getTimePicker().getTime());
-        event.setDuration(Duration.ofMinutes((Integer) durationSpinner.getValue()));
-        return event;
+        boolean isDone = doneField.isSelected();
+        String name = nameField.getText();
+        List<Category> categories = List.of((Category) categoryModel.getSelectedItem());
+        String location = locationField.getText();
+        LocalDate date = dateTimePicker.getDatePicker().getDate();
+        LocalTime time = dateTimePicker.getTimePicker().getTime();
+        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
+        return new Event(isDone, name, categories, location, date, time, duration);
     }
 }

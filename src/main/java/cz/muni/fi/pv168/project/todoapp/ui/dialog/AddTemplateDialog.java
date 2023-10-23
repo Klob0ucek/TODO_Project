@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.BorderFactory;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 
 public class AddTemplateDialog extends EntityDialog<Template> {
@@ -28,11 +29,8 @@ public class AddTemplateDialog extends EntityDialog<Template> {
     private final TimePicker timePicker = new TimePicker();
     private final JSpinner durationSpinner = new JSpinner();
 
-    private final Template template;
-
-    public AddTemplateDialog(Template template, ListModel<Category> categoryModel) {
+    public AddTemplateDialog(ListModel<Category> categoryModel) {
         this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
-        this.template = template;
         topPanelSetup();
         addFields();
     }
@@ -57,13 +55,13 @@ public class AddTemplateDialog extends EntityDialog<Template> {
 
     @Override
     Template getEntity() {
-        template.setTemplateName(templateNameField.getText());
-        template.setDone(doneField.isSelected());
-        template.setName(eventNameField.getText());
-        template.setCategories(List.of((Category) categoryModel.getSelectedItem()));
-        template.setLocation(locationField.getText());
-        template.setTime(timePicker.getTime());
-        template.setDuration(Duration.ofMinutes((Integer) durationSpinner.getValue()));
-        return template;
+        String templateName = templateNameField.getText();
+        boolean isDone = doneField.isSelected();
+        String name = eventNameField.getText();
+        List<Category> categories = List.of((Category) categoryModel.getSelectedItem());
+        String location = locationField.getText();
+        LocalTime time = timePicker.getTime();
+        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
+        return new Template(templateName, isDone, name, categories, location, time, duration);
     }
 }

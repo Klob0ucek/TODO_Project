@@ -7,13 +7,14 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.category.EditCategory;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JTable;
 
 import java.awt.Component;
 
 public class CategoriesTab extends GeneralTab {
-    private final Action add = new AddCategory(tabHolder);
-    private final Action edit = new EditCategory(tabHolder);
-    private final Action delete = new DeleteCategory(tabHolder);
+    private final Action add = new AddCategory(tabHolder, (JTable) component);
+    private final Action edit = new EditCategory(tabHolder, (JTable) component);
+    private final Action delete = new DeleteCategory(tabHolder, (JTable) component);
 
     public CategoriesTab(
             String title,

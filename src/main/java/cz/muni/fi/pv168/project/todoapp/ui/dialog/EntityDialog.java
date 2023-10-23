@@ -31,8 +31,7 @@ abstract class EntityDialog<E> {
 
         if (result == OK_OPTION) {
             return Optional.of(getEntity());
-        } else {
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 }

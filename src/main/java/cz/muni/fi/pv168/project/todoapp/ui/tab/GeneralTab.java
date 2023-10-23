@@ -12,7 +12,7 @@ public abstract class GeneralTab {
     private final String title;
     private final String tip;
     private final Icon icon;
-    private final Component component;
+    protected final Component component;
     private final ToolBarManager toolBarManager;
     protected final TabHolder tabHolder;
 

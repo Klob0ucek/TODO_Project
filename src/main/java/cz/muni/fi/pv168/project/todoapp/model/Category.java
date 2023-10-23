@@ -4,15 +4,11 @@ import java.util.Objects;
 
 public class Category {
     private String name;
-
     private CategoryColor color;
 
     public Category(String name, CategoryColor color) {
         this.name = name;
         this.color = color;
-    }
-
-    public Category() {
     }
 
     public String getName() {
@@ -46,6 +42,9 @@ public class Category {
 
     @Override
     public String toString() {
-        return name;
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                '}';
     }
 }
