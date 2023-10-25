@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
@@ -36,15 +37,11 @@ public class MainWindow {
 
         tabHolder.getCurrentTab().updateToolBar();
 
-        frame.add(createTopPanel(), BorderLayout.NORTH);
+        frame.add(new Filter().getFilterBar(), BorderLayout.NORTH);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
         frame.add(createBottomLine(), BorderLayout.SOUTH);
         frame.pack();
-    }
-
-    private JLabel createTopPanel() {
-        return new JLabel("TOP-SIDE");
     }
 
     private JLabel createBottomLine() {
