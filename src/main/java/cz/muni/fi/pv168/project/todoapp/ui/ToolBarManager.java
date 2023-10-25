@@ -26,14 +26,16 @@ public class ToolBarManager {
         QUIT_OFFSET = new Dimension(0, 10);
         SEPARATOR = new Dimension(0, 3);
 
-        for (var modify : ModifyAction.values()) {
-            MODIFY_PLACEHOLDERS[modify.ordinal()] = new PlaceholderAction(toTitle(modify), null);
+        for (var modifyAction : ModifyAction.values()) {
+            MODIFY_PLACEHOLDERS[modifyAction.ordinal()] = new PlaceholderAction(
+                    toTitle(modifyAction), null
+            );
         }
     }
 
     private final JToolBar modifyActionsBar = createVerticalToolBar();
 
-    private final Action[] modifyActionsArr = new Action[ModifyAction.values().length];
+    private final Action[] modifyActionsArray = new Action[ModifyAction.values().length];
 
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
@@ -76,7 +78,7 @@ public class ToolBarManager {
 
     private void fillModifyPlaceholders() {
         for (var modify : ModifyAction.values()) {
-            modifyActionsArr[modify.ordinal()] = MODIFY_PLACEHOLDERS[modify.ordinal()];
+            modifyActionsArray[modify.ordinal()] = MODIFY_PLACEHOLDERS[modify.ordinal()];
         }
     }
 
@@ -98,15 +100,15 @@ public class ToolBarManager {
             ModifyAction typeOfAction,
             Action action
     ) {
-        modifyActionsArr[typeOfAction.ordinal()] = action;
+        modifyActionsArray[typeOfAction.ordinal()] = action;
         return this;
     }
 
     public void saveChanges() {
         modifyActionsBar.addSeparator(MODIFY_TOOLS_OFFSET);
 
-        for (var a : modifyActionsArr) {
-            modifyActionsBar.add(a);
+        for (var action : modifyActionsArray) {
+            modifyActionsBar.add(action);
             modifyActionsBar.addSeparator(SEPARATOR);
         }
     }
