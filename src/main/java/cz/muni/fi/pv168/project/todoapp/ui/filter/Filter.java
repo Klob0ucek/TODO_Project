@@ -1,28 +1,25 @@
 package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
-import com.github.lgooddatepicker.components.DateTimePicker;
-
-import cz.muni.fi.pv168.project.todoapp.model.Category;
+import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 public class Filter {
     private final JCheckBox isDoneCheckBox = new JCheckBox();
-    private final JTextField locationInput = new JTextField();
-    private final JTextField nameInput = new JTextField();
-    // width of input fields above should be adjusted -> minimal window width too
-    private final DateTimePicker fromDate = new DateTimePicker();
-    private final JComboBox<Category> categories = new JComboBox<>();
-    private final DateTimePicker toDate = new DateTimePicker();
+    private final JMenuBar categories = new JMenuBar();
+    private final DatePicker fromDate = new DatePicker();
+    private final DatePicker toDate = new DatePicker();
     private final JButton resetButton = new JButton("Reset");
 
     public Filter(
@@ -30,6 +27,17 @@ public class Filter {
     ) {
         resetButton.addActionListener(e -> { /* reset filters */ });
         /* ^^ or implement class that implements ActionListener ^^ */
+
+        initCategories();
+    }
+
+    private void initCategories() {
+        var menu = new JMenu("Category");
+        for (var x : List.of("a", "b", "c", "d", "e", "Very long string, I'm curious what's gonna happen.")) {
+            /*       ^^ list of available categories ^^ */
+            menu.add(new JCheckBoxMenuItem(x));
+        }
+        categories.add(menu);
     }
 
     private static JComponent createNamedComponent(
@@ -66,9 +74,8 @@ public class Filter {
     public JComponent getFilterBar() {
         var filterBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        filterBar.add(createNamedComponent("Is done?:", isDoneCheckBox));
-        filterBar.add(createNamedVerticalPair("Name:", nameInput, "Location:", locationInput));
-        filterBar.add(createNamedComponent("Category:", categories));
+        filterBar.add(createNamedComponent("Done?:", isDoneCheckBox));
+        filterBar.add(categories);
         filterBar.add(createNamedVerticalPair("From:", fromDate, "To:", toDate));
         filterBar.add(resetButton);
 
