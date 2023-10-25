@@ -2,6 +2,9 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.action.PlaceholderAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
+
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -18,28 +21,22 @@ public class ToolBarManager {
     private final static Dimension SEPARATOR;
 
     static {
-        MODIFY_TOOLS_OFFSET = new Dimension(0, 25);
+        MODIFY_TOOLS_OFFSET = new Dimension(0, 35);
         QUIT_OFFSET = new Dimension(0, 10);
         SEPARATOR = new Dimension(0, 3);
     }
 
     private final JToolBar modifyActions = createVerticalToolBar();
-    private final JToolBar portActions = createVerticalToolBar();
 
     private final Action[] modifyActionsBuffer = new Action[ModifyAction.values().length];
-    private final Action[] portActionsBuffer = new Action[PortAction.values().length];
-
     private final Action[] modifyPlaceholders = new Action[ModifyAction.values().length];
-    private final Action[] portPlaceholders = new Action[PortAction.values().length];
 
+    private final Action importAction = new ImportAction();
+    private final Action exportAction = new ExportAction();
     private final Action quitAction = new QuitAction();
 
     public enum ModifyAction {
         ADD, EDIT, DELETE;
-    }
-
-    public enum PortAction {
-        IMPORT, EXPORT;
     }
 
     private static String toTitle(
@@ -55,18 +52,27 @@ public class ToolBarManager {
         toolBarComponent.setLayout(new BorderLayout());
 
         toolBarComponent.add(modifyActions, BorderLayout.NORTH);
-        toolBarComponent.add(portActions, BorderLayout.SOUTH);
+        toolBarComponent.add(initGlobalActions(), BorderLayout.SOUTH);
 
-        initPlaceholders();
+        initModifyPlaceholders();
         saveChanges();
     }
 
-    private void initPlaceholders() {
+    private JToolBar initGlobalActions() {
+        JToolBar globalActions = createVerticalToolBar();
+
+        globalActions.add(importAction);
+        globalActions.addSeparator(SEPARATOR);
+        globalActions.add(exportAction);
+        globalActions.addSeparator(QUIT_OFFSET);
+        globalActions.add(quitAction);
+
+        return globalActions;
+    }
+
+    private void initModifyPlaceholders() {
         for (var modify : ModifyAction.values()) {
             modifyPlaceholders[modify.ordinal()] = new PlaceholderAction(toTitle(modify), null);
-        }
-        for (var port : PortAction.values()) {
-            portPlaceholders[port.ordinal()] = new PlaceholderAction(toTitle(port), null);
         }
     }
 
@@ -80,11 +86,7 @@ public class ToolBarManager {
 
     public ToolBarManager reset() {
         modifyActions.removeAll();
-        portActions.removeAll();
-
         Arrays.fill(modifyActionsBuffer, null);
-        Arrays.fill(portActionsBuffer, null);
-
         return this;
     }
 
@@ -93,14 +95,6 @@ public class ToolBarManager {
             Action action
     ) {
         modifyActionsBuffer[typeOfAction.ordinal()] = action;
-        return this;
-    }
-
-    public ToolBarManager addAction(
-            PortAction typeOfAction,
-            Action action
-    ) {
-        portActionsBuffer[typeOfAction.ordinal()] = action;
         return this;
     }
 
@@ -116,16 +110,5 @@ public class ToolBarManager {
             );
             modifyActions.addSeparator(SEPARATOR);
         }
-
-        for (int i = 0; i < portActionsBuffer.length; i++) {
-            bufferedAction = portActionsBuffer[i];
-            portActions.add(
-                    bufferedAction == null ? portPlaceholders[i] : bufferedAction
-            );
-            portActions.addSeparator(SEPARATOR);
-        }
-
-        portActions.addSeparator(QUIT_OFFSET);
-        portActions.add(quitAction);
     }
 }
