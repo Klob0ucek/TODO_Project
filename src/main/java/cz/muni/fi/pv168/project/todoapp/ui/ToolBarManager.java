@@ -12,7 +12,6 @@ import javax.swing.JToolBar;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Arrays;
 
 
 public class ToolBarManager {
@@ -20,16 +19,23 @@ public class ToolBarManager {
     private final static Dimension QUIT_OFFSET;
     private final static Dimension SEPARATOR;
 
+    private final static Action[] MODIFY_PLACEHOLDERS = new Action[ModifyAction.values().length];
+
     static {
         MODIFY_TOOLS_OFFSET = new Dimension(0, 35);
         QUIT_OFFSET = new Dimension(0, 10);
         SEPARATOR = new Dimension(0, 3);
+
+        for (var modifyAction : ModifyAction.values()) {
+            MODIFY_PLACEHOLDERS[modifyAction.ordinal()] = new PlaceholderAction(
+                    toTitle(modifyAction), null
+            );
+        }
     }
 
-    private final JToolBar modifyActions = createVerticalToolBar();
+    private final JToolBar modifyActionsBar = createVerticalToolBar();
 
-    private final Action[] modifyActionsBuffer = new Action[ModifyAction.values().length];
-    private final Action[] modifyPlaceholders = new Action[ModifyAction.values().length];
+    private final Action[] modifyActionsArray = new Action[ModifyAction.values().length];
 
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
@@ -51,10 +57,10 @@ public class ToolBarManager {
     ) {
         toolBarComponent.setLayout(new BorderLayout());
 
-        toolBarComponent.add(modifyActions, BorderLayout.NORTH);
+        toolBarComponent.add(modifyActionsBar, BorderLayout.NORTH);
         toolBarComponent.add(initGlobalActions(), BorderLayout.SOUTH);
 
-        initModifyPlaceholders();
+        fillModifyPlaceholders();
         saveChanges();
     }
 
@@ -70,9 +76,9 @@ public class ToolBarManager {
         return globalActions;
     }
 
-    private void initModifyPlaceholders() {
+    private void fillModifyPlaceholders() {
         for (var modify : ModifyAction.values()) {
-            modifyPlaceholders[modify.ordinal()] = new PlaceholderAction(toTitle(modify), null);
+            modifyActionsArray[modify.ordinal()] = MODIFY_PLACEHOLDERS[modify.ordinal()];
         }
     }
 
@@ -85,8 +91,8 @@ public class ToolBarManager {
     }
 
     public ToolBarManager reset() {
-        modifyActions.removeAll();
-        Arrays.fill(modifyActionsBuffer, null);
+        modifyActionsBar.removeAll();
+        fillModifyPlaceholders();
         return this;
     }
 
@@ -94,21 +100,16 @@ public class ToolBarManager {
             ModifyAction typeOfAction,
             Action action
     ) {
-        modifyActionsBuffer[typeOfAction.ordinal()] = action;
+        modifyActionsArray[typeOfAction.ordinal()] = action;
         return this;
     }
 
     public void saveChanges() {
-        Action bufferedAction;
+        modifyActionsBar.addSeparator(MODIFY_TOOLS_OFFSET);
 
-        modifyActions.addSeparator(MODIFY_TOOLS_OFFSET);
-
-        for (int i = 0; i < modifyActionsBuffer.length; i++) {
-            bufferedAction = modifyActionsBuffer[i];
-            modifyActions.add(
-                    bufferedAction == null ? modifyPlaceholders[i] : bufferedAction
-            );
-            modifyActions.addSeparator(SEPARATOR);
+        for (var action : modifyActionsArray) {
+            modifyActionsBar.add(action);
+            modifyActionsBar.addSeparator(SEPARATOR);
         }
     }
 }
