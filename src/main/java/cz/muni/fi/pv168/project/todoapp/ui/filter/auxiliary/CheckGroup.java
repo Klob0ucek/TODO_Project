@@ -5,14 +5,16 @@ import javax.swing.JCheckBoxMenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckboxGroup {
+public class CheckGroup implements OptionGroup<JCheckBoxMenuItem> {
     private final List<JCheckBoxMenuItem> checkBoxes = new ArrayList<>();
 
+    @Override
     public void add(JCheckBoxMenuItem checkBox) {
         checkBoxes.add(checkBox);
     }
 
-    public void clearSelection() {
+    @Override
+    public void setDefault() {
         for (var checkbox : checkBoxes) {
             checkbox.setSelected(false);
         }
