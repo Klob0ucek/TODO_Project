@@ -6,30 +6,33 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddEventDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabIndices;
 
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class AddEvent extends AbstractAddAction {
+    private final Supplier<TableModel> tableModelSupplier;
+
     public AddEvent(
-            TabHolder tabHolder,
-            JTable table
+            JTable table,
+            Supplier<TableModel> tableModelSupplier
     ) {
-        super(null, tabHolder, table);
+        super(null, table);
+        this.tableModelSupplier = tableModelSupplier;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var scheduleTableModel = (ScheduleTableModel) table.getModel();
+        var scheduleTableModel = (ScheduleTableModel) this.getTable().getModel();
 
-        var categoryTable = (JTable) tabHolder.getTabAt(TabIndices.CATEGORIES.getIndex()).getComponent();
-        var categoryTableModel = (CategoryTableModel) categoryTable.getModel();
+        // var categoryTable = (JTable) tabHolder.getTabAt(TabIndices.CATEGORIES.getIndex()).getComponent();
+        var categoryTableModel = (CategoryTableModel) tableModelSupplier.get();  // categoryTable.getModel();
         List<Category> categories = categoryTableModel.getCategories();
 
         var dialog = new AddEventDialog(new CategoryListModel(categories));
-        dialog.show(table, "Add event").ifPresent(scheduleTableModel::addRow);
+        dialog.show(this.getTable(), "Add event").ifPresent(scheduleTableModel::addRow);
     }
 }

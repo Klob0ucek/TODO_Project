@@ -6,30 +6,33 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddTemplateDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabIndices;
 
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class AddTemplate extends AbstractAddAction {
+    private final Supplier<TableModel> tableModelSupplier;
+
     public AddTemplate(
-            TabHolder tabHolder,
-            JTable table
+            JTable table,
+            Supplier<TableModel> tableModelSupplier
     ) {
-        super(null, tabHolder, table);
+        super(null, table);
+        this.tableModelSupplier = tableModelSupplier;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var templateTableModel = (TemplateTableModel) table.getModel();
+        var templateTableModel = (TemplateTableModel) this.getTable().getModel();
 
-        var categoryTable = (JTable) tabHolder.getTabAt(TabIndices.CATEGORIES.getIndex()).getComponent();
-        var categoryTableModel = (CategoryTableModel) categoryTable.getModel();
+        // var categoryTable = (JTable) tabHolder.getTabAt(TabIndices.CATEGORIES.getIndex()).getComponent();
+        var categoryTableModel = (CategoryTableModel) tableModelSupplier.get();  // categoryTable.getModel();
         List<Category> categories = categoryTableModel.getCategories();
 
         var dialog = new AddTemplateDialog(new CategoryListModel(categories));
-        dialog.show(table, "Add template").ifPresent(templateTableModel::addRow);
+        dialog.show(this.getTable(), "Add template").ifPresent(templateTableModel::addRow);
     }
 }
