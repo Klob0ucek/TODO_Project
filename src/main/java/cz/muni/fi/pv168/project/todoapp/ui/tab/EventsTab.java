@@ -38,8 +38,6 @@ public class EventsTab extends GeneralTab {
                 .addAction(ToolBarManager.ModifyAction.ADD, add)
                 .addAction(ToolBarManager.ModifyAction.EDIT, edit)
                 .addAction(ToolBarManager.ModifyAction.DELETE, delete)
-                .addAction(ToolBarManager.PortAction.IMPORT, importer)
-                .addAction(ToolBarManager.PortAction.EXPORT, exporter)
                 .saveChanges();
     }
 }
