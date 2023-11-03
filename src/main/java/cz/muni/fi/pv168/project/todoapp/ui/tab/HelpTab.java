@@ -12,9 +12,10 @@ public class HelpTab extends GeneralTab {
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder
+            ToolBarManager toolBarHolder,
+            TabHolder tabHolder
     ) {
-        super(title, icon, component, tip, toolBarHolder);
+        super(title, icon, component, tip, toolBarHolder, tabHolder);
     }
 
     @Override

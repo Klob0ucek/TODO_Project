@@ -8,7 +8,11 @@ public class Interval {
     private String abbreviation;
     private Duration duration;
 
-    public Interval(String name, String abbreviation, Duration duration) {
+    public Interval(
+            String name,
+            String abbreviation,
+            Duration duration
+    ) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.duration = duration;
@@ -34,7 +38,9 @@ public class Interval {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(
+            Duration duration
+    ) {
         this.duration = duration;
     }
 

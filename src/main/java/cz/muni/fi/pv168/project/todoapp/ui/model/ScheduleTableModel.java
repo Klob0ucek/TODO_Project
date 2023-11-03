@@ -31,7 +31,7 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
                         "Tennis",
                         List.of(new Category("Sport", CategoryColor.BLUE)),
                         "Tennis Hala Lužánky",
-                        date, time, duration
+                        date, time, Duration.ofMinutes(45)
                 )
         );
     }

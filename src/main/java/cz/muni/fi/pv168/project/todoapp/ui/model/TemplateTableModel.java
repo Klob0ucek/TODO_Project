@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.todoapp.ui.model;
 
 import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
-import cz.muni.fi.pv168.project.todoapp.model.Event;
 import cz.muni.fi.pv168.project.todoapp.model.Template;
 
 import java.time.Duration;

@@ -12,8 +12,9 @@ public abstract class GeneralTab {
     private final String title;
     private final String tip;
     private final Icon icon;
-    private final Component component;
+    protected final Component component;
     private final ToolBarManager toolBarManager;
+    protected final TabHolder tabHolder;
 
     public Component getComponent() {
         return component;
@@ -28,13 +29,15 @@ public abstract class GeneralTab {
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder
+            ToolBarManager toolBarHolder,
+            TabHolder tabHolder
     ) {
         this.title = title;
         this.tip = tip;
         this.icon = icon;
         this.component = component;
         this.toolBarManager = toolBarHolder;
+        this.tabHolder = tabHolder;
     }
 
     // TODO: add javadoc

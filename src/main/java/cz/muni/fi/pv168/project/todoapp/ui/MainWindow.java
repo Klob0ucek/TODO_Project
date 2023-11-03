@@ -19,19 +19,21 @@ import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
+    private final List<GeneralTab> tabs = new ArrayList<>();
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
         ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
-
-        List<GeneralTab> tabs = createTabs(toolBarManager);
-        JTabbedPane tabbedPane = createTabbedPane(tabs);
-
+        JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
+
+        createTabs(toolBarManager, tabHolder);
+        addTabsToTabbedPane(tabbedPane);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
 
@@ -48,56 +50,60 @@ public class MainWindow {
         return new JLabel("BOTTOM-SIDE");
     }
 
-    private JTabbedPane createTabbedPane(
-            List<GeneralTab> tabs
+    private void addTabsToTabbedPane(
+            JTabbedPane tabbedPane
     ) {
-        JTabbedPane tabbedPane = new JTabbedPane();
-
         for (var tab : tabs) {
             tab.addToPane(tabbedPane);
         }
-
-        return tabbedPane;
     }
 
-    private List<GeneralTab> createTabs(
-            ToolBarManager toolBarManager
+    private void createTabs(
+            ToolBarManager toolBarManager,
+            TabHolder tabHolder
     ) {
-        return List.of(
-                new EventsTab(
-                        "Events",
-                        null,
-                        ComponentFactory.createScheduleTable(),
-                        null,
-                        toolBarManager
-                ),
-                new CategoriesTab(
-                        "Categories",
-                        null,
-                        ComponentFactory.createCategoryTable(),
-                        null,
-                        toolBarManager
-                ),
-                new TemplatesTab(
-                        "Templates",
-                        null,
-                        ComponentFactory.createTemplateTable(),
-                        null,
-                        toolBarManager
-                ),
-                new IntervalsTab(
-                        "Intervals",
-                        null,
-                        ComponentFactory.createIntervalTable(),
-                        null,
-                        toolBarManager
-                ),
-                new HelpTab(
-                        "Help",
-                        null,
-                        ComponentFactory.createHelp(),
-                        null,
-                        toolBarManager
+        tabs.addAll(
+                List.of(
+                        new EventsTab(
+                                "Events",
+                                null,
+                                ComponentFactory.createScheduleTable(),
+                                null,
+                                toolBarManager,
+                                tabHolder
+                        ),
+                        new CategoriesTab(
+                                "Categories",
+                                null,
+                                ComponentFactory.createCategoryTable(),
+                                null,
+                                toolBarManager,
+                                tabHolder
+                        ),
+                        new TemplatesTab(
+                                "Templates",
+                                null,
+                                ComponentFactory.createTemplateTable(),
+                                null,
+                                toolBarManager,
+                                tabHolder
+                        ),
+                        new IntervalsTab(
+                                "Intervals",
+                                null,
+                                ComponentFactory.createIntervalTable(),
+                                null,
+                                toolBarManager,
+                                tabHolder
+                        ),
+                        new HelpTab(
+                                "Help",
+                                null,
+                                ComponentFactory.createHelp(),
+                                null,
+                                toolBarManager,
+                                tabHolder
+                        )
                 )
         );
     }

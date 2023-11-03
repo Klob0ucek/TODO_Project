@@ -7,22 +7,24 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.template.EditTemplate;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JTable;
 
 import java.awt.Component;
 
 public class TemplatesTab extends GeneralTab {
-    private final Action add = new AddTemplate();
-    private final Action edit = new EditTemplate();
-    private final Action delete = new DeleteTemplate();
+    private final Action add = new AddTemplate(tabHolder, (JTable) component);
+    private final Action edit = new EditTemplate(tabHolder, (JTable) component);
+    private final Action delete = new DeleteTemplate(tabHolder, (JTable) component);
 
     public TemplatesTab(
             String title,
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder
+            ToolBarManager toolBarHolder,
+            TabHolder tabHolder
     ) {
-        super(title, icon, component, tip, toolBarHolder);
+        super(title, icon, component, tip, toolBarHolder, tabHolder);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.todo.project.ui.renderer;
+package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
 
 import java.time.Duration;

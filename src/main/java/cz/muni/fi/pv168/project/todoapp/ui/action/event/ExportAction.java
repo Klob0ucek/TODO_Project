@@ -1,8 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ExportDialog;
-import javax.swing.AbstractAction;
 
+import javax.swing.AbstractAction;
 
 import java.awt.event.ActionEvent;
 

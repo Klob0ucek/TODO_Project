@@ -23,4 +23,7 @@ public class CategoryTableModel extends BasicTableModel<Category> {
         table.setDefaultRenderer(Object.class, new ColorRowRenderer());
     }
 
+    public List<Category> getCategories() {
+        return rows;
+    }
 }

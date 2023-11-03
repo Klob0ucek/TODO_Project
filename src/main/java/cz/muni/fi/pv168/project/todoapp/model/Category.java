@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class Category {
     private String name;
-
     private CategoryColor color;
 
     public Category(String name, CategoryColor color) {

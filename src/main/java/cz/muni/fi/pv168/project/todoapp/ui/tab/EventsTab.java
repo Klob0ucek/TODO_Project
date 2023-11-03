@@ -9,13 +9,14 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JTable;
 
 import java.awt.Component;
 
 public class EventsTab extends GeneralTab {
-    private final Action add = new AddEvent();
-    private final Action edit = new EditEvent();
-    private final Action delete = new DeleteEvent();
+    private final Action add = new AddEvent(tabHolder, (JTable) component);
+    private final Action edit = new EditEvent(tabHolder, (JTable) component);
+    private final Action delete = new DeleteEvent(tabHolder, (JTable) component);
     private final Action importer = new ImportAction();
     private final Action exporter = new ExportAction();
 
@@ -24,9 +25,10 @@ public class EventsTab extends GeneralTab {
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            TabHolder tabHolder
     ) {
-        super(title, icon, component, tip, toolBarManager);
+        super(title, icon, component, tip, toolBarManager, tabHolder);
     }
 
     @Override

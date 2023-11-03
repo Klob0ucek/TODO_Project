@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import java.io.File;
 
