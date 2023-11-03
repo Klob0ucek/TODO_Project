@@ -12,19 +12,18 @@ import javax.swing.JTable;
 import java.awt.Component;
 
 public class IntervalsTab extends GeneralTab {
-    private final Action add = new AddInterval(tabHolder, (JTable) component);
-    private final Action edit = new EditInterval(tabHolder, (JTable) component);
-    private final Action delete = new DeleteInterval(tabHolder, (JTable) component);
+    private final Action add = new AddInterval((JTable) component);
+    private final Action edit = new EditInterval((JTable) component);
+    private final Action delete = new DeleteInterval((JTable) component);
 
     public IntervalsTab(
             String title,
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder,
-            TabHolder tabHolder
+            ToolBarManager toolBarHolder
     ) {
-        super(title, icon, component, tip, toolBarHolder, tabHolder);
+        super(title, icon, component, tip, toolBarHolder);
     }
 
     @Override

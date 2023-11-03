@@ -14,7 +14,6 @@ public abstract class GeneralTab {
     private final Icon icon;
     protected final Component component;
     private final ToolBarManager toolBarManager;
-    protected final TabHolder tabHolder;
 
     public Component getComponent() {
         return component;
@@ -29,15 +28,13 @@ public abstract class GeneralTab {
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder,
-            TabHolder tabHolder
+            ToolBarManager toolBarHolder
     ) {
         this.title = title;
         this.tip = tip;
         this.icon = icon;
         this.component = component;
         this.toolBarManager = toolBarHolder;
-        this.tabHolder = tabHolder;
     }
 
     // TODO: add javadoc

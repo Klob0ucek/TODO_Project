@@ -12,19 +12,18 @@ import javax.swing.JTable;
 import java.awt.Component;
 
 public class CategoriesTab extends GeneralTab {
-    private final Action add = new AddCategory(tabHolder, (JTable) component);
-    private final Action edit = new EditCategory(tabHolder, (JTable) component);
-    private final Action delete = new DeleteCategory(tabHolder, (JTable) component);
+    private final Action add = new AddCategory((JTable) component);
+    private final Action edit = new EditCategory((JTable) component);
+    private final Action delete = new DeleteCategory((JTable) component);
 
     public CategoriesTab(
             String title,
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder,
-            TabHolder tabHolder
+            ToolBarManager toolBarHolder
     ) {
-        super(title, icon, component, tip, toolBarHolder, tabHolder);
+        super(title, icon, component, tip, toolBarHolder);
     }
 
     @Override

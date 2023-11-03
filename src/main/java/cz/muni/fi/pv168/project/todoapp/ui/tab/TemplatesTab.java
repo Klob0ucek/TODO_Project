@@ -12,19 +12,18 @@ import javax.swing.JTable;
 import java.awt.Component;
 
 public class TemplatesTab extends GeneralTab {
-    private final Action add = new AddTemplate(tabHolder, (JTable) component);
-    private final Action edit = new EditTemplate(tabHolder, (JTable) component);
-    private final Action delete = new DeleteTemplate(tabHolder, (JTable) component);
+    private final Action add = new AddTemplate((JTable) component);
+    private final Action edit = new EditTemplate((JTable) component);
+    private final Action delete = new DeleteTemplate((JTable) component);
 
     public TemplatesTab(
             String title,
             Icon icon,
             Component component,
             String tip,
-            ToolBarManager toolBarHolder,
-            TabHolder tabHolder
+            ToolBarManager toolBarHolder
     ) {
-        super(title, icon, component, tip, toolBarHolder, tabHolder);
+        super(title, icon, component, tip, toolBarHolder);
     }
 
     @Override
