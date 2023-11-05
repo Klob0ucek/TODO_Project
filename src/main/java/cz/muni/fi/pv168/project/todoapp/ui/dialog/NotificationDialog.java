@@ -2,9 +2,12 @@ package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
 import cz.muni.fi.pv168.project.todoapp.ui.MainWindow;
 
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.Timer;
+import java.awt.Point;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
