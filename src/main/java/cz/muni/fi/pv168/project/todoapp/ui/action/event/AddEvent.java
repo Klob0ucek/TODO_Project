@@ -18,7 +18,7 @@ public class AddEvent extends AbstractAddAction {
             TabHolder tabHolder,
             JTable table
     ) {
-        super(null, tabHolder, table);
+        super(tabHolder, table);
     }
 
     @Override

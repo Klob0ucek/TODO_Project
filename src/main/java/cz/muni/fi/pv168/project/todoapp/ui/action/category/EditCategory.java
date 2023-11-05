@@ -11,7 +11,7 @@ public class EditCategory extends AbstractEditAction {
             TabHolder tabHolder,
             JTable table
     ) {
-        super(null, tabHolder, table);
+        super(tabHolder, table);
     }
 
     @Override

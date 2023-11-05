@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import javax.swing.AbstractAction;
@@ -16,6 +17,15 @@ public abstract class AbstractDeleteAction extends AbstractAction {
             JTable table
     ) {
         super("Delete", icon);
+        this.tabHolder = tabHolder;
+        this.table = table;
+    }
+
+    public AbstractDeleteAction(
+            TabHolder tabHolder,
+            JTable table
+    ) {
+        super("Delete", Icons.DELETE_ICON);
         this.tabHolder = tabHolder;
         this.table = table;
     }
