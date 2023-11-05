@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
+import cz.muni.fi.pv168.project.todoapp.ui.MainWindow;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ExportDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 
 import javax.swing.AbstractAction;
 
@@ -18,6 +20,9 @@ public class ExportAction extends AbstractAction {
         // TODO we will probably need a file a file to save here
         var dialog = new ExportDialog();
         dialog.selectExportFolder();
+
+        NotificationDialog notificationDialog = new NotificationDialog(MainWindow.getFrame(), "Export successful");
+        notificationDialog.showNotification();
         // TODO confirm export success
     }
 }

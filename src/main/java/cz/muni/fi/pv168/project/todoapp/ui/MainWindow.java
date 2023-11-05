@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
@@ -23,8 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow {
-    private final JFrame frame = createFrame();
+    private static final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
+
+    public static JFrame getFrame() {
+        return frame;
+    }
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
@@ -108,7 +113,7 @@ public class MainWindow {
         );
     }
 
-    private JFrame createFrame() {
+    private static JFrame createFrame() {
         var frame = new JFrame("TODO App");
         frame.setMinimumSize(new Dimension(750, 500));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
