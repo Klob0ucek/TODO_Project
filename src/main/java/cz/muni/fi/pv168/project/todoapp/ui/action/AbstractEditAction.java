@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import javax.swing.AbstractAction;
@@ -16,6 +17,15 @@ public abstract class AbstractEditAction extends AbstractAction {
             JTable table
     ) {
         super("Edit", icon);
+        this.tabHolder = tabHolder;
+        this.table = table;
+    }
+
+    public AbstractEditAction(
+            TabHolder tabHolder,
+            JTable table
+    ) {
+        super("Edit", Icons.EDIT_ICON);
         this.tabHolder = tabHolder;
         this.table = table;
     }

@@ -11,7 +11,7 @@ public class DeleteTemplate extends AbstractDeleteAction {
             TabHolder tabHolder,
             JTable table
     ) {
-        super(null, tabHolder, table);
+        super(tabHolder, table);
     }
 
     @Override
