@@ -16,7 +16,7 @@ public class NotificationDialog extends JDialog {
     private static final int MIN_WIDTH = 160;
     private static final int HEIGHT_OFFSET = 20;
     private static final int WIDTH_OFFSET = 20;
-    private static final int DISPLAY_TIME = 500000; // 5 seconds
+    private static final int DISPLAY_TIME = 5000; // 5 seconds
 
     /**
      * @param message - The length of the message should not be more than 70 characters.
@@ -37,6 +37,7 @@ public class NotificationDialog extends JDialog {
         int y = parentLocation.y + parentFrame.getHeight() - NOTIFICATION_HEIGHT - HEIGHT_OFFSET;
         setLocation(new Point(x, y));
 
+        // Moves notification when main window is resized
         parentFrame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

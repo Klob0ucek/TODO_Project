@@ -21,7 +21,7 @@ public class ExportAction extends AbstractAction {
         var dialog = new ExportDialog();
         dialog.selectExportFolder();
 
-        NotificationDialog notificationDialog = new NotificationDialog(MainWindow.getFrame(), "Export successful");
+        NotificationDialog notificationDialog = new NotificationDialog(MainWindow.getFrame(), "Successfully exported to selected folder.");
         notificationDialog.showNotification();
         // TODO confirm export success
     }
