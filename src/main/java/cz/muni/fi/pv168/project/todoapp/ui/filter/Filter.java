@@ -5,6 +5,8 @@ import com.github.lgooddatepicker.components.DatePicker;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.OptionGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.RadioGroup;
+import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
+import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.ui.util.EnumUtils;
 
 import javax.swing.JButton;
@@ -30,8 +32,8 @@ public class Filter {
     private final JMenuBar categories = new JMenuBar();
     private final CheckGroup categoryOptions = new CheckGroup();
 
-    private final DatePicker fromDate = new DatePicker();
-    private final DatePicker toDate = new DatePicker();
+    private final DatePicker fromDate = new DatePicker(CustomDatePickerSettings.getSettings());
+    private final DatePicker toDate = new DatePicker(CustomDatePickerSettings.getSettings());
 
     private final JMenuBar intervals = new JMenuBar();
     private final RadioGroup intervalOptions = new RadioGroup();
