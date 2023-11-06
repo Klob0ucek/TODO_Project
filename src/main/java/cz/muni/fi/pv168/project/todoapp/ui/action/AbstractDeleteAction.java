@@ -12,16 +12,6 @@ public abstract class AbstractDeleteAction extends AbstractAction {
     protected final JTable table;
 
     public AbstractDeleteAction(
-            Icon icon,
-            TabHolder tabHolder,
-            JTable table
-    ) {
-        super("Delete", icon);
-        this.tabHolder = tabHolder;
-        this.table = table;
-    }
-
-    public AbstractDeleteAction(
             TabHolder tabHolder,
             JTable table
     ) {

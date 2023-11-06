@@ -12,16 +12,6 @@ public abstract class AbstractEditAction extends AbstractAction {
     protected final JTable table;
 
     public AbstractEditAction(
-            Icon icon,
-            TabHolder tabHolder,
-            JTable table
-    ) {
-        super("Edit", icon);
-        this.tabHolder = tabHolder;
-        this.table = table;
-    }
-
-    public AbstractEditAction(
             TabHolder tabHolder,
             JTable table
     ) {

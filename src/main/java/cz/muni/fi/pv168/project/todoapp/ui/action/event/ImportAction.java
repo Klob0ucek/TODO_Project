@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 
 public class ImportAction extends AbstractAction {
     public ImportAction() {
-        super("Import", Icons.IMPORT_ICON);  // TODO: add *icon*
+        super("Import", Icons.IMPORT_ICON);
         // putValue(SHORT_DESCRIPTION, "");
     }
 
