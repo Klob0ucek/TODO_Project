@@ -4,7 +4,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.settings;
 import com.github.lgooddatepicker.components.DatePickerSettings.DateArea;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
-import java.awt.*;
+import java.awt.Color;
 
 public abstract class CustomDatePickerSettings {
     private static final Color backgroundColor = new Color(70, 73, 75);

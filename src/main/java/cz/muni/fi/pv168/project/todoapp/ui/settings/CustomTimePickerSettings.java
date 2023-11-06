@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.settings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeArea;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 
-import java.awt.*;
+import java.awt.Color;
 
 public abstract class CustomTimePickerSettings {
     private static final Color backgroundColor = new Color(70, 73, 75);
