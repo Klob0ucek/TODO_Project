@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 public class ExportAction extends AbstractAction {
     public ExportAction() {
         super("Export", Icons.EXPORT_ICON);
-        // TODO: add *icon*
         // putValue(SHORT_DESCRIPTION, "");
     }
 

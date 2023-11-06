@@ -12,16 +12,6 @@ public abstract class AbstractAddAction extends AbstractAction {
     protected final JTable table;
 
     public AbstractAddAction(
-            Icon icon,
-            TabHolder tabHolder,
-            JTable table
-    ) {
-        super("Add", icon);
-        this.tabHolder = tabHolder;
-        this.table = table;
-    }
-
-    public AbstractAddAction(
             TabHolder tabHolder,
             JTable table
     ) {
