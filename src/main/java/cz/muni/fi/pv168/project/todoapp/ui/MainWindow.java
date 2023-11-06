@@ -69,8 +69,7 @@ public class MainWindow {
                                 null,
                                 ComponentFactory.createScheduleTable(),
                                 null,
-                                toolBarManager,
-                                tabHolder
+                                toolBarManager
                         ),
                         new CategoriesTab(
                                 "Categories",

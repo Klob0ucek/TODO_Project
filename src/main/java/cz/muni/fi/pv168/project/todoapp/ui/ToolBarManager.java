@@ -13,7 +13,6 @@ import javax.swing.JToolBar;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-
 public class ToolBarManager {
     private final static Dimension MODIFY_TOOLS_OFFSET;
     private final static Dimension QUIT_OFFSET;

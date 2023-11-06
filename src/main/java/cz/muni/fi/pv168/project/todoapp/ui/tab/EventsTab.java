@@ -5,34 +5,35 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.event.AddEvent;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.DeleteEvent;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.EditEvent;
 
-import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
-import java.awt.Component;
+import java.util.function.Supplier;
 
 public class EventsTab extends GeneralTab {
-    private final Action add = new AddEvent((JTable) component);
-    private final Action edit = new EditEvent((JTable) component);
-    private final Action delete = new DeleteEvent((JTable) component);
+    protected static class Builder extends GeneralTab.Builder<Builder> {
+        @Override
+        public Builder self() {
+            return this;
+        }
+    }
 
     public EventsTab(
             String title,
             Icon icon,
-            Component component,
+            JTable table,
             String tip,
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            Supplier<TableModel> tableModelSupplier
     ) {
-        super(title, icon, component, tip, toolBarManager);
-    }
-
-    @Override
-    public void updateToolBar() {
-        this.getToolBarManager()
-                .reset()
-                .addAction(ToolBarManager.ModifyAction.ADD, add)
-                .addAction(ToolBarManager.ModifyAction.EDIT, edit)
-                .addAction(ToolBarManager.ModifyAction.DELETE, delete)
-                .saveChanges();
+        super(
+                new Builder()
+                        .addTabDetails(title, icon, table, tip)
+                        .addToolBarManager(toolBarManager)
+                        .addAddAction(new AddEvent(table, tableModelSupplier))
+                        .addEditAction(new EditEvent(table))
+                        .addDeleteAction(new DeleteEvent(table))
+        );
     }
 }

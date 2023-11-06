@@ -5,34 +5,31 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.interval.AddInterval;
 import cz.muni.fi.pv168.project.todoapp.ui.action.interval.DeleteInterval;
 import cz.muni.fi.pv168.project.todoapp.ui.action.interval.EditInterval;
 
-import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JTable;
 
-import java.awt.Component;
-
 public class IntervalsTab extends GeneralTab {
-    private final Action add = new AddInterval((JTable) component);
-    private final Action edit = new EditInterval((JTable) component);
-    private final Action delete = new DeleteInterval((JTable) component);
+    protected static class Builder extends GeneralTab.Builder<Builder> {
+        @Override
+        public Builder self() {
+            return this;
+        }
+    }
 
     public IntervalsTab(
             String title,
             Icon icon,
-            Component component,
+            JTable table,
             String tip,
-            ToolBarManager toolBarHolder
+            ToolBarManager toolBarManager
     ) {
-        super(title, icon, component, tip, toolBarHolder);
-    }
-
-    @Override
-    public void updateToolBar() {
-        this.getToolBarManager()
-                .reset()
-                .addAction(ToolBarManager.ModifyAction.ADD, add)
-                .addAction(ToolBarManager.ModifyAction.EDIT, edit)
-                .addAction(ToolBarManager.ModifyAction.DELETE, delete)
-                .saveChanges();
+        super(
+                new Builder()
+                        .addTabDetails(title, icon, table, tip)
+                        .addToolBarManager(toolBarManager)
+                        .addAddAction(new AddInterval(table))
+                        .addEditAction(new EditInterval(table))
+                        .addDeleteAction(new DeleteInterval(table))
+        );
     }
 }
