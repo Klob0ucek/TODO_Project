@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 public class ExportAction extends AbstractAction {
     public ExportAction() {
         super("Export", Icons.EXPORT_ICON);
-        // putValue(SHORT_DESCRIPTION, "");
+        putValue(SHORT_DESCRIPTION, "Exports selected data");
     }
 
     @Override
