@@ -1,35 +1,33 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.action.category.AddCategory;
 import cz.muni.fi.pv168.project.todoapp.ui.action.category.DeleteCategory;
 import cz.muni.fi.pv168.project.todoapp.ui.action.category.EditCategory;
 
-import javax.swing.Icon;
 import javax.swing.JTable;
 
 public class CategoriesTab extends GeneralTab {
-    protected static class Builder extends GeneralTab.Builder<Builder> {
+    public static class BuildTemplate extends GeneralTab.BuildTemplate<BuildTemplate> {
         @Override
-        public Builder self() {
+        public BuildTemplate self() {
             return this;
+        }
+
+        @Override
+        public GeneralTab build() {
+            var table = (JTable) this.getComponent();
+            return new CategoriesTab(
+                    this
+                            .addAddAction(new AddCategory(table))
+                            .addEditAction(new EditCategory(table))
+                            .addDeleteAction(new DeleteCategory(table))
+            );
         }
     }
 
-    public CategoriesTab(
-            String title,
-            Icon icon,
-            JTable table,
-            String tip,
-            ToolBarManager toolBarManager
+    private CategoriesTab(
+            BuildTemplate buildTemplate
     ) {
-        super(
-                new Builder()
-                        .addTabDetails(title, icon, table, tip)
-                        .addToolBarManager(toolBarManager)
-                        .addAddAction(new AddCategory(table))
-                        .addEditAction(new EditCategory(table))
-                        .addDeleteAction(new DeleteCategory(table))
-        );
+        super(buildTemplate);
     }
 }

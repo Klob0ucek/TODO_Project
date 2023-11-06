@@ -1,14 +1,10 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.HelpTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.IntervalsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -32,7 +28,7 @@ public class MainWindow {
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
 
-        createTabs(toolBarManager, tabHolder);
+        createTabs(toolBarManager);
         addTabsToTabbedPane(tabbedPane);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
@@ -59,50 +55,15 @@ public class MainWindow {
     }
 
     private void createTabs(
-            ToolBarManager toolBarManager,
-            TabHolder tabHolder
+            ToolBarManager toolBarManager
     ) {
         tabs.addAll(
                 List.of(
-                        new EventsTab(
-                                "Events",
-                                null,
-                                ComponentFactory.createScheduleTable(),
-                                null,
-                                toolBarManager
-                        ),
-                        new CategoriesTab(
-                                "Categories",
-                                null,
-                                ComponentFactory.createCategoryTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new TemplatesTab(
-                                "Templates",
-                                null,
-                                ComponentFactory.createTemplateTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new IntervalsTab(
-                                "Intervals",
-                                null,
-                                ComponentFactory.createIntervalTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new HelpTab(
-                                "Help",
-                                null,
-                                ComponentFactory.createHelp(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        )
+                        TabFactory.createEventsTab(toolBarManager),
+                        TabFactory.createCategoriesTab(toolBarManager),
+                        TabFactory.createTemplatesTab(toolBarManager),
+                        TabFactory.createIntervalsTab(toolBarManager),
+                        TabFactory.createHelpTab(toolBarManager)
                 )
         );
     }

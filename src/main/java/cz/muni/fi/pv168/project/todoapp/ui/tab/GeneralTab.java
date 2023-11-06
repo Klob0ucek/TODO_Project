@@ -1,13 +1,16 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
+import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.table.TableModel;
 
 import java.awt.Component;
+import java.util.function.Supplier;
 
 public abstract class GeneralTab {
     private final String title;
@@ -21,7 +24,7 @@ public abstract class GeneralTab {
     private final Action editAction;
     private final Action deleteAction;
 
-    protected abstract static class Builder<T extends Builder<T>> {
+    public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
         private String title;
         private String tip;
         private Icon icon;
@@ -29,11 +32,21 @@ public abstract class GeneralTab {
 
         private ToolBarManager toolBarManager;
 
+        private Supplier<TableModel> tableModelSupplier;
+
         private Action addAction;
         private Action editAction;
         private Action deleteAction;
 
         protected abstract T self();
+
+        protected Component getComponent() {
+            return this.component;
+        }
+
+        protected Supplier<TableModel> getTableModelSupplier() {
+            return this.tableModelSupplier;
+        }
 
         public T addTabDetails(
                 String title,
@@ -55,21 +68,28 @@ public abstract class GeneralTab {
             return self();
         }
 
-        public T addAddAction(
+        public T addTableSupplier(
+                Supplier<TableModel> tableModelSupplier
+        ) {
+            this.tableModelSupplier = tableModelSupplier;
+            return self();
+        }
+
+        protected T addAddAction(
                 Action addAction
         ) {
             this.addAction = addAction;
             return self();
         }
 
-        public T addEditAction(
+        protected T addEditAction(
                 Action editAction
         ) {
             this.editAction = editAction;
             return self();
         }
 
-        public T addDeleteAction(
+        protected T addDeleteAction(
                 Action deleteAction
         ) {
             this.deleteAction = deleteAction;
@@ -78,18 +98,18 @@ public abstract class GeneralTab {
     }
 
     protected GeneralTab(
-            Builder<?> builder
+            BuildTemplate<?> buildTemplate
     ) {
-        this.title = builder.title;
-        this.tip = builder.tip;
-        this.icon = builder.icon;
-        this.component = builder.component;
+        this.title = buildTemplate.title;
+        this.tip = buildTemplate.tip;
+        this.icon = buildTemplate.icon;
+        this.component = buildTemplate.component;
 
-        this.addAction = builder.addAction;
-        this.editAction = builder.editAction;
-        this.deleteAction = builder.deleteAction;
+        this.addAction = buildTemplate.addAction;
+        this.editAction = buildTemplate.editAction;
+        this.deleteAction = buildTemplate.deleteAction;
 
-        this.toolBarManager = builder.toolBarManager;
+        this.toolBarManager = buildTemplate.toolBarManager;
     }
 
     public Component getComponent() {

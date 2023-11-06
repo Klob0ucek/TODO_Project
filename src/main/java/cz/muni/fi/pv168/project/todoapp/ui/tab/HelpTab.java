@@ -1,21 +1,22 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
-
-import javax.swing.Icon;
-
-import java.awt.Component;
-
 public class HelpTab extends GeneralTab {
-    public HelpTab(
-            String title,
-            Icon icon,
-            Component component,
-            String tip,
-            ToolBarManager toolBarHolder,
-            TabHolder tabHolder
+    public static class BuildTemplate extends GeneralTab.BuildTemplate<BuildTemplate> {
+        @Override
+        public BuildTemplate self() {
+            return this;
+        }
+
+        @Override
+        public GeneralTab build() {
+            return new HelpTab(this);
+        }
+    }
+
+    private HelpTab(
+            BuildTemplate buildTemplate
     ) {
-        super(title, icon, component, tip, toolBarHolder, tabHolder);
+        super(buildTemplate);
     }
 
     @Override

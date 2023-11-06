@@ -1,39 +1,33 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.action.template.AddTemplate;
 import cz.muni.fi.pv168.project.todoapp.ui.action.template.DeleteTemplate;
 import cz.muni.fi.pv168.project.todoapp.ui.action.template.EditTemplate;
 
-import javax.swing.Icon;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
-
-import java.util.function.Supplier;
 
 public class TemplatesTab extends GeneralTab {
-    protected static class Builder extends GeneralTab.Builder<Builder> {
+    public static class BuildTemplate extends GeneralTab.BuildTemplate<BuildTemplate> {
         @Override
-        public Builder self() {
+        public BuildTemplate self() {
             return this;
+        }
+
+        @Override
+        public GeneralTab build() {
+            var table = (JTable) this.getComponent();
+            return new TemplatesTab(
+                    this
+                            .addAddAction(new AddTemplate(table, this.getTableModelSupplier()))
+                            .addEditAction(new EditTemplate(table))
+                            .addDeleteAction(new DeleteTemplate(table))
+            );
         }
     }
 
-    public TemplatesTab(
-            String title,
-            Icon icon,
-            JTable table,
-            String tip,
-            ToolBarManager toolBarManager,
-            Supplier<TableModel> tableModelSupplier
+    private TemplatesTab(
+            BuildTemplate buildTemplate
     ) {
-        super(
-                new Builder()
-                        .addTabDetails(title, icon, table, tip)
-                        .addToolBarManager(toolBarManager)
-                        .addAddAction(new AddTemplate(table, tableModelSupplier))
-                        .addEditAction(new EditTemplate(table))
-                        .addDeleteAction(new DeleteTemplate(table))
-        );
+        super(buildTemplate);
     }
 }
