@@ -14,17 +14,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 public class ToolBarManager {
-    private final static Dimension MODIFY_TOOLS_OFFSET;
-    private final static Dimension QUIT_OFFSET;
-    private final static Dimension SEPARATOR;
+    private final static Dimension MODIFY_TOOLS_OFFSET = new Dimension(0, 35);
+    private final static Dimension QUIT_OFFSET = new Dimension(0, 10);
+    private final static Dimension SEPARATOR = new Dimension(0, 3);
 
     private final static Action[] MODIFY_PLACEHOLDERS = new Action[ActionType.values().length];
 
     static {
-        MODIFY_TOOLS_OFFSET = new Dimension(0, 35);
-        QUIT_OFFSET = new Dimension(0, 10);
-        SEPARATOR = new Dimension(0, 3);
-
         for (var modifyAction : ActionType.values()) {
             MODIFY_PLACEHOLDERS[modifyAction.ordinal()] = new PlaceholderAction(
                     toTitle(modifyAction), null
@@ -38,6 +34,7 @@ public class ToolBarManager {
 
     private final Action importAction = new ImportAction();
     private final Action exportAction = new ExportAction();
+
     private final Action quitAction = new QuitAction();
 
     public enum ActionType {
@@ -45,7 +42,7 @@ public class ToolBarManager {
     }
 
     private static String toTitle(
-            Enum enumValue
+            Enum<?> enumValue
     ) {
         return enumValue.name().charAt(0)
                 + enumValue.name().substring(1).toLowerCase();

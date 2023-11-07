@@ -25,14 +25,12 @@ public class MainWindow {
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
         ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-
-        createTabs(toolBarManager);
-        addTabsToTabbedPane(tabbedPane);
+        createTabs(toolBarManager, tabbedPane);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
-
         tabHolder.getCurrentTab().updateToolBar();
 
         frame.add(new Filter().getFilterBar(), BorderLayout.NORTH);
@@ -46,16 +44,9 @@ public class MainWindow {
         return new JLabel("BOTTOM-SIDE");
     }
 
-    private void addTabsToTabbedPane(
-            JTabbedPane tabbedPane
-    ) {
-        for (var tab : tabs) {
-            tab.addToPane(tabbedPane);
-        }
-    }
-
     private void createTabs(
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            JTabbedPane tabbedPane
     ) {
         tabs.addAll(
                 List.of(
@@ -66,6 +57,10 @@ public class MainWindow {
                         TabFactory.createHelpTab(toolBarManager)
                 )
         );
+
+        for (var tab : tabs) {
+            tab.addToPane(tabbedPane);
+        }
     }
 
     private JFrame createFrame() {
