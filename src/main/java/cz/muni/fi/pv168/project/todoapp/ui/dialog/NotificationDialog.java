@@ -21,6 +21,8 @@ public class NotificationDialog extends JDialog {
     private static final int WIDTH_OFFSET = 20;
     private static final int DISPLAY_TIME = 5000; // 5 seconds
 
+    private final String message;
+
     /**
      * @param message - The length of the message should not be more than 70 characters.
      *                If longer messages will be needed - message can not be displayed as title
@@ -28,28 +30,24 @@ public class NotificationDialog extends JDialog {
      */
     public NotificationDialog(JFrame parentFrame, String message) {
         super(parentFrame, false);
+        this.message = message;
+
         setTitle(message);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        int finalWidth = calculatePreferredWidth(message);
-        setSize(finalWidth, NOTIFICATION_HEIGHT);
-
-        Point parentLocation = parentFrame.getLocation();
-        int x = parentLocation.x + parentFrame.getWidth() - finalWidth - WIDTH_OFFSET;
-        int y = parentLocation.y + parentFrame.getHeight() - NOTIFICATION_HEIGHT - HEIGHT_OFFSET;
-        setLocation(new Point(x, y));
+        adjustNotificationPosition(parentFrame);
 
         // Moves notification when main window is resized
         parentFrame.addComponentListener(new ComponentAdapter() {
             @Override
+            public void componentMoved(ComponentEvent e) {
+                adjustNotificationPosition(parentFrame);
+            }
+
+            @Override
             public void componentResized(ComponentEvent e) {
-                Point newParentLocation = parentFrame.getLocation();
-                int finalWidth = calculatePreferredWidth(message);
-                int newX = newParentLocation.x + parentFrame.getWidth() - finalWidth - WIDTH_OFFSET;
-                int newY = newParentLocation.y + parentFrame.getHeight() - NOTIFICATION_HEIGHT - HEIGHT_OFFSET;
-                setLocation(new Point(newX, newY));
-                setSize(finalWidth, NOTIFICATION_HEIGHT);
+                adjustNotificationPosition(parentFrame);
             }
         });
     }
@@ -76,5 +74,15 @@ public class NotificationDialog extends JDialog {
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    private void adjustNotificationPosition(JFrame parentFrame) {
+        Point newParentLocation = parentFrame.getLocation();
+        int finalWidth = calculatePreferredWidth(message);
+        int newX = newParentLocation.x + parentFrame.getWidth() - finalWidth - WIDTH_OFFSET;
+        int newY = newParentLocation.y + parentFrame.getHeight() - NOTIFICATION_HEIGHT - HEIGHT_OFFSET;
+
+        setLocation(new Point(newX, newY));
+        setSize(finalWidth, NOTIFICATION_HEIGHT);
     }
 }
