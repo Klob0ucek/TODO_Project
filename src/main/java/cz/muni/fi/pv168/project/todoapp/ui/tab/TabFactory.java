@@ -2,6 +2,9 @@ package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
 import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
+import javax.swing.table.TableModel;
+
+import java.util.function.Supplier;
 
 public class TabFactory {
     private TabFactory() {
@@ -9,7 +12,8 @@ public class TabFactory {
     }
 
     public static GeneralTab createEventsTab(
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            Supplier<TableModel> tableModelSupplier
     ) {
         return new EventsTab.BuildTemplate()
                 .addTabDetails(
@@ -19,7 +23,7 @@ public class TabFactory {
                         null
                 )
                 .addToolBarManager(toolBarManager)
-                .addTableSupplier(null)
+                .addTableSupplier(tableModelSupplier)
                 .build();
     }
 
@@ -38,7 +42,8 @@ public class TabFactory {
     }
 
     public static GeneralTab createTemplatesTab(
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            Supplier<TableModel> tableModelSupplier
     ) {
         return new TemplatesTab.BuildTemplate()
                 .addTabDetails(
@@ -48,7 +53,7 @@ public class TabFactory {
                         null
                 )
                 .addToolBarManager(toolBarManager)
-                .addTableSupplier(null)
+                .addTableSupplier(tableModelSupplier)
                 .build();
     }
 

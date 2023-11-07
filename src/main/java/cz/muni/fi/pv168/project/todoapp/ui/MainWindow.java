@@ -11,12 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -48,11 +51,14 @@ public class MainWindow {
             ToolBarManager toolBarManager,
             JTabbedPane tabbedPane
     ) {
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(toolBarManager);
+        Supplier<TableModel> tableModelSupplier = () -> ((JTable) categoriesTab.getComponent()).getModel();
+
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(toolBarManager),
-                        TabFactory.createCategoriesTab(toolBarManager),
-                        TabFactory.createTemplatesTab(toolBarManager),
+                        TabFactory.createEventsTab(toolBarManager, tableModelSupplier),
+                        categoriesTab,
+                        TabFactory.createTemplatesTab(toolBarManager, tableModelSupplier),
                         TabFactory.createIntervalsTab(toolBarManager),
                         TabFactory.createHelpTab(toolBarManager)
                 )
