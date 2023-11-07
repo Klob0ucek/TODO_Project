@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class EditEvent extends AbstractEditAction {
     public EditEvent(
@@ -12,7 +13,8 @@ public class EditEvent extends AbstractEditAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Edit selected event");
+        putValue(SHORT_DESCRIPTION, "Edit selected event (Alt + e)");
+        putValue(MNEMONIC_KEY, KeyEvent.VK_E);
     }
 
     @Override
