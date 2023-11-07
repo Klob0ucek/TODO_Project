@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddCategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
-import javax.swing.JTable;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -15,7 +15,9 @@ public class AddCategory extends AbstractAddAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Add new category");
+        putValue(SHORT_DESCRIPTION, "Add new category (Alt + a)");
+        putValue(MNEMONIC_KEY, KeyEvent.VK_A); // Alt + A
+        // putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl N")); Doesnt work for me
     }
 
     @Override
