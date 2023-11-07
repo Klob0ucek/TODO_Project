@@ -5,7 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddCategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
-import javax.swing.*;
+import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
