@@ -12,7 +12,7 @@ import java.util.List;
 public class ScheduleTableModel extends BasicTableModel<Event> {
     public ScheduleTableModel() {
         columns = List.of(
-                Column.readonly("Done?", Boolean.class, Event::isDone),
+                Column.editable("Done?", Boolean.class, Event::isDone, Event::setDone),
                 Column.readonly("Name", String.class, Event::getName),
                 Column.readonly("Category", List.class, Event::getCategories),
                 Column.readonly("Location", String.class, Event::getLocation),
