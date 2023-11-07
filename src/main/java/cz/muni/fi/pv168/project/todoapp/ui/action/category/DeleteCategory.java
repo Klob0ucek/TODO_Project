@@ -12,7 +12,7 @@ public class DeleteCategory extends AbstractDeleteAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Deletes selected category/categories");
+        putValue(SHORT_DESCRIPTION, "Delete selected category/categories");
     }
 
     @Override

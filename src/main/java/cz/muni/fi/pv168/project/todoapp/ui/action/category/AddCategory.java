@@ -15,7 +15,7 @@ public class AddCategory extends AbstractAddAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Adds new category");
+        putValue(SHORT_DESCRIPTION, "Add new category");
     }
 
     @Override

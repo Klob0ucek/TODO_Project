@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 public class ImportAction extends AbstractAction {
     public ImportAction() {
         super("Import", Icons.IMPORT_ICON);
-        putValue(SHORT_DESCRIPTION, "Imports data from a file");
+        putValue(SHORT_DESCRIPTION, "Import data from a file");
     }
 
     @Override

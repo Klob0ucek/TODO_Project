@@ -14,7 +14,7 @@ public class AddInterval extends AbstractAddAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Adds new interval");
+        putValue(SHORT_DESCRIPTION, "Add new interval");
     }
 
     @Override

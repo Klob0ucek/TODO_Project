@@ -12,7 +12,7 @@ public class DeleteInterval extends AbstractDeleteAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Deletes selected interval/intervals");
+        putValue(SHORT_DESCRIPTION, "Delete selected interval/intervals");
     }
 
     @Override
