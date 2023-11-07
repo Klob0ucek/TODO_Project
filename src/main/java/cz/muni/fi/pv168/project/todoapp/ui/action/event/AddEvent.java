@@ -19,7 +19,7 @@ public class AddEvent extends AbstractAddAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Adds new event");
+        putValue(SHORT_DESCRIPTION, "Add new event");
     }
 
     @Override

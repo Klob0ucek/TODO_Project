@@ -12,7 +12,7 @@ public class EditEvent extends AbstractEditAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Edits selected event");
+        putValue(SHORT_DESCRIPTION, "Edit selected event");
     }
 
     @Override

@@ -12,7 +12,7 @@ public class EditInterval extends AbstractEditAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Edits selected interval");
+        putValue(SHORT_DESCRIPTION, "Edit selected interval");
     }
 
     @Override

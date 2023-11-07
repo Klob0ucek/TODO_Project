@@ -12,7 +12,7 @@ public class DeleteEvent extends AbstractDeleteAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Deletes selected event/events");
+        putValue(SHORT_DESCRIPTION, "Delete selected event/events");
     }
 
     @Override

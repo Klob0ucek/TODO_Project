@@ -12,7 +12,7 @@ public class EditCategory extends AbstractEditAction {
             JTable table
     ) {
         super(tabHolder, table);
-        putValue(SHORT_DESCRIPTION, "Edits selected category");
+        putValue(SHORT_DESCRIPTION, "Edit selected category");
     }
 
     @Override
