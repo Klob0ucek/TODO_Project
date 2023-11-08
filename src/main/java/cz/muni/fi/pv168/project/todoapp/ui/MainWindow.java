@@ -23,12 +23,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class MainWindow {
-    private static final JFrame frame = createFrame();
+    private final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
-
-    public static JFrame getFrame() {
-        return frame;
-    }
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();

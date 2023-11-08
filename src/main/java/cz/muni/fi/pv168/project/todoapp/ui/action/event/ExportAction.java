@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 import cz.muni.fi.pv168.project.todoapp.ui.MainWindow;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ExportDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 
 
 import javax.swing.AbstractAction;
