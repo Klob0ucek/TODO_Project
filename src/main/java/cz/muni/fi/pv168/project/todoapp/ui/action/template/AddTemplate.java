@@ -8,28 +8,27 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
+
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class AddTemplate extends AbstractAddAction {
-    private final Supplier<TableModel> tableModelSupplier;
+    private final Supplier<CategoryTableModel> categoryTableModelSupplier;
 
     public AddTemplate(
             JTable table,
-            Supplier<TableModel> tableModelSupplier
+            Supplier<CategoryTableModel> tableModelSupplier
     ) {
         super(null, table);
-        this.tableModelSupplier = tableModelSupplier;
+        this.categoryTableModelSupplier = tableModelSupplier;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         var templateTableModel = (TemplateTableModel) this.getTable().getModel();
 
-        // var categoryTable = (JTable) tabHolder.getTabAt(TabIndices.CATEGORIES.getIndex()).getComponent();
-        var categoryTableModel = (CategoryTableModel) tableModelSupplier.get();  // categoryTable.getModel();
+        var categoryTableModel = categoryTableModelSupplier.get();
         List<Category> categories = categoryTableModel.getCategories();
 
         var dialog = new AddTemplateDialog(new CategoryListModel(categories));

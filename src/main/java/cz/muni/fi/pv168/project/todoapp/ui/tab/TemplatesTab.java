@@ -18,7 +18,7 @@ public class TemplatesTab extends GeneralTab {
             var table = (JTable) this.getComponent();
             return new TemplatesTab(
                     this
-                            .addAddAction(new AddTemplate(table, this.getTableModelSupplier()))
+                            .addAddAction(new AddTemplate(table, this.getCategoryTableModelSupplier()))
                             .addEditAction(new EditTemplate(table))
                             .addDeleteAction(new DeleteTemplate(table))
             );

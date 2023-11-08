@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
+import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
@@ -13,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
-import javax.swing.table.TableModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -52,7 +52,8 @@ public class MainWindow {
             JTabbedPane tabbedPane
     ) {
         GeneralTab categoriesTab = TabFactory.createCategoriesTab(toolBarManager);
-        Supplier<TableModel> tableModelSupplier = () -> ((JTable) categoriesTab.getComponent()).getModel();
+        Supplier<CategoryTableModel> tableModelSupplier =
+                () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
 
         tabs.addAll(
                 List.of(

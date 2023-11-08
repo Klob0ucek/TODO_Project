@@ -18,7 +18,7 @@ public class EventsTab extends GeneralTab {
             var table = (JTable) this.getComponent();
             return new EventsTab(
                     this
-                            .addAddAction(new AddEvent(table, this.getTableModelSupplier()))
+                            .addAddAction(new AddEvent(table, this.getCategoryTableModelSupplier()))
                             .addEditAction(new EditEvent(table))
                             .addDeleteAction(new DeleteEvent(table))
             );
