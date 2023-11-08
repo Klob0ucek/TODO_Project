@@ -4,7 +4,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
 import javax.swing.JTable;
 
 public abstract class AbstractAddAction extends AbstractAction {
@@ -15,7 +14,7 @@ public abstract class AbstractAddAction extends AbstractAction {
             TabHolder tabHolder,
             JTable table
     ) {
-        super("Add", Icons.ADD_ICON);
+        super("Add", Icons.ADD.getIcon());
         this.tabHolder = tabHolder;
         this.table = table;
     }

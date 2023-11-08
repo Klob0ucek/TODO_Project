@@ -7,29 +7,31 @@ import javax.swing.ImageIcon;
 import java.io.IOException;
 import java.net.URL;
 
-public final class Icons {
-    public static final Icon ADD_ICON = createIcon("clipboard-add-big-icon.png");
-    public static final Icon DELETE_ICON = createIcon("clipboard-cross-big-icon.png");
-    public static final Icon EDIT_ICON = createIcon("edit-pen-big-icon.png");
-    public static final Icon EXPORT_ICON = createIcon("file-download-big-icon.png");
-    public static final Icon IMPORT_ICON = createIcon("file-upload-big-icon.png");
-    public static final Icon EXIT_ICON = createIcon("exit-left-big-icon.png");
+public enum Icons {
+    ADD("clipboard-add-big-icon.png"),
+    DELETE("clipboard-cross-big-icon.png"),
+    EDIT("edit-pen-big-icon.png"),
+    EXPORT("file-download-big-icon.png"),
+    IMPORT("file-upload-big-icon.png"),
+    EXIT("exit-left-big-icon.png");
 
-    private Icons() {
-        throw new AssertionError("This class is not instantiable");
+    private final String iconPath;
+
+    private Icons(String iconPath) {
+        this.iconPath = iconPath;
     }
 
-    private static ImageIcon createIcon(String name) {
+    public Icon getIcon() {
         try {
-            URL url = Icons.class.getResource(name);
+            URL url = Icons.class.getResource(iconPath);
             if (url == null) {
-                throw new IllegalArgumentException("Icon resource not found on classpath: " + name);
+                throw new IllegalArgumentException("Icon resource not found on classpath: " + iconPath);
             }
             Image originalImage = ImageIO.read(url);
             Image scaledImage = originalImage.getScaledInstance(34, 34, Image.SCALE_AREA_AVERAGING);
             return new ImageIcon(scaledImage);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Icon resource not found on classpath: " + name);
+            throw new IllegalArgumentException("Icon resource not found on classpath: " + iconPath);
         }
     }
 }

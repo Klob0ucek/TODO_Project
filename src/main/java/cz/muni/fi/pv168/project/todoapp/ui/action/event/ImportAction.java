@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 public class ImportAction extends AbstractAction {
     public ImportAction() {
-        super("Import", Icons.IMPORT_ICON);
+        super("Import", Icons.IMPORT.getIcon());
         putValue(SHORT_DESCRIPTION, "Import data from a file (Alt + i)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_I);
     }
