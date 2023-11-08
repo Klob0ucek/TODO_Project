@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
-import cz.muni.fi.pv168.project.todoapp.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 
 import java.time.Duration;
 import java.util.List;
