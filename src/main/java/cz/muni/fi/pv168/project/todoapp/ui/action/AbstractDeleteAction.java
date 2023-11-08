@@ -11,11 +11,10 @@ public abstract class AbstractDeleteAction extends AbstractAction {
     protected final JTable table;
 
     public AbstractDeleteAction(
-            TabHolder tabHolder,
+            Icon icon,
             JTable table
     ) {
-        super("Delete", Icons.DELETE.getIcon());
-        this.tabHolder = tabHolder;
+        super("Delete", icon);
         this.table = table;
     }
 }

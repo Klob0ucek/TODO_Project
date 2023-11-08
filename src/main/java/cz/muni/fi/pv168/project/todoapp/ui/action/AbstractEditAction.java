@@ -11,11 +11,10 @@ public abstract class AbstractEditAction extends AbstractAction {
     protected final JTable table;
 
     public AbstractEditAction(
-            TabHolder tabHolder,
+            Icon icon,
             JTable table
     ) {
-        super("Edit", Icons.EDIT.getIcon());
-        this.tabHolder = tabHolder;
+        super("Edit", icon);
         this.table = table;
     }
 }

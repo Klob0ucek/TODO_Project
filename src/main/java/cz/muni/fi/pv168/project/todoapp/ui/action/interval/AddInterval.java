@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.interval;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddIntervalDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,7 @@ public class AddInterval extends AbstractAddAction {
     public AddInterval(
             JTable table
     ) {
-        super(tabHolder, table);
+        super(Icons.ADD.getIcon(), table);
         putValue(SHORT_DESCRIPTION, "Add new interval (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }

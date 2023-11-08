@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddEventDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JTable;
 
@@ -21,8 +22,10 @@ public class AddEvent extends AbstractAddAction {
             JTable table,
             Supplier<CategoryTableModel> tableModelSupplier
     ) {
-        super(null, table);
+        super(Icons.ADD.getIcon(), table);
         this.categoryTableModelSupplier = tableModelSupplier;
+        putValue(SHORT_DESCRIPTION, "Add new category (Alt + a)");
+        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }
 
     @Override

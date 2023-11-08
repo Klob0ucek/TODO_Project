@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractDeleteAction;
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,7 @@ public class DeleteTemplate extends AbstractDeleteAction {
     public DeleteTemplate(
             JTable table
     ) {
-        super(tabHolder, table);
+        super(Icons.DELETE.getIcon(), table);
         putValue(SHORT_DESCRIPTION, "Delete selected template/templates (Alt + d)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_D);
     }

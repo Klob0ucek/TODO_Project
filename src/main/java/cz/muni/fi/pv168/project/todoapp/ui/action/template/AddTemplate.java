@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddTemplateDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JTable;
 
@@ -21,7 +22,8 @@ public class AddTemplate extends AbstractAddAction {
             JTable table,
             Supplier<CategoryTableModel> tableModelSupplier
     ) {
-        super(tabHolder, table);
+        super(Icons.ADD.getIcon(), table);
+        categoryTableModelSupplier = tableModelSupplier;
         putValue(SHORT_DESCRIPTION, "Add new template (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }
