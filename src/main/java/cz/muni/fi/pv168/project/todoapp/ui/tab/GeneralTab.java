@@ -4,10 +4,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 import java.awt.Component;
 import java.util.function.Supplier;
@@ -25,6 +22,7 @@ public abstract class GeneralTab {
     private final Action deleteAction;
 
     public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
+        private JFrame frame;
         private String title;
         private String tip;
         private Icon icon;
@@ -44,6 +42,10 @@ public abstract class GeneralTab {
             return this.component;
         }
 
+        protected JFrame getFrame() {
+            return this.frame;
+        }
+
         protected Supplier<CategoryTableModel> getCategoryTableModelSupplier() {
             return this.categoryTableModelSupplier;
         }
@@ -52,12 +54,14 @@ public abstract class GeneralTab {
                 String title,
                 Icon icon,
                 Component component,
+                JFrame frame,
                 String tip
         ) {
             this.title = title;
             this.tip = tip;
             this.icon = icon;
             this.component = component;
+            this.frame = frame;
             return self();
         }
 

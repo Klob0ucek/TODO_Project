@@ -28,7 +28,7 @@ public class MainWindow {
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
-        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar, frame);
 
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
@@ -52,17 +52,17 @@ public class MainWindow {
             ToolBarManager toolBarManager,
             JTabbedPane tabbedPane
     ) {
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(toolBarManager);
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager);
         Supplier<CategoryTableModel> tableModelSupplier =
                 () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
 
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(toolBarManager, tableModelSupplier),
+                        TabFactory.createEventsTab(frame, toolBarManager, tableModelSupplier),
                         categoriesTab,
-                        TabFactory.createTemplatesTab(toolBarManager, tableModelSupplier),
-                        TabFactory.createIntervalsTab(toolBarManager),
-                        TabFactory.createHelpTab(toolBarManager)
+                        TabFactory.createTemplatesTab(frame, toolBarManager, tableModelSupplier),
+                        TabFactory.createIntervalsTab(frame, toolBarManager),
+                        TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );
 

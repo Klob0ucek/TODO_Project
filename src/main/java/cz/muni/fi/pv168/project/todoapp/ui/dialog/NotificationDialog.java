@@ -52,9 +52,9 @@ public class NotificationDialog extends JDialog {
         });
     }
 
-    private int calculatePreferredWidth(String text) {
+    private int calculatePreferredWidth(JFrame parentFrame, String text) {
         int textWidth = text.length() * AVERAGE_CHAR_SIZE;
-        return Math.max(MIN_WIDTH, Math.min(textWidth, MainWindow.getFrame().getWidth() - 70));
+        return Math.max(MIN_WIDTH, Math.min(textWidth, parentFrame.getWidth() - 70));
     }
 
     // Method to close the notification
@@ -78,7 +78,7 @@ public class NotificationDialog extends JDialog {
 
     private void adjustNotificationPosition(JFrame parentFrame) {
         Point newParentLocation = parentFrame.getLocation();
-        int finalWidth = calculatePreferredWidth(message);
+        int finalWidth = calculatePreferredWidth(parentFrame, message);
         int newX = newParentLocation.x + parentFrame.getWidth() - finalWidth - WIDTH_OFFSET;
         int newY = newParentLocation.y + parentFrame.getHeight() - NOTIFICATION_HEIGHT - HEIGHT_OFFSET;
 

@@ -11,9 +11,10 @@ import java.awt.event.KeyEvent;
 
 public class AddCategory extends AbstractAddAction {
     public AddCategory(
-            JTable table
+            JTable table,
+            JFrame frame
     ) {
-        super(Icons.ADD.getIcon(), table);
+        super(Icons.ADD.getIcon(), table, frame);
         putValue(SHORT_DESCRIPTION, "Add new category (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A); // Alt + A
         // putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl N")); Doesnt work for me
