@@ -5,7 +5,11 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.Action;
+import javax.swing.JToolBar;
+import javax.swing.JComponent;
+import javax.swing.BoxLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

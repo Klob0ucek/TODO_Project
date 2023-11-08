@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.util.function.Supplier;
 
 public class TabFactory {

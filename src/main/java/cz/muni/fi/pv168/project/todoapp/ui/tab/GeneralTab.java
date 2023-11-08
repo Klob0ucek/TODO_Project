@@ -4,7 +4,11 @@ import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.Icon;
+import javax.swing.Action;
+import javax.swing.JTabbedPane;
+import javax.swing.JScrollPane;
 
 import java.awt.Component;
 import java.util.function.Supplier;

@@ -5,7 +5,8 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddIntervalDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
