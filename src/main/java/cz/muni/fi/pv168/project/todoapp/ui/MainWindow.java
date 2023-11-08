@@ -1,26 +1,25 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.CategoriesTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.EventsTab;
+import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.HelpTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.IntervalsTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TemplatesTab;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -29,14 +28,12 @@ public class MainWindow {
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
         ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-
-        createTabs(toolBarManager, tabHolder);
-        addTabsToTabbedPane(tabbedPane);
+        createTabs(toolBarManager, tabbedPane);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
-
         tabHolder.getCurrentTab().updateToolBar();
 
         frame.add(new Filter().getFilterBar(), BorderLayout.NORTH);
@@ -50,62 +47,27 @@ public class MainWindow {
         return new JLabel("BOTTOM-SIDE");
     }
 
-    private void addTabsToTabbedPane(
+    private void createTabs(
+            ToolBarManager toolBarManager,
             JTabbedPane tabbedPane
     ) {
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(toolBarManager);
+        Supplier<CategoryTableModel> tableModelSupplier =
+                () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
+
+        tabs.addAll(
+                List.of(
+                        TabFactory.createEventsTab(toolBarManager, tableModelSupplier),
+                        categoriesTab,
+                        TabFactory.createTemplatesTab(toolBarManager, tableModelSupplier),
+                        TabFactory.createIntervalsTab(toolBarManager),
+                        TabFactory.createHelpTab(toolBarManager)
+                )
+        );
+
         for (var tab : tabs) {
             tab.addToPane(tabbedPane);
         }
-    }
-
-    private void createTabs(
-            ToolBarManager toolBarManager,
-            TabHolder tabHolder
-    ) {
-        tabs.addAll(
-                List.of(
-                        new EventsTab(
-                                "Events",
-                                null,
-                                ComponentFactory.createScheduleTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new CategoriesTab(
-                                "Categories",
-                                null,
-                                ComponentFactory.createCategoryTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new TemplatesTab(
-                                "Templates",
-                                null,
-                                ComponentFactory.createTemplateTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new IntervalsTab(
-                                "Intervals",
-                                null,
-                                ComponentFactory.createIntervalTable(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        ),
-                        new HelpTab(
-                                "Help",
-                                null,
-                                ComponentFactory.createHelp(),
-                                null,
-                                toolBarManager,
-                                tabHolder
-                        )
-                )
-        );
     }
 
     private JFrame createFrame() {

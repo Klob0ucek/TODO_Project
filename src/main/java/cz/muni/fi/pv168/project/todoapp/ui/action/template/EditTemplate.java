@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 
 public class EditTemplate extends AbstractEditAction {
     public EditTemplate(
-            TabHolder tabHolder,
             JTable table
     ) {
         super(tabHolder, table);

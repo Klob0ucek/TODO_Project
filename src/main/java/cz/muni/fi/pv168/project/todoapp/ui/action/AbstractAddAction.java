@@ -7,8 +7,11 @@ import javax.swing.AbstractAction;
 import javax.swing.JTable;
 
 public abstract class AbstractAddAction extends AbstractAction {
-    protected final TabHolder tabHolder;
-    protected final JTable table;
+    private final JTable table;
+
+    public JTable getTable() {
+        return table;
+    }
 
     public AbstractAddAction(
             TabHolder tabHolder,

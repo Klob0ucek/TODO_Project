@@ -8,7 +8,6 @@ import javax.swing.Icon;
 import javax.swing.JTable;
 
 public abstract class AbstractEditAction extends AbstractAction {
-    protected final TabHolder tabHolder;
     protected final JTable table;
 
     public AbstractEditAction(
