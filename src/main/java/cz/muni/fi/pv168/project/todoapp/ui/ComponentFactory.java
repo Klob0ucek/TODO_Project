@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.HelpTab;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;

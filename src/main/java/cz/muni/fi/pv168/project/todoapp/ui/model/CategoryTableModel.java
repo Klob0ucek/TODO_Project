@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.ColorRowRenderer;
 
 import javax.swing.JTable;

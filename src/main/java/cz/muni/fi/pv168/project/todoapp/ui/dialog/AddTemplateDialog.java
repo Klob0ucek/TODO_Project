@@ -1,8 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
 import com.github.lgooddatepicker.components.TimePicker;
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 

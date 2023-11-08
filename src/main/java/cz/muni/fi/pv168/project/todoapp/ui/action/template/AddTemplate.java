@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddTemplateDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
