@@ -4,6 +4,7 @@ import com.github.lgooddatepicker.components.TimePicker;
 import cz.muni.fi.pv168.project.todoapp.model.Category;
 import cz.muni.fi.pv168.project.todoapp.model.Template;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
+import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +27,7 @@ public class AddTemplateDialog extends EntityDialog<Template> {
     private final JTextField eventNameField = new JTextField();
     private final ComboBoxModel<Category> categoryModel;
     private final JTextField locationField = new JTextField();
-    private final TimePicker timePicker = new TimePicker();
+    private final TimePicker timePicker = new TimePicker(CustomTimePickerSettings.getSettings());
     private final JSpinner durationSpinner = new JSpinner();
 
     public AddTemplateDialog(ListModel<Category> categoryModel) {
