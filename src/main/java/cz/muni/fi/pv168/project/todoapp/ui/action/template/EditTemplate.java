@@ -8,10 +8,9 @@ import java.awt.event.ActionEvent;
 
 public class EditTemplate extends AbstractEditAction {
     public EditTemplate(
-            TabHolder tabHolder,
             JTable table
     ) {
-        super(null, tabHolder, table);
+        super(null, table);
     }
 
     @Override
