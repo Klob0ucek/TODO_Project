@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 
 import java.util.List;
 

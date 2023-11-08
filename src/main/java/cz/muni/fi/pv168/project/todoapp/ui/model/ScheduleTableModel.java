@@ -1,8 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
-import cz.muni.fi.pv168.project.todoapp.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -13,12 +13,12 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
     public ScheduleTableModel() {
         columns = List.of(
                 Column.editable("Done?", Boolean.class, Event::isDone, Event::setDone),
-                Column.editable("Name", String.class, Event::getName, Event::setName),
-                Column.editable("Category", List.class, Event::getCategories, Event::setCategories),
-                Column.editable("Location", String.class, Event::getLocation, Event::setLocation),
-                Column.editable("Date", LocalDate.class, Event::getDate, Event::setDate),
-                Column.editable("Time", LocalTime.class, Event::getTime, Event::setTime),
-                Column.editable("Duration", Duration.class, Event::getDuration, Event::setDuration)
+                Column.readonly("Name", String.class, Event::getName),
+                Column.readonly("Category", List.class, Event::getCategories),
+                Column.readonly("Location", String.class, Event::getLocation),
+                Column.readonly("Date", LocalDate.class, Event::getDate),
+                Column.readonly("Time", LocalTime.class, Event::getTime),
+                Column.readonly("Duration", Duration.class, Event::getDuration)
 
         );
         // Local[Date|Time] isn't really editable

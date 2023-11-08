@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
-import cz.muni.fi.pv168.project.todoapp.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 
 import javax.swing.JTextField;
 import javax.swing.JSpinner;

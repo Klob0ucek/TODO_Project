@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.CategoryListRenderer;
 
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.DurationRenderer;

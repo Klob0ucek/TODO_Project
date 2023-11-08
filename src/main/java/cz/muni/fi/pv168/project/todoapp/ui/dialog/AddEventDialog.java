@@ -1,9 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
+import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
+import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,7 +27,10 @@ public class AddEventDialog extends EntityDialog<Event> {
     private final JTextField nameField = new JTextField();
     private final ComboBoxModel<Category> categoryModel;
     private final JTextField locationField = new JTextField();
-    private final DateTimePicker dateTimePicker = new DateTimePicker();
+    private final DateTimePicker dateTimePicker = new DateTimePicker(
+            CustomDatePickerSettings.getSettings(),
+            CustomTimePickerSettings.getSettings()
+    );
     private final JSpinner durationSpinner = new JSpinner();
 
     public AddEventDialog(ListModel<Category> categoryModel) {
