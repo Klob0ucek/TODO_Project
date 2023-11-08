@@ -15,7 +15,7 @@ public abstract class AbstractEditAction extends AbstractAction {
             TabHolder tabHolder,
             JTable table
     ) {
-        super("Edit", Icons.EDIT_ICON);
+        super("Edit", Icons.EDIT.getIcon());
         this.tabHolder = tabHolder;
         this.table = table;
     }

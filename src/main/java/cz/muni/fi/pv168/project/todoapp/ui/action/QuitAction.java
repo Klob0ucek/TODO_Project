@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 public class QuitAction extends AbstractAction {
     public QuitAction() {
-        super("Quit", Icons.EXIT_ICON);  // TODO: add *icon*
+        super("Quit", Icons.EXIT.getIcon());
         putValue(SHORT_DESCRIPTION, "Quits TODOapp");
         putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
     }

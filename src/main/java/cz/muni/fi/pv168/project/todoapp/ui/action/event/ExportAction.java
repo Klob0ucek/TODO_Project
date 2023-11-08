@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 
 public class ExportAction extends AbstractAction {
     public ExportAction() {
-        super("Export", Icons.EXPORT_ICON);
+        super("Export", Icons.EXPORT.getIcon());
         putValue(SHORT_DESCRIPTION, "Export selected data (Alt + o)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_O);
     }
