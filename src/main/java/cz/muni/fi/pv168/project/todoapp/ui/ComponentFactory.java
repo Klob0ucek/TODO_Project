@@ -40,12 +40,11 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createScheduleTable() {
-        return createTableFromModel(new ScheduleTableModel());
+    public static JTable createScheduleTable(ScheduleTableModel model) {
+        return createTableFromModel(model);
     }
 
-    public static JTable createCategoryTable() {
-        CategoryTableModel model = new CategoryTableModel();
+    public static JTable createCategoryTable(CategoryTableModel model) {
         JTable table = new JTable(model);
         setupTable(table);
 
@@ -56,12 +55,12 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createTemplateTable() {
-        return createTableFromModel(new TemplateTableModel());
+    public static JTable createTemplateTable(TemplateTableModel model) {
+        return createTableFromModel(model);
     }
 
-    public static JTable createIntervalTable() {
-        return createTableFromModel(new IntervalTableModel());
+    public static JTable createIntervalTable(IntervalTableModel model) {
+        return createTableFromModel(model);
     }
 
     public static JComponent createHelp() {

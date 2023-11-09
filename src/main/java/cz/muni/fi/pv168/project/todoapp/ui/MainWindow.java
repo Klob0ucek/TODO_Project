@@ -5,6 +5,9 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
@@ -27,6 +30,10 @@ import java.util.function.Supplier;
 public class MainWindow {
     private final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
+    private ScheduleTableModel scheduleTableModel;
+    private CategoryTableModel categoryTableModel;
+    private TemplateTableModel templateTableModel;
+    private IntervalTableModel intervalTableModel;
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
@@ -54,16 +61,22 @@ public class MainWindow {
             ToolBarManager toolBarManager,
             JTabbedPane tabbedPane
     ) {
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager);
+
+        scheduleTableModel = new ScheduleTableModel();
+        categoryTableModel = new CategoryTableModel();
+        templateTableModel = new TemplateTableModel();
+        intervalTableModel = new IntervalTableModel();
+
+
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel);
         Supplier<CategoryTableModel> tableModelSupplier =
                 () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
-
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, tableModelSupplier),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, tableModelSupplier),
                         categoriesTab,
-                        TabFactory.createTemplatesTab(frame, toolBarManager, tableModelSupplier),
-                        TabFactory.createIntervalsTab(frame, toolBarManager),
+                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, tableModelSupplier),
+                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel),
                         TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );
