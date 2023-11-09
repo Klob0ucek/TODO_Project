@@ -5,7 +5,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class DeleteEvent extends AbstractDeleteAction {
@@ -16,10 +15,5 @@ public class DeleteEvent extends AbstractDeleteAction {
         super(Icons.DELETE.getIcon(), table, frame);
         putValue(SHORT_DESCRIPTION, "Delete selected event/events (Alt + d)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_D);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

@@ -48,7 +48,6 @@ public class MainWindow {
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
         createTabs(verticalToolBar, tabbedPane);
 
-
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
         tabHolder.getCurrentTab().updateToolBar();
 

@@ -135,7 +135,7 @@ public class Filter {
     }
 
     public JComponent getFilterBar() {
-        var filterBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        var filterBar = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         filterBar.add(isDone);
         filterBar.add(categories);
