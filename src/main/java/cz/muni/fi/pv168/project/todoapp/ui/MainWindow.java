@@ -1,25 +1,34 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportService;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.jsonExporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.jsonImporter;
+import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
+import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
+import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
+import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.WindowConstants;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -27,14 +36,18 @@ import java.util.function.Supplier;
 public class MainWindow {
     private final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
+    private ScheduleTableModel scheduleTableModel;
+    private CategoryTableModel categoryTableModel;
+    private TemplateTableModel templateTableModel;
+    private IntervalTableModel intervalTableModel;
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
-        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar, new ImportAction(frame), new ExportAction(frame));
 
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-        createTabs(toolBarManager, tabbedPane);
+        createTabs(verticalToolBar, tabbedPane);
+
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
         tabHolder.getCurrentTab().updateToolBar();
@@ -51,19 +64,44 @@ public class MainWindow {
     }
 
     private void createTabs(
-            ToolBarManager toolBarManager,
+            JComponent verticalToolBar,
             JTabbedPane tabbedPane
     ) {
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager);
+        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
+        InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(ExampleData.getCategories());
+        InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
+        InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
+
+        // TODO Validator?
+
+        var eventCrudService = new EventCrudService(eventRepository);
+        var categoryCrudService = new CategoryCrudService(categoryRepository);
+        var templateCrudService = new TemplateCrudService(templateRepository);
+        var intervalCrudService = new IntervalCrudService(intervalRepository);
+
+        var exportService = new GenericExportService(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService, List.of(new jsonExporter()));
+        var importService = new GenericImportService(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService, List.of(new jsonImporter()));
+
+        scheduleTableModel = new ScheduleTableModel(eventCrudService);
+        categoryTableModel = new CategoryTableModel(categoryCrudService);
+        templateTableModel = new TemplateTableModel(templateCrudService);
+        intervalTableModel = new IntervalTableModel(intervalCrudService);
+        ToolBarManager toolBarManager = new ToolBarManager(
+                verticalToolBar,
+                new ExportAction(frame, exportService),
+                new ImportAction(frame, importService, this::refreshModels));
+
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel);
         Supplier<CategoryTableModel> tableModelSupplier =
                 () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
-
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, tableModelSupplier),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, tableModelSupplier),
                         categoriesTab,
-                        TabFactory.createTemplatesTab(frame, toolBarManager, tableModelSupplier),
-                        TabFactory.createIntervalsTab(frame, toolBarManager),
+                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, tableModelSupplier),
+                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel),
                         TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );
@@ -71,6 +109,15 @@ public class MainWindow {
         for (var tab : tabs) {
             tab.addToPane(tabbedPane);
         }
+    }
+
+
+    private void refreshModels() {
+        ImportOption option = ImportOption.REWRITE;
+        scheduleTableModel.refresh(option);
+        categoryTableModel.refresh(option);
+        templateTableModel.refresh(option);
+        intervalTableModel.refresh(option);
     }
 
     private JFrame createFrame() {

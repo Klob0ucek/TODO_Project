@@ -3,6 +3,9 @@ package cz.muni.fi.pv168.project.todoapp.ui.tab;
 import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
 import javax.swing.JFrame;
 import java.util.function.Supplier;
@@ -15,13 +18,14 @@ public class TabFactory {
     public static GeneralTab createEventsTab(
             JFrame frame,
             ToolBarManager toolBarManager,
+            ScheduleTableModel model,
             Supplier<CategoryTableModel> categoryTableModelSupplier
     ) {
         return new EventsTab.BuildTemplate()
                 .addTabDetails(
                         "Events",
                         null,
-                        ComponentFactory.createScheduleTable(),
+                        ComponentFactory.createScheduleTable(model),
                         frame,
                         null
                 )
@@ -32,13 +36,14 @@ public class TabFactory {
 
     public static GeneralTab createCategoriesTab(
             JFrame frame,
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            CategoryTableModel model
     ) {
         return new CategoriesTab.BuildTemplate()
                 .addTabDetails(
                         "Categories",
                         null,
-                        ComponentFactory.createCategoryTable(),
+                        ComponentFactory.createCategoryTable(model),
                         frame,
                         null
                 )
@@ -49,13 +54,14 @@ public class TabFactory {
     public static GeneralTab createTemplatesTab(
             JFrame frame,
             ToolBarManager toolBarManager,
+            TemplateTableModel model,
             Supplier<CategoryTableModel> categoryTableModelSupplier
     ) {
         return new TemplatesTab.BuildTemplate()
                 .addTabDetails(
                         "Templates",
                         null,
-                        ComponentFactory.createTemplateTable(),
+                        ComponentFactory.createTemplateTable(model),
                         frame,
                         null
                 )
@@ -66,13 +72,14 @@ public class TabFactory {
 
     public static GeneralTab createIntervalsTab(
             JFrame frame,
-            ToolBarManager toolBarManager
+            ToolBarManager toolBarManager,
+            IntervalTableModel model
     ) {
         return new IntervalsTab.BuildTemplate()
                 .addTabDetails(
                         "Intervals",
                         null,
-                        ComponentFactory.createIntervalTable(),
+                        ComponentFactory.createIntervalTable(model),
                         frame,
                         null
                 )

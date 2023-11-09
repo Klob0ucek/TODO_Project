@@ -1,8 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -10,7 +9,8 @@ import java.util.List;
 
 public class TemplateTableModel extends BasicTableModel<Template> {
 
-    public TemplateTableModel() {
+    public TemplateTableModel(CrudService<Template> crudService) {
+        super(crudService);
         columns = List.of(
                 Column.readonly("Template Name", String.class, Template::getTemplateName),
                 Column.readonly("Done?", Boolean.class, Template::isDone),
@@ -20,9 +20,5 @@ public class TemplateTableModel extends BasicTableModel<Template> {
                 Column.readonly("Time", LocalTime.class, Template::getTime),
                 Column.readonly("Duration", Duration.class, Template::getDuration)
         );
-        rows.add(new Template("English classes", false, "Lesson",
-                List.of(new Category("School", CategoryColor.GREEN)), "MUNI FI", LocalTime.of(8, 30), Duration.ofMinutes(45)));
-        rows.add(new Template("Running", false, "Morning run",
-                List.of(new Category("Free Time", CategoryColor.PINK), new Category("Health", CategoryColor.RED)), null, null, Duration.ofMinutes(75)));
     }
 }

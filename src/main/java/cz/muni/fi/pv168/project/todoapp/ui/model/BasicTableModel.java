@@ -1,18 +1,26 @@
 package cz.muni.fi.pv168.project.todoapp.ui.model;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.CategoryListRenderer;
-
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.DurationRenderer;
+import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.Duration;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BasicTableModel<T> extends AbstractTableModel {
-    protected final List<T> rows = new LinkedList<>();
+public abstract class BasicTableModel<T extends Entity> extends AbstractTableModel {
+    protected final CrudService<T> crudService;
+    protected List<T> rows;
     protected List<Column<T, ?>> columns;
+
+    protected BasicTableModel(CrudService<T> crudService) {
+        this.crudService = crudService;
+        this.rows = new ArrayList<>(crudService.findAll());
+    }
 
     @Override
     public int getRowCount() {
@@ -62,12 +70,15 @@ public abstract class BasicTableModel<T> extends AbstractTableModel {
     }
 
     public void deleteRow(int rowIndex) {
+        var employeeToBeDeleted = getEntity(rowIndex);
+        crudService.deleteByGuid(employeeToBeDeleted.getGuid());
         rows.remove(rowIndex);
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
     public void addRow(T row) {
         int newRowIndex = rows.size();
+        crudService.create(row);
         rows.add(row);
         fireTableRowsInserted(newRowIndex, newRowIndex);
     }
@@ -75,5 +86,16 @@ public abstract class BasicTableModel<T> extends AbstractTableModel {
     public void updateRow(T row) {
         int rowIndex = rows.indexOf(row);
         fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    public void refresh(ImportOption importOption) {
+        if (importOption.equals(ImportOption.REWRITE)) {
+            this.rows = new ArrayList<>(crudService.findAll());
+        } else {
+            // TODO add validation of duplicity
+            this.rows.addAll(crudService.findAll());
+
+        }
+        fireTableDataChanged();
     }
 }

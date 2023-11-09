@@ -4,7 +4,8 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.event.AddEvent;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.DeleteEvent;
 import cz.muni.fi.pv168.project.todoapp.ui.action.event.EditEvent;
 
-import javax.swing.JTable;
+import javax.swing.*;
+
 
 public class EventsTab extends GeneralTab {
     public static class BuildTemplate extends GeneralTab.BuildTemplate<BuildTemplate> {
@@ -12,6 +13,7 @@ public class EventsTab extends GeneralTab {
         public BuildTemplate self() {
             return this;
         }
+
 
         @Override
         public GeneralTab build() {
