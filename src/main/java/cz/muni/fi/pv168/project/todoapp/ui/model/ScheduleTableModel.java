@@ -7,7 +7,10 @@ import cz.muni.fi.pv168.project.todoapp.model.Event;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ScheduleTableModel extends BasicTableModel<Event> {
     public ScheduleTableModel() {
@@ -25,14 +28,19 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
         LocalDate date = LocalDate.of(2023, 10, 10);
         LocalTime time = LocalTime.of(10, 0);
         Duration duration = Duration.ofMinutes(145);
-        rows.add(
-                new Event(
-                        false,
-                        "Tennis",
-                        List.of(new Category("Sport", CategoryColor.BLUE)),
-                        "Tennis Hala Lužánky",
-                        date, time, Duration.ofMinutes(45)
-                )
+
+        rows.addAll(
+                IntStream.rangeClosed(1, 20)
+                        .mapToObj(
+                                (number) -> new Event(
+                                        false,
+                                        "Coding - " + number,
+                                        List.of(new Category("Nerding", CategoryColor.BLUE)),
+                                        "FI",
+                                        date, time, Duration.ofMinutes(45)
+                                )
+                        )
+                        .toList()
         );
     }
 }
