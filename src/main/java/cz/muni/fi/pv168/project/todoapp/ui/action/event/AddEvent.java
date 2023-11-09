@@ -41,7 +41,7 @@ public class AddEvent extends AbstractAddAction {
         var dialog = new AddEventDialog(new CategoryListModel(categories));
         dialog.show(this.getTable(), "Add event").ifPresent(scheduleTableModel::addRow);
 
-        NotificationDialog notificationDialog = new NotificationDialog(super.frame, "Event added successfully!");
+        NotificationDialog notificationDialog = new NotificationDialog(super.getFrame(), "Event added successfully!");
         notificationDialog.showNotification();
     }
 }

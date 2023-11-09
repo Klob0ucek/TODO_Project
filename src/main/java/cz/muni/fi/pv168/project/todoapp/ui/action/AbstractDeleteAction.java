@@ -6,9 +6,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 public abstract class AbstractDeleteAction extends AbstractAction {
-    protected final JTable table;
-
-    protected final JFrame frame;
+    private final JTable table;
+    private final JFrame frame;
 
     public AbstractDeleteAction(
             Icon icon,
@@ -18,5 +17,9 @@ public abstract class AbstractDeleteAction extends AbstractAction {
         super("Delete", icon);
         this.table = table;
         this.frame = frame;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

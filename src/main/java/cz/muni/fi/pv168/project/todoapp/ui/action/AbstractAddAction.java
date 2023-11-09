@@ -9,7 +9,7 @@ import javax.swing.Icon;
 public abstract class AbstractAddAction extends AbstractAction {
     private final JTable table;
 
-    protected final JFrame frame;
+    private final JFrame frame;
 
     public JTable getTable() {
         return table;
@@ -23,5 +23,9 @@ public abstract class AbstractAddAction extends AbstractAction {
         super("Add", icon);
         this.table = table;
         this.frame = frame;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

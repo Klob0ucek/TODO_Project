@@ -6,8 +6,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 public abstract class AbstractEditAction extends AbstractAction {
-    protected final JTable table;
-    protected final JFrame frame;
+    private final JTable table;
+    private final JFrame frame;
 
     public AbstractEditAction(
             Icon icon,
@@ -17,5 +17,9 @@ public abstract class AbstractEditAction extends AbstractAction {
         super("Edit", icon);
         this.table = table;
         this.frame = frame;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }
