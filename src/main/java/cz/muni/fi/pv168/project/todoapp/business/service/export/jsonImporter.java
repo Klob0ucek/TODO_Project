@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.batch.Batch;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.batch.BatchImporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.format.Format;
@@ -34,8 +35,8 @@ public class jsonImporter implements BatchImporter {
             Gson gson = gsonBuilder.create();
 
             batch = gson.fromJson(reader.readLine(), Batch.class);
-        } catch (IOException ignored) {
-            return null;
+        } catch (IOException | JsonSyntaxException e) {
+            throw new DataManipulationException("Import failed", e);
         }
         return batch;
     }

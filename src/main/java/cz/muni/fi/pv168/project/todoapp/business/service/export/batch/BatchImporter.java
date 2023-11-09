@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.export.batch;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.format.FileFormat;
 
 import java.util.Collection;

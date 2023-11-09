@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ImportDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
@@ -36,10 +37,17 @@ public class ImportAction extends AbstractAction {
             return;
         }
         // TODO if there are any data in app, should we merge or rewrite
-        NotificationDialog notificationDialog = new NotificationDialog(frame, "Importing file Successful");
-        notificationDialog.showNotification();
 
-        importService.importData(importPath);
+
+        try {
+            importService.importData(importPath);
+        } catch (DataManipulationException exception) {
+            NotificationDialog notificationDialog = new NotificationDialog(frame, "Broken file, import failed!");
+            notificationDialog.showNotification();
+            return;
+        }
+        NotificationDialog notificationDialog = new NotificationDialog(frame, "File imported successfully");
+        notificationDialog.showNotification();
         refreshModels.run();
     }
 }
