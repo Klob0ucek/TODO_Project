@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 
 import java.time.LocalDate;
 import java.util.HashSet;

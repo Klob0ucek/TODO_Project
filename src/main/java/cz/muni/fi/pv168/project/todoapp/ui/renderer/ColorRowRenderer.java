@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
-import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;

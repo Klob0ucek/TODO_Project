@@ -16,11 +16,12 @@ public class TemplatesTab extends GeneralTab {
         @Override
         public GeneralTab build() {
             var table = (JTable) this.getComponent();
+            var frame = this.getFrame();
             return new TemplatesTab(
                     this
-                            .addAddAction(new AddTemplate(table, this.getCategoryTableModelSupplier()))
-                            .addEditAction(new EditTemplate(table))
-                            .addDeleteAction(new DeleteTemplate(table))
+                            .addAddAction(new AddTemplate(table, this.getCategoryTableModelSupplier(), frame))
+                            .addEditAction(new EditTemplate(table, frame))
+                            .addDeleteAction(new DeleteTemplate(table, frame))
             );
         }
     }

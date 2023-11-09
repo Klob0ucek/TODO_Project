@@ -1,9 +1,9 @@
-package cz.muni.fi.pv168.project.todoapp.model;
+package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.time.Duration;
 import java.util.Objects;
 
-public class Interval {
+public class Interval extends Entity {
     private String name;
     private String abbreviation;
     private Duration duration;
@@ -13,6 +13,7 @@ public class Interval {
             String abbreviation,
             Duration duration
     ) {
+        super();
         this.name = name;
         this.abbreviation = abbreviation;
         this.duration = duration;
@@ -42,6 +43,11 @@ public class Interval {
             Duration duration
     ) {
         this.duration = duration;
+    }
+
+    @Override
+    public String getGuid() {
+        return name;
     }
 
     @Override

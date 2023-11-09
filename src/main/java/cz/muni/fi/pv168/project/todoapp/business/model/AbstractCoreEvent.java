@@ -1,11 +1,11 @@
-package cz.muni.fi.pv168.project.todoapp.model;
+package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractCoreEvent {
+public abstract class AbstractCoreEvent extends Entity {
     protected boolean isDone;
     protected String name;
     protected List<Category> categories;
@@ -74,6 +74,7 @@ public abstract class AbstractCoreEvent {
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,21 +1,12 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
 import com.github.lgooddatepicker.components.TimePicker;
-import cz.muni.fi.pv168.project.todoapp.model.Category;
-import cz.muni.fi.pv168.project.todoapp.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JTextField;
-import javax.swing.ComboBoxModel;
-import javax.swing.ListModel;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JSpinner;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;

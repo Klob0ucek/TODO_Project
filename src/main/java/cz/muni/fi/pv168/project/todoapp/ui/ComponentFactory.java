@@ -1,16 +1,13 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
-import cz.muni.fi.pv168.project.todoapp.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.HelpTab;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -40,12 +37,11 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createScheduleTable() {
-        return createTableFromModel(new ScheduleTableModel());
+    public static JTable createScheduleTable(ScheduleTableModel model) {
+        return createTableFromModel(model);
     }
 
-    public static JTable createCategoryTable() {
-        CategoryTableModel model = new CategoryTableModel();
+    public static JTable createCategoryTable(CategoryTableModel model) {
         JTable table = new JTable(model);
         setupTable(table);
 
@@ -56,12 +52,12 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createTemplateTable() {
-        return createTableFromModel(new TemplateTableModel());
+    public static JTable createTemplateTable(TemplateTableModel model) {
+        return createTableFromModel(model);
     }
 
-    public static JTable createIntervalTable() {
-        return createTableFromModel(new IntervalTableModel());
+    public static JTable createIntervalTable(IntervalTableModel model) {
+        return createTableFromModel(model);
     }
 
     public static JComponent createHelp() {

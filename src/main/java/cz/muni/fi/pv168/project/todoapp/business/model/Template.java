@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.model;
+package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -24,6 +24,11 @@ public class Template extends AbstractCoreEvent {
 
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
+    }
+
+    @Override
+    public String getGuid() {
+        return templateName;
     }
 
     @Override

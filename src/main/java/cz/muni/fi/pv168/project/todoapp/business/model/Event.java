@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.model;
+package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -31,6 +31,7 @@ public class Event extends AbstractCoreEvent {
     ) {
         this.date = date;
     }
+
 
     @Override
     public String toString() {

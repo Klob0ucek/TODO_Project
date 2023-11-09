@@ -16,11 +16,12 @@ public class CategoriesTab extends GeneralTab {
         @Override
         public GeneralTab build() {
             var table = (JTable) this.getComponent();
+            var frame = this.getFrame();
             return new CategoriesTab(
                     this
-                            .addAddAction(new AddCategory(table))
-                            .addEditAction(new EditCategory(table))
-                            .addDeleteAction(new DeleteCategory(table))
+                            .addAddAction(new AddCategory(table, frame))
+                            .addEditAction(new EditCategory(table, frame))
+                            .addDeleteAction(new DeleteCategory(table, frame))
             );
         }
     }

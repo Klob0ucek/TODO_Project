@@ -2,18 +2,18 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.action.PlaceholderAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
-import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
 
 import javax.swing.Action;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JToolBar;
+import javax.swing.JComponent;
+import javax.swing.BoxLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+
 public class ToolBarManager {
+
     private final static Dimension MODIFY_TOOLS_OFFSET = new Dimension(0, 35);
     private final static Dimension QUIT_OFFSET = new Dimension(0, 10);
     private final static Dimension SEPARATOR = new Dimension(0, 3);
@@ -32,8 +32,8 @@ public class ToolBarManager {
 
     private final Action[] modifyActionsArray = new Action[ActionType.values().length];
 
-    private final Action importAction = new ImportAction();
-    private final Action exportAction = new ExportAction();
+    private final Action importAction;
+    private final Action exportAction;
 
     private final Action quitAction = new QuitAction();
 
@@ -48,10 +48,16 @@ public class ToolBarManager {
                 + enumValue.name().substring(1).toLowerCase();
     }
 
+
     public ToolBarManager(
-            JComponent toolBarComponent
+            JComponent toolBarComponent,
+            Action exportAction,
+            Action importAction
     ) {
+        this.importAction = importAction;
+        this.exportAction = exportAction;
         toolBarComponent.setLayout(new BorderLayout());
+
 
         toolBarComponent.add(modifyActionsBar, BorderLayout.NORTH);
         toolBarComponent.add(initGlobalActions(), BorderLayout.SOUTH);
@@ -92,10 +98,7 @@ public class ToolBarManager {
         return this;
     }
 
-    public ToolBarManager addAction(
-            ActionType typeOfAction,
-            Action action
-    ) {
+    public ToolBarManager addAction(ActionType typeOfAction, Action action) {
         modifyActionsArray[typeOfAction.ordinal()] = action;
         return this;
     }

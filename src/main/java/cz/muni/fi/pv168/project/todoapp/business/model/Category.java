@@ -1,8 +1,8 @@
-package cz.muni.fi.pv168.project.todoapp.model;
+package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.util.Objects;
 
-public class Category {
+public class Category extends Entity {
     private String name;
     private CategoryColor color;
 
@@ -25,6 +25,11 @@ public class Category {
 
     public void setColor(CategoryColor color) {
         this.color = color;
+    }
+
+    @Override
+    public String getGuid() {
+        return getName();
     }
 
     @Override
