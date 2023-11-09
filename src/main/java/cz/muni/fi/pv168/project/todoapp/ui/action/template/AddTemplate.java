@@ -8,6 +8,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
+import javax.swing.JFrame;
 import javax.swing.JTable;
 
 import java.awt.event.ActionEvent;
@@ -20,9 +21,10 @@ public class AddTemplate extends AbstractAddAction {
 
     public AddTemplate(
             JTable table,
-            Supplier<CategoryTableModel> tableModelSupplier
+            Supplier<CategoryTableModel> tableModelSupplier,
+            JFrame frame
     ) {
-        super(Icons.ADD.getIcon(), table);
+        super(Icons.ADD.getIcon(), table, frame);
         categoryTableModelSupplier = tableModelSupplier;
         putValue(SHORT_DESCRIPTION, "Add new template (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);

@@ -1,5 +1,8 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
@@ -27,7 +30,7 @@ public class MainWindow {
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
-        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar);
+        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar, new ImportAction(frame), new ExportAction(frame));
 
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
@@ -51,17 +54,17 @@ public class MainWindow {
             ToolBarManager toolBarManager,
             JTabbedPane tabbedPane
     ) {
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(toolBarManager);
+        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager);
         Supplier<CategoryTableModel> tableModelSupplier =
                 () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
 
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(toolBarManager, tableModelSupplier),
+                        TabFactory.createEventsTab(frame, toolBarManager, tableModelSupplier),
                         categoriesTab,
-                        TabFactory.createTemplatesTab(toolBarManager, tableModelSupplier),
-                        TabFactory.createIntervalsTab(toolBarManager),
-                        TabFactory.createHelpTab(toolBarManager)
+                        TabFactory.createTemplatesTab(frame, toolBarManager, tableModelSupplier),
+                        TabFactory.createIntervalsTab(frame, toolBarManager),
+                        TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );
 
