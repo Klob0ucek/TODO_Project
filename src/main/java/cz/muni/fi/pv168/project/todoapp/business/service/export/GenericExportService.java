@@ -44,18 +44,22 @@ public class GenericExportService implements ExportService {
 
     @Override
     public void exportData(String filePath) {
-        var exporter = getExporter(filePath);
+        var exporter = getJsonExporter();
 
         var batch = new Batch(eventCrudService.findAll(), categoryCrudService.findAll(),
                 templateCrudService.findAll(), intervalCrudService.findAll());
         exporter.exportBatch(batch, filePath);
     }
 
+    private BatchExporter getJsonExporter() {
+        return exporters.findByExtension("json");
+    }
+
     private BatchExporter getExporter(String filePath) {
         var extension = filePath.substring(filePath.lastIndexOf('.') + 1);
-        var importer = exporters.findByExtension(extension);
-        if (importer == null)
+        var exporter = exporters.findByExtension(extension);
+        if (exporter == null)
             throw new BatchOperationException("Extension %s has no registered formatter".formatted(extension));
-        return importer;
+        return exporter;
     }
 }

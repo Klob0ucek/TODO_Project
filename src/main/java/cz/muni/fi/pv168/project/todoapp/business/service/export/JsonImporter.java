@@ -22,7 +22,10 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-public class jsonImporter implements BatchImporter {
+/**
+ * BatchImporter implementation using gson library gson.code.google.com
+ */
+public class JsonImporter implements BatchImporter {
     @Override
     public Batch importBatch(String filePath) {
         Batch batch;

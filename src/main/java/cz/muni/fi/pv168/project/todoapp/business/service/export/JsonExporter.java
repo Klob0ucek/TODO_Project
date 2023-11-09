@@ -19,7 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class jsonExporter implements BatchExporter {
+/**
+ * BatchExporter implementation using gson library gson.code.google.com
+ */
+public class JsonExporter implements BatchExporter {
     @Override
     public void exportBatch(Batch batch, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));) {
