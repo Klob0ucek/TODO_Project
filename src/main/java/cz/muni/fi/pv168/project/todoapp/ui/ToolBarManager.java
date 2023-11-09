@@ -50,10 +50,10 @@ public class ToolBarManager {
                 + enumValue.name().substring(1).toLowerCase();
     }
 
-    public ToolBarManager(JComponent toolBarComponent, JFrame frame) {
+    public ToolBarManager(JComponent toolBarComponent, ImportAction iAction, ExportAction eAction) {
         toolBarComponent.setLayout(new BorderLayout());
-        importAction = new ImportAction(frame);
-        exportAction = new ExportAction(frame);
+        importAction = iAction;
+        exportAction = eAction;
 
         toolBarComponent.add(modifyActionsBar, BorderLayout.NORTH);
         toolBarComponent.add(initGlobalActions(), BorderLayout.SOUTH);

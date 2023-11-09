@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ExportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.action.event.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
@@ -28,7 +30,7 @@ public class MainWindow {
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
-        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar, frame);
+        ToolBarManager toolBarManager = new ToolBarManager(verticalToolBar, new ImportAction(frame), new ExportAction(frame));
 
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
