@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class AddTemplate extends AbstractAddAction {
-    private final Supplier<CategoryTableModel> categoryTableModelSupplier;
+    private final Supplier<List<Category>> categoriesSupplier;
 
     public AddTemplate(
             JTable table,
-            Supplier<CategoryTableModel> tableModelSupplier,
+            Supplier<List<Category>> categoriesSupplier,
             JFrame frame
     ) {
         super(Icons.ADD.getIcon(), table, frame);
-        categoryTableModelSupplier = tableModelSupplier;
+        this.categoriesSupplier = categoriesSupplier;
         putValue(SHORT_DESCRIPTION, "Add new template (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }
@@ -33,11 +33,8 @@ public class AddTemplate extends AbstractAddAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         var templateTableModel = (TemplateTableModel) this.getTable().getModel();
-
-        var categoryTableModel = categoryTableModelSupplier.get();
-        List<Category> categories = categoryTableModel.getCategories();
-
-        var dialog = new AddTemplateDialog(new CategoryListModel(categories));
+        
+        var dialog = new AddTemplateDialog(new CategoryListModel(categoriesSupplier.get()));
         dialog.show(this.getTable(), "Add template").ifPresent(templateTableModel::addRow);
     }
 }

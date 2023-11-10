@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
@@ -8,6 +9,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
 import javax.swing.JFrame;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class TabFactory {
@@ -19,7 +21,7 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             ScheduleTableModel model,
-            Supplier<CategoryTableModel> categoryTableModelSupplier
+            Supplier<List<Category>> categoriesSupplier
     ) {
         return new EventsTab.BuildTemplate()
                 .addTabDetails(
@@ -30,7 +32,7 @@ public class TabFactory {
                         null
                 )
                 .addToolBarManager(toolBarManager)
-                .addCategoryTableSupplier(categoryTableModelSupplier)
+                .addCategoriesSupplier(categoriesSupplier)
                 .build();
     }
 
@@ -55,7 +57,7 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             TemplateTableModel model,
-            Supplier<CategoryTableModel> categoryTableModelSupplier
+            Supplier<List<Category>> categoriesSupplier
     ) {
         return new TemplatesTab.BuildTemplate()
                 .addTabDetails(
@@ -66,7 +68,7 @@ public class TabFactory {
                         null
                 )
                 .addToolBarManager(toolBarManager)
-                .addCategoryTableSupplier(categoryTableModelSupplier)
+                .addCategoriesSupplier(categoriesSupplier)
                 .build();
     }
 

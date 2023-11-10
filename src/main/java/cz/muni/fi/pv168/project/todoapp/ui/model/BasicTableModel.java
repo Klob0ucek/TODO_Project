@@ -61,8 +61,10 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        var event = getEntity(rowIndex);
-        columns.get(columnIndex).setValue(value, event);
+        // TODO should call crudService.update(entity) and then call refreshFromCrud()
+        // but value needs to be converted to proper expected type
+        T entity = getEntity(rowIndex);
+        columns.get(columnIndex).setValue(value, entity);
     }
 
     public T getEntity(int rowIndex) {
@@ -70,31 +72,25 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
     }
 
     public void deleteRow(int rowIndex) {
-        var employeeToBeDeleted = getEntity(rowIndex);
-        crudService.deleteByGuid(employeeToBeDeleted.getGuid());
-        rows.remove(rowIndex);
-        fireTableRowsDeleted(rowIndex, rowIndex);
+        T entityToBeDeleted = getEntity(rowIndex);
+        crudService.deleteByGuid(entityToBeDeleted.getGuid());
+        refreshFromCrud();
     }
 
     public void addRow(T row) {
-        int newRowIndex = rows.size();
         crudService.create(row);
-        rows.add(row);
-        fireTableRowsInserted(newRowIndex, newRowIndex);
+        refreshFromCrud();
     }
-
-    public void updateRow(T row) {
-        int rowIndex = rows.indexOf(row);
-        fireTableRowsUpdated(rowIndex, rowIndex);
+    public void refreshFromCrud() {
+        this.rows = new ArrayList<>(crudService.findAll());
+        fireTableDataChanged();
     }
-
-    public void refresh(ImportOption importOption) {
+    public void refreshFromCrud(ImportOption importOption) {
         if (importOption.equals(ImportOption.REWRITE)) {
             this.rows = new ArrayList<>(crudService.findAll());
         } else {
             // TODO add validation of duplicity
             this.rows.addAll(crudService.findAll());
-
         }
         fireTableDataChanged();
     }

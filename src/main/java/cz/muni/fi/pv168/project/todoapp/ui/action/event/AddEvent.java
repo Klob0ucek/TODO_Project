@@ -18,15 +18,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class AddEvent extends AbstractAddAction {
-    private final Supplier<CategoryTableModel> categoryTableModelSupplier;
+    private final Supplier<List<Category>> categoriesSupplier;
 
     public AddEvent(
             JTable table,
-            Supplier<CategoryTableModel> tableModelSupplier,
+            Supplier<List<Category>> tableModelSupplier,
             JFrame frame
     ) {
         super(Icons.ADD.getIcon(), table, frame);
-        this.categoryTableModelSupplier = tableModelSupplier;
+        this.categoriesSupplier = tableModelSupplier;
         putValue(SHORT_DESCRIPTION, "Add new category (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }
@@ -35,10 +35,7 @@ public class AddEvent extends AbstractAddAction {
     public void actionPerformed(ActionEvent e) {
         var scheduleTableModel = (ScheduleTableModel) this.getTable().getModel();
 
-        var categoryTableModel = categoryTableModelSupplier.get();
-        List<Category> categories = categoryTableModel.getCategories();
-
-        var dialog = new AddEventDialog(new CategoryListModel(categories));
+        var dialog = new AddEventDialog(new CategoryListModel(categoriesSupplier.get()));
         dialog.show(this.getTable(), "Add event").ifPresent(scheduleTableModel::addRow);
 
         NotificationDialog notificationDialog = new NotificationDialog(super.getFrame(), "Event added successfully!");

@@ -92,14 +92,13 @@ public class MainWindow {
                 new ExportAction(frame, exportService),
                 new ImportAction(frame, importService, this::refreshModels));
 
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel);
-        Supplier<CategoryTableModel> tableModelSupplier =
-                () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
+        Supplier<List<Category>> categoriesSupplier = categoryCrudService::findAll;
+        // You can get other lists from here similarly, such as templates and intervals
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, tableModelSupplier),
-                        categoriesTab,
-                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, tableModelSupplier),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, categoriesSupplier),
+                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel),
+                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, categoriesSupplier),
                         TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel),
                         TabFactory.createHelpTab(frame, toolBarManager)
                 )
@@ -113,10 +112,10 @@ public class MainWindow {
 
     private void refreshModels() {
         ImportOption option = ImportOption.REWRITE;
-        scheduleTableModel.refresh(option);
-        categoryTableModel.refresh(option);
-        templateTableModel.refresh(option);
-        intervalTableModel.refresh(option);
+        scheduleTableModel.refreshFromCrud(option);
+        categoryTableModel.refreshFromCrud(option);
+        templateTableModel.refreshFromCrud(option);
+        intervalTableModel.refreshFromCrud(option);
     }
 
     private JFrame createFrame() {

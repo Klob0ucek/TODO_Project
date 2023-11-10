@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
@@ -11,6 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 
 import java.awt.Component;
+import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class GeneralTab {
@@ -34,7 +36,7 @@ public abstract class GeneralTab {
 
         private ToolBarManager toolBarManager;
 
-        private Supplier<CategoryTableModel> categoryTableModelSupplier;
+        private Supplier<List<Category>> categoriesSupplier;
 
         private Action addAction;
         private Action editAction;
@@ -50,8 +52,8 @@ public abstract class GeneralTab {
             return this.frame;
         }
 
-        protected Supplier<CategoryTableModel> getCategoryTableModelSupplier() {
-            return this.categoryTableModelSupplier;
+        public Supplier<List<Category>> getCategoriesSupplier() {
+            return categoriesSupplier;
         }
 
         public T addTabDetails(
@@ -76,10 +78,10 @@ public abstract class GeneralTab {
             return self();
         }
 
-        public T addCategoryTableSupplier(
-                Supplier<CategoryTableModel> tableModelSupplier
+        public T addCategoriesSupplier(
+                Supplier<List<Category>> categoriesSupplier
         ) {
-            this.categoryTableModelSupplier = tableModelSupplier;
+            this.categoriesSupplier = categoriesSupplier;
             return self();
         }
 

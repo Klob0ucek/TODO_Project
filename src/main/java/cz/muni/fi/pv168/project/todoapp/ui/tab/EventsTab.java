@@ -21,7 +21,7 @@ public class EventsTab extends GeneralTab {
             var frame = this.getFrame();
             return new EventsTab(
                     this
-                            .addAddAction(new AddEvent(table, this.getCategoryTableModelSupplier(), frame))
+                            .addAddAction(new AddEvent(table, this.getCategoriesSupplier(), frame))
                             .addEditAction(new EditEvent(table, frame))
                             .addDeleteAction(new DeleteEvent(table, frame))
             );

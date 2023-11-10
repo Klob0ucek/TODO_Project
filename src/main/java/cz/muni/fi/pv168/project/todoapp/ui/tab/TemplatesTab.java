@@ -19,7 +19,7 @@ public class TemplatesTab extends GeneralTab {
             var frame = this.getFrame();
             return new TemplatesTab(
                     this
-                            .addAddAction(new AddTemplate(table, this.getCategoryTableModelSupplier(), frame))
+                            .addAddAction(new AddTemplate(table, this.getCategoriesSupplier(), frame))
                             .addEditAction(new EditTemplate(table, frame))
                             .addDeleteAction(new DeleteTemplate(table, frame))
             );
