@@ -10,8 +10,8 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudServic
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
-import cz.muni.fi.pv168.project.todoapp.business.service.export.jsonExporter;
-import cz.muni.fi.pv168.project.todoapp.business.service.export.jsonImporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonImporter;
 import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
 import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
@@ -79,9 +79,9 @@ public class MainWindow {
         var intervalCrudService = new IntervalCrudService(intervalRepository);
 
         var exportService = new GenericExportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new jsonExporter()));
+                templateCrudService, intervalCrudService, List.of(new JsonExporter()));
         var importService = new GenericImportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new jsonImporter()));
+                templateCrudService, intervalCrudService, List.of(new JsonImporter()));
 
         scheduleTableModel = new ScheduleTableModel(eventCrudService);
         categoryTableModel = new CategoryTableModel(categoryCrudService);

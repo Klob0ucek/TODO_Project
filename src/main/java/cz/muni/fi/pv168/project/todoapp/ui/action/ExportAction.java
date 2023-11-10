@@ -31,9 +31,9 @@ public class ExportAction extends AbstractAction {
         if (!exportDialog.showConfirmationDialog(exportPath)) {
             return;
         }
+        exportService.exportData(exportPath);
         NotificationDialog notificationDialog = new NotificationDialog(frame, "Successfully exported to selected folder.");
         notificationDialog.showNotification();
-        exportService.exportData(exportPath);
 
     }
 }
