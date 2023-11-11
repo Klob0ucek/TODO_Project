@@ -17,7 +17,6 @@ public class HelpTab extends GeneralTab {
             BuildTemplate buildTemplate
     ) {
         super(buildTemplate);
-        super.title = "Help";
     }
 
     @Override

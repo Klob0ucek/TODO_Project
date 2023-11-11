@@ -1,7 +1,12 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.*;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.AbstractCoreEvent;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import java.util.List;
 
 /**
@@ -23,6 +28,7 @@ public class CrudHolder {
         this.templateCrudService = templateCrudService;
         this.intervalCrudService = intervalCrudService;
     }
+
     public boolean create(Entity entity) {
         if (entity instanceof Event) {
             return eventCrudService.create((Event) entity);
@@ -38,16 +44,28 @@ public class CrudHolder {
         }
         return false;
     }
+
     public List<Event> getEvents() {
         return eventCrudService.findAll();
     }
+
     public List<Category> getCategories() {
         return categoryCrudService.findAll();
     }
+
     public List<Template> getTemplates() {
         return templateCrudService.findAll();
     }
+
     public List<Interval> getIntervals() {
         return intervalCrudService.findAll();
+    }
+
+    public long getDoneEventsCount() {
+        return getEvents().stream().filter((AbstractCoreEvent::isDone)).count();
+    }
+
+    public long getPlannedEventsCount() {
+        return getEvents().size() - getDoneEventsCount();
     }
 }

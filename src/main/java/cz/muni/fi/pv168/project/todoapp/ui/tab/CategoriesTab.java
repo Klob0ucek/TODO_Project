@@ -31,6 +31,5 @@ public class CategoriesTab extends GeneralTab {
             BuildTemplate buildTemplate
     ) {
         super(buildTemplate);
-        super.title = "Categories";
     }
 }

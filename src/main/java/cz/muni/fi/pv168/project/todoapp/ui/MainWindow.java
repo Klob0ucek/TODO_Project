@@ -4,7 +4,11 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.*;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
@@ -18,13 +22,21 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.*;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -104,6 +116,7 @@ public class MainWindow {
 
 
     private void refreshModels() {
+        // TODO ImportOption should be chosen by user
         ImportOption option = ImportOption.REWRITE;
         scheduleTableModel.refreshFromCrud(option);
         categoryTableModel.refreshFromCrud(option);

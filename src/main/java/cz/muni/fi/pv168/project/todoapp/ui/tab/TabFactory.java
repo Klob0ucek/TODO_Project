@@ -8,7 +8,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class TabFactory {
     private TabFactory() {
@@ -22,7 +22,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new EventsTab.BuildTemplate()
-                .addTabDetails(ComponentFactory.createScheduleTable(model), frame, crudHolder)
+                .addTabDetails("Events", ComponentFactory.createScheduleTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -34,7 +34,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new CategoriesTab.BuildTemplate()
-                .addTabDetails(ComponentFactory.createCategoryTable(model), frame, crudHolder)
+                .addTabDetails("Categories", ComponentFactory.createCategoryTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -46,7 +46,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new TemplatesTab.BuildTemplate()
-                .addTabDetails(ComponentFactory.createTemplateTable(model), frame, crudHolder)
+                .addTabDetails("Templates", ComponentFactory.createTemplateTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -58,7 +58,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new IntervalsTab.BuildTemplate()
-                .addTabDetails(ComponentFactory.createIntervalTable(model), frame, crudHolder)
+                .addTabDetails("Intervals", ComponentFactory.createIntervalTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -68,7 +68,7 @@ public class TabFactory {
             ToolBarManager toolBarManager
     ) {
         return new HelpTab.BuildTemplate()
-                .addTabDetails(ComponentFactory.createHelp(), frame, null)
+                .addTabDetails("Help", ComponentFactory.createHelp(), frame, null)
                 .addToolBarManager(toolBarManager)
                 .build();
     }

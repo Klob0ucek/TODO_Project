@@ -3,12 +3,14 @@ package cz.muni.fi.pv168.project.todoapp.ui.tab;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import javax.swing.Action;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 public abstract class GeneralTab {
-    protected String title;
+    private final String title;
     private final Component component;
     private final ToolBarManager toolBarManager;
     private final Action addAction;
@@ -16,6 +18,7 @@ public abstract class GeneralTab {
     private final Action deleteAction;
 
     public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
+        private String title;
         private JFrame frame;
         private Component component;
         private ToolBarManager toolBarManager;
@@ -39,10 +42,12 @@ public abstract class GeneralTab {
         }
 
         public T addTabDetails(
+                String title,
                 Component component,
                 JFrame frame,
                 CrudHolder crudHolder
         ) {
+            this.title = title;
             this.component = component;
             this.frame = frame;
             this.crudHolder = crudHolder;
@@ -55,6 +60,7 @@ public abstract class GeneralTab {
             this.toolBarManager = toolBarManager;
             return self();
         }
+
         protected T addAddAction(
                 Action addAction
         ) {
@@ -80,6 +86,7 @@ public abstract class GeneralTab {
     protected GeneralTab(
             BuildTemplate<?> buildTemplate
     ) {
+        this.title = buildTemplate.title;
         this.component = buildTemplate.component;
         this.addAction = buildTemplate.addAction;
         this.editAction = buildTemplate.editAction;

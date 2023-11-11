@@ -4,9 +4,11 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddIntervalDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -24,8 +26,8 @@ public class AddInterval extends AbstractAddAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         var dialog = new AddIntervalDialog();
-        dialog.show(this.getFrame(), "Add interval").ifPresent(getCrudHolder()::create);
-
+        dialog.show(getFrame(), "Add interval").ifPresent(getCrudHolder()::create);
+        ((IntervalTableModel) getTable().getModel()).refreshFromCrud();
         new NotificationDialog(getFrame(), "Interval added successfully!").showNotification();
     }
 }
