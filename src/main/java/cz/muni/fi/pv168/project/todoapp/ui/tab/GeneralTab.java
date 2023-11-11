@@ -1,31 +1,22 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
-import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 
-import javax.swing.JFrame;
-import javax.swing.Icon;
-import javax.swing.Action;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
-
-import java.awt.Component;
-import java.util.List;
-import java.util.function.Supplier;
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class GeneralTab {
     private final String title;
     private final String tip;
     private final Icon icon;
     private final Component component;
-
     private final ToolBarManager toolBarManager;
-
     private final Action addAction;
     private final Action editAction;
     private final Action deleteAction;
+    private final CrudHolder crudHolder;
 
     public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
         private JFrame frame;
@@ -33,14 +24,11 @@ public abstract class GeneralTab {
         private String tip;
         private Icon icon;
         private Component component;
-
         private ToolBarManager toolBarManager;
-
-        private Supplier<List<Category>> categoriesSupplier;
-
         private Action addAction;
         private Action editAction;
         private Action deleteAction;
+        private CrudHolder crudHolder;
 
         protected abstract T self();
 
@@ -52,8 +40,8 @@ public abstract class GeneralTab {
             return this.frame;
         }
 
-        public Supplier<List<Category>> getCategoriesSupplier() {
-            return categoriesSupplier;
+        protected CrudHolder getCrudHolder() {
+            return crudHolder;
         }
 
         public T addTabDetails(
@@ -61,13 +49,15 @@ public abstract class GeneralTab {
                 Icon icon,
                 Component component,
                 JFrame frame,
-                String tip
+                String tip,
+                CrudHolder crudHolder
         ) {
             this.title = title;
             this.tip = tip;
             this.icon = icon;
             this.component = component;
             this.frame = frame;
+            this.crudHolder = crudHolder;
             return self();
         }
 
@@ -77,14 +67,6 @@ public abstract class GeneralTab {
             this.toolBarManager = toolBarManager;
             return self();
         }
-
-        public T addCategoriesSupplier(
-                Supplier<List<Category>> categoriesSupplier
-        ) {
-            this.categoriesSupplier = categoriesSupplier;
-            return self();
-        }
-
         protected T addAddAction(
                 Action addAction
         ) {
@@ -120,6 +102,7 @@ public abstract class GeneralTab {
         this.deleteAction = buildTemplate.deleteAction;
 
         this.toolBarManager = buildTemplate.toolBarManager;
+        this.crudHolder = buildTemplate.crudHolder;
     }
 
     public Component getComponent() {

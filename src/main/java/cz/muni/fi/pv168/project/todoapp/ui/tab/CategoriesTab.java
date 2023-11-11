@@ -17,11 +17,12 @@ public class CategoriesTab extends GeneralTab {
         public GeneralTab build() {
             var table = (JTable) this.getComponent();
             var frame = this.getFrame();
+            var crudHolder = this.getCrudHolder();
             return new CategoriesTab(
                     this
-                            .addAddAction(new AddCategory(table, frame))
-                            .addEditAction(new EditCategory(table, frame))
-                            .addDeleteAction(new DeleteCategory(table, frame))
+                            .addAddAction(new AddCategory(table, frame, crudHolder))
+                            .addEditAction(new EditCategory(table, frame, crudHolder))
+                            .addDeleteAction(new DeleteCategory(table, frame, crudHolder))
             );
         }
     }

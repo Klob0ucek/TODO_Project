@@ -4,10 +4,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudService;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.*;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
@@ -31,7 +28,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -92,14 +88,14 @@ public class MainWindow {
                 new ExportAction(frame, exportService),
                 new ImportAction(frame, importService, this::refreshModels));
 
-        Supplier<List<Category>> categoriesSupplier = categoryCrudService::findAll;
-        // You can get other lists from here similarly, such as templates and intervals
+        CrudHolder crudHolder = new CrudHolder(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService);
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, categoriesSupplier),
-                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel),
-                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, categoriesSupplier),
-                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, crudHolder),
+                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel, crudHolder),
+                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, crudHolder),
+                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel, crudHolder),
                         TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
@@ -11,9 +12,10 @@ import java.awt.event.KeyEvent;
 public class EditCategory extends AbstractEditAction {
     public EditCategory(
             JTable table,
-            JFrame frame
+            JFrame frame,
+            CrudHolder crudHolder
     ) {
-        super(Icons.EDIT.getIcon(), table, frame);
+        super(Icons.EDIT.getIcon(), table, frame, crudHolder);
         putValue(SHORT_DESCRIPTION, "Edit selected category (Alt + e)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_E);
     }

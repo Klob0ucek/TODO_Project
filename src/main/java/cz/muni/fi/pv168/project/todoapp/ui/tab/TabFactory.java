@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
@@ -8,9 +8,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
-import javax.swing.JFrame;
-import java.util.List;
-import java.util.function.Supplier;
+import javax.swing.*;
 
 public class TabFactory {
     private TabFactory() {
@@ -21,7 +19,7 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             ScheduleTableModel model,
-            Supplier<List<Category>> categoriesSupplier
+            CrudHolder crudHolder
     ) {
         return new EventsTab.BuildTemplate()
                 .addTabDetails(
@@ -29,17 +27,18 @@ public class TabFactory {
                         null,
                         ComponentFactory.createScheduleTable(model),
                         frame,
-                        null
+                        null,
+                        crudHolder
                 )
                 .addToolBarManager(toolBarManager)
-                .addCategoriesSupplier(categoriesSupplier)
                 .build();
     }
 
     public static GeneralTab createCategoriesTab(
             JFrame frame,
             ToolBarManager toolBarManager,
-            CategoryTableModel model
+            CategoryTableModel model,
+            CrudHolder crudHolder
     ) {
         return new CategoriesTab.BuildTemplate()
                 .addTabDetails(
@@ -47,7 +46,8 @@ public class TabFactory {
                         null,
                         ComponentFactory.createCategoryTable(model),
                         frame,
-                        null
+                        null,
+                        crudHolder
                 )
                 .addToolBarManager(toolBarManager)
                 .build();
@@ -57,7 +57,7 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             TemplateTableModel model,
-            Supplier<List<Category>> categoriesSupplier
+            CrudHolder crudHolder
     ) {
         return new TemplatesTab.BuildTemplate()
                 .addTabDetails(
@@ -65,17 +65,18 @@ public class TabFactory {
                         null,
                         ComponentFactory.createTemplateTable(model),
                         frame,
-                        null
+                        null,
+                        crudHolder
                 )
                 .addToolBarManager(toolBarManager)
-                .addCategoriesSupplier(categoriesSupplier)
                 .build();
     }
 
     public static GeneralTab createIntervalsTab(
             JFrame frame,
             ToolBarManager toolBarManager,
-            IntervalTableModel model
+            IntervalTableModel model,
+            CrudHolder crudHolder
     ) {
         return new IntervalsTab.BuildTemplate()
                 .addTabDetails(
@@ -83,7 +84,8 @@ public class TabFactory {
                         null,
                         ComponentFactory.createIntervalTable(model),
                         frame,
-                        null
+                        null,
+                        crudHolder
                 )
                 .addToolBarManager(toolBarManager)
                 .build();
@@ -99,6 +101,7 @@ public class TabFactory {
                         null,
                         ComponentFactory.createHelp(),
                         frame,
+                        null,
                         null
                 )
                 .addToolBarManager(toolBarManager)

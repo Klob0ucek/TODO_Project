@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.interval;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddIntervalDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
@@ -13,9 +14,10 @@ import java.awt.event.KeyEvent;
 public class AddInterval extends AbstractAddAction {
     public AddInterval(
             JTable table,
-            JFrame frame
+            JFrame frame,
+            CrudHolder crudHolder
     ) {
-        super(Icons.ADD.getIcon(), table, frame);
+        super(Icons.ADD.getIcon(), table, frame, crudHolder);
         putValue(SHORT_DESCRIPTION, "Add new interval (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }
