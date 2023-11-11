@@ -18,10 +18,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
-import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
+import cz.muni.fi.pv168.project.todoapp.ui.tab.*;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
 import javax.swing.*;

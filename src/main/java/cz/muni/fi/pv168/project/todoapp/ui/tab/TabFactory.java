@@ -22,14 +22,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new EventsTab.BuildTemplate()
-                .addTabDetails(
-                        "Events",
-                        null,
-                        ComponentFactory.createScheduleTable(model),
-                        frame,
-                        null,
-                        crudHolder
-                )
+                .addTabDetails(ComponentFactory.createScheduleTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -41,14 +34,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new CategoriesTab.BuildTemplate()
-                .addTabDetails(
-                        "Categories",
-                        null,
-                        ComponentFactory.createCategoryTable(model),
-                        frame,
-                        null,
-                        crudHolder
-                )
+                .addTabDetails(ComponentFactory.createCategoryTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -60,14 +46,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new TemplatesTab.BuildTemplate()
-                .addTabDetails(
-                        "Templates",
-                        null,
-                        ComponentFactory.createTemplateTable(model),
-                        frame,
-                        null,
-                        crudHolder
-                )
+                .addTabDetails(ComponentFactory.createTemplateTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -79,14 +58,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new IntervalsTab.BuildTemplate()
-                .addTabDetails(
-                        "Intervals",
-                        null,
-                        ComponentFactory.createIntervalTable(model),
-                        frame,
-                        null,
-                        crudHolder
-                )
+                .addTabDetails(ComponentFactory.createIntervalTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -96,14 +68,7 @@ public class TabFactory {
             ToolBarManager toolBarManager
     ) {
         return new HelpTab.BuildTemplate()
-                .addTabDetails(
-                        "Help",
-                        null,
-                        ComponentFactory.createHelp(),
-                        frame,
-                        null,
-                        null
-                )
+                .addTabDetails(ComponentFactory.createHelp(), frame, null)
                 .addToolBarManager(toolBarManager)
                 .build();
     }

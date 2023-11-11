@@ -8,21 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class GeneralTab {
-    private final String title;
-    private final String tip;
-    private final Icon icon;
+    protected String title;
     private final Component component;
     private final ToolBarManager toolBarManager;
     private final Action addAction;
     private final Action editAction;
     private final Action deleteAction;
-    private final CrudHolder crudHolder;
 
     public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
         private JFrame frame;
-        private String title;
-        private String tip;
-        private Icon icon;
         private Component component;
         private ToolBarManager toolBarManager;
         private Action addAction;
@@ -45,16 +39,10 @@ public abstract class GeneralTab {
         }
 
         public T addTabDetails(
-                String title,
-                Icon icon,
                 Component component,
                 JFrame frame,
-                String tip,
                 CrudHolder crudHolder
         ) {
-            this.title = title;
-            this.tip = tip;
-            this.icon = icon;
             this.component = component;
             this.frame = frame;
             this.crudHolder = crudHolder;
@@ -92,9 +80,6 @@ public abstract class GeneralTab {
     protected GeneralTab(
             BuildTemplate<?> buildTemplate
     ) {
-        this.title = buildTemplate.title;
-        this.tip = buildTemplate.tip;
-        this.icon = buildTemplate.icon;
         this.component = buildTemplate.component;
 
         this.addAction = buildTemplate.addAction;
@@ -102,7 +87,6 @@ public abstract class GeneralTab {
         this.deleteAction = buildTemplate.deleteAction;
 
         this.toolBarManager = buildTemplate.toolBarManager;
-        this.crudHolder = buildTemplate.crudHolder;
     }
 
     public Component getComponent() {
@@ -125,6 +109,7 @@ public abstract class GeneralTab {
     public void addToPane(
             JTabbedPane tabbedPane
     ) {
-        tabbedPane.addTab(title, icon, new JScrollPane(component), tip);
+        tabbedPane.addTab(title, null, new JScrollPane(component), null);
     }
+
 }

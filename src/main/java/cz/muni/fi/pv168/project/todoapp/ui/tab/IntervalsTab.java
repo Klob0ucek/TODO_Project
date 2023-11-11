@@ -31,5 +31,6 @@ public class IntervalsTab extends GeneralTab {
             BuildTemplate buildTemplate
     ) {
         super(buildTemplate);
+        super.title = "Intervals";
     }
 }
