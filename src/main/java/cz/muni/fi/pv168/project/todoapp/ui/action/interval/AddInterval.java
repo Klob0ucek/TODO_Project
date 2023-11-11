@@ -26,6 +26,6 @@ public class AddInterval extends AbstractAddAction {
     public void actionPerformed(ActionEvent e) {
         var intervalTableModel = (IntervalTableModel) this.getTable().getModel();
         var dialog = new AddIntervalDialog();
-        dialog.show(this.getTable(), "Add interval").ifPresent(intervalTableModel::addRow);
+        dialog.show(this.getFrame(), "Add interval").ifPresent(intervalTableModel::addRow);
     }
 }

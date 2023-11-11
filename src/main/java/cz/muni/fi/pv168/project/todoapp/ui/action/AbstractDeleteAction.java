@@ -32,17 +32,13 @@ public abstract class AbstractDeleteAction extends AbstractAction {
         return frame;
     }
 
-    public CrudHolder getCrudHolder() {
-        return crudHolder;
-    }
-
     protected boolean isUserApproved() {
         JOptionPane pane = new JOptionPane();
         pane.setMessage("You have " + this.table.getSelectedRowCount() + " rows selected for deletion.");
         pane.setMessageType(JOptionPane.WARNING_MESSAGE);
         pane.setOptionType(JOptionPane.YES_NO_OPTION);
 
-        var dialog = pane.createDialog(this.table, "Are you sure?");
+        var dialog = pane.createDialog(this.frame, "Are you sure?");
         dialog.setVisible(true);
 
         Object result = pane.getValue();

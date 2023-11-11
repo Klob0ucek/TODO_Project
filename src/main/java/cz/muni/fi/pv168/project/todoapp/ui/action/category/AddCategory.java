@@ -26,6 +26,6 @@ public class AddCategory extends AbstractAddAction {
     public void actionPerformed(ActionEvent e) {
         var categoryTableModel = (CategoryTableModel) this.getTable().getModel();
         var dialog = new AddCategoryDialog();
-        dialog.show(this.getTable(), "Add category").ifPresent(categoryTableModel::addRow);
+        dialog.show(this.getFrame(), "Add category").ifPresent(categoryTableModel::addRow);
     }
 }

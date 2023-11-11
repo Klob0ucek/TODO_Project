@@ -81,7 +81,6 @@ public abstract class GeneralTab {
             BuildTemplate<?> buildTemplate
     ) {
         this.component = buildTemplate.component;
-
         this.addAction = buildTemplate.addAction;
         this.editAction = buildTemplate.editAction;
         this.deleteAction = buildTemplate.deleteAction;

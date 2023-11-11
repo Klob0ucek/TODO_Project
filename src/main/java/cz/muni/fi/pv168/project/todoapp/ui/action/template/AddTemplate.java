@@ -27,6 +27,6 @@ public class AddTemplate extends AbstractAddAction {
         var templateTableModel = (TemplateTableModel) this.getTable().getModel();
         
         var dialog = new AddTemplateDialog(new CategoryListModel(super.getCrudHolder().getCategories()));
-        dialog.show(this.getTable(), "Add template").ifPresent(templateTableModel::addRow);
+        dialog.show(this.getFrame(), "Add template").ifPresent(templateTableModel::addRow);
     }
 }
