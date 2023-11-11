@@ -5,7 +5,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddEventDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
-import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.*;
@@ -25,11 +24,9 @@ public class AddEvent extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var scheduleTableModel = (ScheduleTableModel) this.getTable().getModel();
         var dialog = new AddEventDialog(new CategoryListModel(super.getCrudHolder().getCategories()));
-        dialog.show(this.getFrame(), "Add event").ifPresent(scheduleTableModel::addRow);
+        dialog.show(getFrame(), "Add event").ifPresent(getCrudHolder()::create);
 
-        NotificationDialog notificationDialog = new NotificationDialog(super.getFrame(), "Event added successfully!");
-        notificationDialog.showNotification();
+        new NotificationDialog(getFrame(), "Event added successfully!").showNotification();
     }
 }

@@ -1,12 +1,13 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
-import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.*;
 
 import java.util.List;
 
+/**
+ * Class for holding all crud services
+ * From here you can update or get all data from storage
+ */
 public class CrudHolder {
     private final CrudService<Event> eventCrudService;
     private final CrudService<Category> categoryCrudService;
@@ -21,6 +22,21 @@ public class CrudHolder {
         this.categoryCrudService = categoryCrudService;
         this.templateCrudService = templateCrudService;
         this.intervalCrudService = intervalCrudService;
+    }
+    public boolean create(Entity entity) {
+        if (entity instanceof Event) {
+            return eventCrudService.create((Event) entity);
+        }
+        if (entity instanceof Category) {
+            return categoryCrudService.create((Category) entity);
+        }
+        if (entity instanceof Template) {
+            return templateCrudService.create((Template) entity);
+        }
+        if (entity instanceof Interval) {
+            return intervalCrudService.create((Interval) entity);
+        }
+        return false;
     }
     public List<Event> getEvents() {
         return eventCrudService.findAll();

@@ -3,8 +3,8 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddTemplateDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryListModel;
-import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.*;
@@ -24,9 +24,9 @@ public class AddTemplate extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var templateTableModel = (TemplateTableModel) this.getTable().getModel();
-        
-        var dialog = new AddTemplateDialog(new CategoryListModel(super.getCrudHolder().getCategories()));
-        dialog.show(this.getFrame(), "Add template").ifPresent(templateTableModel::addRow);
+        var dialog = new AddTemplateDialog(new CategoryListModel(getCrudHolder().getCategories()));
+        dialog.show(getFrame(), "Add template").ifPresent(getCrudHolder()::create);
+
+        new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
     }
 }
