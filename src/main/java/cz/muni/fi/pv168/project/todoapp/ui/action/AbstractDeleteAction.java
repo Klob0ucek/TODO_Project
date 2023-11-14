@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.model.BasicTableModel;
 
 import javax.swing.AbstractAction;
@@ -13,15 +14,18 @@ import java.awt.event.ActionEvent;
 public abstract class AbstractDeleteAction extends AbstractAction {
     private final JTable table;
     private final JFrame frame;
+    private  final CrudHolder crudHolder;
 
     public AbstractDeleteAction(
             Icon icon,
             JTable table,
-            JFrame frame
+            JFrame frame,
+            CrudHolder crudHolder
     ) {
         super("Delete", icon);
         this.table = table;
         this.frame = frame;
+        this.crudHolder = crudHolder;
     }
 
     public JFrame getFrame() {
@@ -34,7 +38,7 @@ public abstract class AbstractDeleteAction extends AbstractAction {
         pane.setMessageType(JOptionPane.WARNING_MESSAGE);
         pane.setOptionType(JOptionPane.YES_NO_OPTION);
 
-        var dialog = pane.createDialog(this.table, "Are you sure?");
+        var dialog = pane.createDialog(this.frame, "Are you sure?");
         dialog.setVisible(true);
 
         Object result = pane.getValue();

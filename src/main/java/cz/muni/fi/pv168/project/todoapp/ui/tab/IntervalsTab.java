@@ -17,11 +17,12 @@ public class IntervalsTab extends GeneralTab {
         public GeneralTab build() {
             var table = (JTable) this.getComponent();
             var frame = this.getFrame();
+            var crudHolder = this.getCrudHolder();
             return new IntervalsTab(
                     this
-                            .addAddAction(new AddInterval(table, frame))
-                            .addEditAction(new EditInterval(table, frame))
-                            .addDeleteAction(new DeleteInterval(table, frame))
+                            .addAddAction(new AddInterval(table, frame, crudHolder))
+                            .addEditAction(new EditInterval(table, frame, crudHolder))
+                            .addDeleteAction(new DeleteInterval(table, frame, crudHolder))
             );
         }
     }

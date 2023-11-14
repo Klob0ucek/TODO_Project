@@ -11,7 +11,6 @@ import java.util.List;
 public class CategoryCrudService implements CrudService<Category> {
 
     private final Repository<Category> categoryRepository;
-
     public CategoryCrudService(Repository<Category> categoryRepository) {
         this.categoryRepository = categoryRepository;
     }

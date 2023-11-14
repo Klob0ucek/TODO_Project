@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ComponentFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
@@ -8,7 +9,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
 import javax.swing.JFrame;
-import java.util.function.Supplier;
 
 public class TabFactory {
     private TabFactory() {
@@ -19,34 +19,22 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             ScheduleTableModel model,
-            Supplier<CategoryTableModel> categoryTableModelSupplier
+            CrudHolder crudHolder
     ) {
         return new EventsTab.BuildTemplate()
-                .addTabDetails(
-                        "Events",
-                        null,
-                        ComponentFactory.createScheduleTable(model),
-                        frame,
-                        null
-                )
+                .addTabDetails("Events", ComponentFactory.createScheduleTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
-                .addCategoryTableSupplier(categoryTableModelSupplier)
                 .build();
     }
 
     public static GeneralTab createCategoriesTab(
             JFrame frame,
             ToolBarManager toolBarManager,
-            CategoryTableModel model
+            CategoryTableModel model,
+            CrudHolder crudHolder
     ) {
         return new CategoriesTab.BuildTemplate()
-                .addTabDetails(
-                        "Categories",
-                        null,
-                        ComponentFactory.createCategoryTable(model),
-                        frame,
-                        null
-                )
+                .addTabDetails("Categories", ComponentFactory.createCategoryTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -55,34 +43,22 @@ public class TabFactory {
             JFrame frame,
             ToolBarManager toolBarManager,
             TemplateTableModel model,
-            Supplier<CategoryTableModel> categoryTableModelSupplier
+            CrudHolder crudHolder
     ) {
         return new TemplatesTab.BuildTemplate()
-                .addTabDetails(
-                        "Templates",
-                        null,
-                        ComponentFactory.createTemplateTable(model),
-                        frame,
-                        null
-                )
+                .addTabDetails("Templates", ComponentFactory.createTemplateTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
-                .addCategoryTableSupplier(categoryTableModelSupplier)
                 .build();
     }
 
     public static GeneralTab createIntervalsTab(
             JFrame frame,
             ToolBarManager toolBarManager,
-            IntervalTableModel model
+            IntervalTableModel model,
+            CrudHolder crudHolder
     ) {
         return new IntervalsTab.BuildTemplate()
-                .addTabDetails(
-                        "Intervals",
-                        null,
-                        ComponentFactory.createIntervalTable(model),
-                        frame,
-                        null
-                )
+                .addTabDetails("Intervals", ComponentFactory.createIntervalTable(model), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }
@@ -92,13 +68,7 @@ public class TabFactory {
             ToolBarManager toolBarManager
     ) {
         return new HelpTab.BuildTemplate()
-                .addTabDetails(
-                        "Help",
-                        null,
-                        ComponentFactory.createHelp(),
-                        frame,
-                        null
-                )
+                .addTabDetails("Help", ComponentFactory.createHelp(), frame, null)
                 .addToolBarManager(toolBarManager)
                 .build();
     }

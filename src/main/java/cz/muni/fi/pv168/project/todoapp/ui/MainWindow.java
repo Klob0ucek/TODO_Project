@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudService;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
@@ -26,12 +27,16 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -92,15 +97,14 @@ public class MainWindow {
                 new ExportAction(frame, exportService),
                 new ImportAction(frame, importService, this::refreshModels));
 
-        GeneralTab categoriesTab = TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel);
-        Supplier<CategoryTableModel> tableModelSupplier =
-                () -> (CategoryTableModel) ((JTable) categoriesTab.getComponent()).getModel();
+        CrudHolder crudHolder = new CrudHolder(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService);
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, tableModelSupplier),
-                        categoriesTab,
-                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, tableModelSupplier),
-                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, crudHolder),
+                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel, crudHolder),
+                        TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, crudHolder),
+                        TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel, crudHolder),
                         TabFactory.createHelpTab(frame, toolBarManager)
                 )
         );
@@ -112,11 +116,12 @@ public class MainWindow {
 
 
     private void refreshModels() {
+        // TODO ImportOption should be chosen by user
         ImportOption option = ImportOption.REWRITE;
-        scheduleTableModel.refresh(option);
-        categoryTableModel.refresh(option);
-        templateTableModel.refresh(option);
-        intervalTableModel.refresh(option);
+        scheduleTableModel.refreshFromCrud(option);
+        categoryTableModel.refreshFromCrud(option);
+        templateTableModel.refreshFromCrud(option);
+        intervalTableModel.refreshFromCrud(option);
     }
 
     private JFrame createFrame() {

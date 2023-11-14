@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import java.util.Optional;
-
+import java.awt.Component;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.PLAIN_MESSAGE;
@@ -25,7 +25,7 @@ abstract class EntityDialog<E> {
 
     abstract E getEntity();
 
-    public Optional<E> show(JComponent parentComponent, String title) {
+    public Optional<E> show(Component parentComponent, String title) {
         int result = JOptionPane.showOptionDialog(parentComponent, panel, title,
                 OK_CANCEL_OPTION, PLAIN_MESSAGE, null, null, null);
 
