@@ -10,11 +10,13 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public abstract class AbstractDeleteAction extends AbstractAction {
     private final JTable table;
     private final JFrame frame;
-    private  final CrudHolder crudHolder;
+    private final CrudHolder crudHolder;
 
     public AbstractDeleteAction(
             Icon icon,
@@ -52,10 +54,13 @@ public abstract class AbstractDeleteAction extends AbstractAction {
         }
 
         var tableModel = (BasicTableModel<?>) this.table.getModel();
-        var selectedRows = this.table.getSelectedRows();
-
-        for (var i = selectedRows.length - 1; i >= 0; i--) {
-            tableModel.deleteRow(selectedRows[i]);
-        }
+        Arrays.stream(this.table.getSelectedRows())
+                // view row index must be converted to model row index
+                .map(this.table::convertRowIndexToModel)
+                .boxed()
+                // We need to delete rows in descending order to not change index of rows
+                // which are not deleted yet
+                .sorted(Comparator.reverseOrder())
+                .forEach(tableModel::deleteRow);
     }
 }
