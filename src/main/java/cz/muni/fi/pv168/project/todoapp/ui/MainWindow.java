@@ -17,6 +17,7 @@ import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
 import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.EventTableFilter;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
@@ -36,7 +37,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableRowSorter;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -45,18 +49,23 @@ public class MainWindow {
     private CategoryTableModel categoryTableModel;
     private TemplateTableModel templateTableModel;
     private IntervalTableModel intervalTableModel;
+    private CrudHolder crudHolder;
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
-
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-        createTabs(verticalToolBar, tabbedPane);
+        ToolBarManager toolBarManager = createCruds(verticalToolBar);
+
+        TableRowSorter<ScheduleTableModel> rowSorter = new TableRowSorter<>(scheduleTableModel);
+        EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder);
+        Filter filter = new Filter(crudHolder, eventTableFilter);
+
+        createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
         tabHolder.getCurrentTab().updateToolBar();
-
-        frame.add(new Filter().getFilterBar(), BorderLayout.NORTH);
+        frame.add(filter.getFilterBar(), BorderLayout.NORTH);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
         frame.add(createBottomLine(), BorderLayout.SOUTH);
@@ -67,10 +76,7 @@ public class MainWindow {
         return new JLabel("BOTTOM-SIDE");
     }
 
-    private void createTabs(
-            JComponent verticalToolBar,
-            JTabbedPane tabbedPane
-    ) {
+    private ToolBarManager createCruds(JComponent verticalToolBar) {
         InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
         InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(ExampleData.getCategories());
         InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
@@ -97,11 +103,20 @@ public class MainWindow {
                 new ExportAction(frame, exportService),
                 new ImportAction(frame, importService, this::refreshModels));
 
-        CrudHolder crudHolder = new CrudHolder(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService);
+        this.crudHolder = new CrudHolder(eventCrudService, categoryCrudService, templateCrudService, intervalCrudService);
+        return toolBarManager;
+    }
+
+    private void createTabs(
+            ToolBarManager toolBarManager,
+            JTabbedPane tabbedPane,
+            Filter filter,
+            RowSorter<ScheduleTableModel> rowSorter
+    ) {
+
         tabs.addAll(
                 List.of(
-                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, crudHolder),
+                        TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, crudHolder, filter),
                         TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel, crudHolder),
                         TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, crudHolder),
                         TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel, crudHolder),
@@ -112,6 +127,7 @@ public class MainWindow {
         for (var tab : tabs) {
             tab.addToPane(tabbedPane);
         }
+        ((JTable) tabs.get(0).getComponent()).setRowSorter(rowSorter);
     }
 
 
