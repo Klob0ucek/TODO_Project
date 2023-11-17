@@ -1,7 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.ui.auxiliary;
 
-import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroup;
-
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -9,10 +7,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public final class OptionGroupInitializer {
-    /**
-     * Private constructor to ensure that the class cannot be instantiated
-     */
     private OptionGroupInitializer() {
+        // private constructor to ensure that the class cannot be instantiated
     }
 
     public static <T extends JMenuItem> void initializer(

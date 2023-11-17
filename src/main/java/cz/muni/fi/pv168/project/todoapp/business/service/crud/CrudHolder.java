@@ -7,6 +7,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+
 import java.util.List;
 
 /**

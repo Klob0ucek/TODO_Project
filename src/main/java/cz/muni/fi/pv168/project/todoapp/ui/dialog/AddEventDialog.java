@@ -3,91 +3,122 @@ package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
+import cz.muni.fi.pv168.project.todoapp.ui.model.ListModel;
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.ComboBoxRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.*;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenuBar;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.Box;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class AddEventDialog extends EntityDialog<Event> {
-    private final JPanel topPanel = new JPanel();
+    private final ComboBoxModel<Template> templateListModel;
     private final JCheckBox doneField = new JCheckBox();
-    private final JTextField nameField = new JTextField();
-    private final ComboBoxModel<Category> categoryModel;
     private final List<Category> categories;
     private final JMenuBar categoriesMenuBar = new JMenuBar();
     private final CheckGroup categoryOptions = new CheckGroup();
+    private final JTextField nameField = new JTextField("", 20);
     private final JTextField locationField = new JTextField();
     private final DateTimePicker dateTimePicker = new DateTimePicker(
             CustomDatePickerSettings.getSettings(),
             CustomTimePickerSettings.getSettings()
     );
-    private final JSpinner durationSpinner = new JSpinner();
+    private final ComboBoxModel<Interval> intervalListModel;
+    private final JSpinner durationSpinner = new JSpinner(
+            new SpinnerNumberModel(0, 0, 525600, 1));
 
-    public AddEventDialog(ListModel<Category> categoryModel, List<Category> categories) {
-        this.categoryModel = new ComboBoxModelAdapter<>(categoryModel);
+    public AddEventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
+                          List<Category> categories) {
+        this.templateListModel = new ComboBoxModelAdapter<>(templateListModel);
+        this.intervalListModel = new ComboBoxModelAdapter<>(intervalListModel);
         this.categories = categories;
-        initCategories(categories.stream().map(Category::getName).toList());
-        topPanelSetup();
+        OptionGroupInitializer.initializer("Categories", JCheckBoxMenuItem::new,
+                categories.stream().map(Category::getName).toList(), categoriesMenuBar, categoryOptions);
         addFields();
     }
 
     private void addFields() {
-        panel.add(topPanel);
-        //add("Category:", new JComboBox<>(categoryModel));
-        add("Another categories:", categoriesMenuBar);
+        add("From template:", templateComboBoxSetup());
+        JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", nameField);
+        panel.add(Box.createHorizontalStrut(10));
+        panel.add(categoriesMenuBar);
         add("Location:", locationField);
         add("Date and time:", dateTimePicker);
-        add("Duration in minutes:", durationSpinner);
+        addTwoComponentPanel("Interval:", intervalComboBoxSetup(), "Duration in minutes:", durationSpinner);
     }
 
-    private void topPanelSetup() {
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        topPanel.add(new JLabel(" Done? "));
-        topPanel.add(doneField);
-        topPanel.add(new JLabel(" Name: "));
-        topPanel.add(nameField);
+    private JComboBox<Template> templateComboBoxSetup() {
+        JComboBox<Template> templateComboBox = new JComboBox<>(templateListModel);
+
+        templateComboBox.setRenderer(new ComboBoxRenderer());
+        templateComboBox.addActionListener(e -> {
+            Template template = (Template) templateComboBox.getSelectedItem();
+            assert template != null;
+
+            categoryOptions.setDefault();
+            doneField.setSelected(template.isDone());
+            nameField.setText(template.getName());
+            locationField.setText(template.getLocation());
+            dateTimePicker.timePicker.setTime(template.getTime());
+
+            if (template.getCategories() != null) {
+                template.getCategories().forEach(c -> categoryOptions.getCheckBoxes()
+                        .get(categories.indexOf(c)).setState(true));
+            }
+
+            if (template.getDuration() != null) {
+                durationSpinner.setValue(template.getDuration().toMinutes());
+            }
+        });
+
+        return templateComboBox;
     }
 
-    private void initCategories(List<String> categories) {
-        OptionGroupInitializer.initializer(
-                "Additional categories",
-                JCheckBoxMenuItem::new,
-                categories,
-                categoriesMenuBar,
-                categoryOptions
-        );
+    private JComboBox<Interval> intervalComboBoxSetup() {
+        JComboBox<Interval> intervalComboBox = new JComboBox<>(intervalListModel);
+
+        intervalComboBox.setRenderer(new ComboBoxRenderer());
+        intervalComboBox.addActionListener(e -> {
+            Interval interval = (Interval) intervalComboBox.getSelectedItem();
+            assert interval != null;
+            durationSpinner.setValue(interval.getDuration().toMinutes());
+        });
+
+        return intervalComboBox;
     }
 
     @Override
     Event getEntity() {
         boolean isDone = doneField.isSelected();
+        List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
+        List<Category> categories = IntStream.range(0, checkBoxes.size())
+                .filter(i -> checkBoxes.get(i).getState())
+                .mapToObj(this.categories::get)
+                .collect(Collectors.toList());
         String name = nameField.getText();
-        //List<Category> categories = List.of((Category) categoryModel.getSelectedItem());
-        List<Category> categories = getCategoriesFromCheckBoxes(categoryOptions.getCheckBoxes());
         String location = locationField.getText();
         LocalDate date = dateTimePicker.getDatePicker().getDate();
         LocalTime time = dateTimePicker.getTimePicker().getTime();
-        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
+        Duration duration = Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue());
         return new Event(isDone, name, categories, location, date, time, duration);
-    }
-
-    private List<Category> getCategoriesFromCheckBoxes(List<JCheckBoxMenuItem> checkBoxes) {
-        List<Category> result = new ArrayList<>();
-
-        for (int i = 0; i < categories.size(); i++) {
-            if (checkBoxes.get(i).getState()) {
-                result.add(categories.get(i));
-            }
-        }
-
-        return result;
     }
 }

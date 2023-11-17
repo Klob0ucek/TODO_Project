@@ -4,12 +4,14 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 
 public class AddIntervalDialog extends EntityDialog<Interval> {
     private final JTextField nameField = new JTextField();
     private final JTextField abbreviationField = new JTextField();
-    private final JSpinner durationSpinner = new JSpinner();
+    private final JSpinner durationSpinner = new JSpinner(
+            new SpinnerNumberModel(0, 0, 525600, 1));
 
     public AddIntervalDialog() {
         addFields();
