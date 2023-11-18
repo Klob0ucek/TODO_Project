@@ -15,6 +15,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
@@ -32,6 +33,7 @@ import java.util.stream.IntStream;
 
 public class AddEventDialog extends EntityDialog<Event> {
     private final ComboBoxModel<Template> templateListModel;
+    private final JComboBox<Template> templateComboBox = new JComboBox<>();
     private final JCheckBox doneField = new JCheckBox();
     private final List<Category> categories;
     private final JMenuBar categoriesMenuBar = new JMenuBar();
@@ -43,6 +45,7 @@ public class AddEventDialog extends EntityDialog<Event> {
             CustomTimePickerSettings.getSettings()
     );
     private final ComboBoxModel<Interval> intervalListModel;
+    private final JComboBox<Interval> intervalComboBox = new JComboBox<>();
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
@@ -57,7 +60,7 @@ public class AddEventDialog extends EntityDialog<Event> {
     }
 
     private void addFields() {
-        add("From template:", templateComboBoxSetup());
+        addTwoComponentPanel("From template:", templateComboBoxSetup(), "", resetButtonSetup());
         JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", nameField);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(categoriesMenuBar);
@@ -67,14 +70,14 @@ public class AddEventDialog extends EntityDialog<Event> {
     }
 
     private JComboBox<Template> templateComboBoxSetup() {
-        JComboBox<Template> templateComboBox = new JComboBox<>(templateListModel);
-
+        templateComboBox.setModel(templateListModel);
         templateComboBox.setRenderer(new ComboBoxRenderer());
         templateComboBox.addActionListener(e -> {
             Template template = (Template) templateComboBox.getSelectedItem();
-            assert template != null;
+            if (template == null) return;
 
             categoryOptions.setDefault();
+            intervalComboBox.setSelectedIndex(-1);
             doneField.setSelected(template.isDone());
             nameField.setText(template.getName());
             locationField.setText(template.getLocation());
@@ -94,16 +97,32 @@ public class AddEventDialog extends EntityDialog<Event> {
     }
 
     private JComboBox<Interval> intervalComboBoxSetup() {
-        JComboBox<Interval> intervalComboBox = new JComboBox<>(intervalListModel);
-
+        intervalComboBox.setModel(intervalListModel);
         intervalComboBox.setRenderer(new ComboBoxRenderer());
         intervalComboBox.addActionListener(e -> {
             Interval interval = (Interval) intervalComboBox.getSelectedItem();
-            assert interval != null;
+            if (interval == null) return;
             durationSpinner.setValue(interval.getDuration().toMinutes());
         });
 
         return intervalComboBox;
+    }
+
+    private JButton resetButtonSetup() {
+        JButton resetButton = new JButton("Reset");
+
+        resetButton.addActionListener(e -> {
+            templateComboBox.setSelectedIndex(-1);
+            doneField.setSelected(false);
+            nameField.setText("");
+            categoryOptions.setDefault();
+            locationField.setText("");
+            dateTimePicker.clear();
+            intervalComboBox.setSelectedIndex(-1);
+            durationSpinner.setValue(0);
+        });
+
+        return resetButton;
     }
 
     @Override
