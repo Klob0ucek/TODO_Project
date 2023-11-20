@@ -15,7 +15,6 @@ import java.util.List;
 public class CategoryCrudService implements CrudService<Category> {
 
     private final Repository<Category> categoryRepository;
-
     private final Validator<Category> categoryValidator;
 
     public CategoryCrudService(Repository<Category> categoryRepository, Validator<Category> categoryValidator) {

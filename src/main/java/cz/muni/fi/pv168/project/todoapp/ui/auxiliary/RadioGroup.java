@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary;
+package cz.muni.fi.pv168.project.todoapp.ui.auxiliary;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;

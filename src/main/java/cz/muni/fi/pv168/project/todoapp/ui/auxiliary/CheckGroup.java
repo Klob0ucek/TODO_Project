@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary;
+package cz.muni.fi.pv168.project.todoapp.ui.auxiliary;
 
 import javax.swing.JCheckBoxMenuItem;
 
@@ -18,5 +18,9 @@ public class CheckGroup implements OptionGroup<JCheckBoxMenuItem> {
         for (var checkbox : checkBoxes) {
             checkbox.setSelected(false);
         }
+    }
+
+    public List<JCheckBoxMenuItem> getCheckBoxes() {
+        return checkBoxes;
     }
 }
