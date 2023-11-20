@@ -1,9 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
@@ -28,16 +30,27 @@ public class CategoryCrudService implements CrudService<Category> {
 
     @Override
     public boolean create(Category newEntity) {
-        categoryRepository.create(newEntity);
-
-        return true;
+        var validationResult = categoryValidator.validate(newEntity);
+        if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
+            newEntity.setGuid(UniqueIdProvider.newId());
+        } else if (categoryRepository.existByGuid(newEntity.getGuid())) {
+            throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
+        }
+        if (validationResult.isValid()) {
+            categoryRepository.create(newEntity);
+        }
+        // TODO could return validationResult if needed
+        return validationResult.isValid();
     }
 
     @Override
     public boolean update(Category entity) {
-        categoryRepository.update(entity);
+        var validationResult = categoryValidator.validate(entity);
+        if (validationResult.isValid()) {
+            categoryRepository.update(entity);
+        }
 
-        return true;
+        return validationResult.isValid();
     }
 
     @Override
