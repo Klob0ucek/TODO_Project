@@ -81,10 +81,12 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
         crudService.create(row);
         refreshFromCrud();
     }
+
     public void refreshFromCrud() {
         this.rows = new ArrayList<>(crudService.findAll());
         fireTableDataChanged();
     }
+
     public void refreshFromCrud(ImportOption importOption) {
         if (importOption.equals(ImportOption.REWRITE)) {
             this.rows = new ArrayList<>(crudService.findAll());

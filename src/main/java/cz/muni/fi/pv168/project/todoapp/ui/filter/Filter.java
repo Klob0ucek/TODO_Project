@@ -2,20 +2,17 @@ package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
-import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.CheckGroup;
-import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.OptionGroup;
-import cz.muni.fi.pv168.project.todoapp.ui.filter.auxiliary.RadioGroup;
+import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
+import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.RadioGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
-import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.ui.util.EnumUtils;
+import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -23,7 +20,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 public class Filter {
     private final JMenuBar isDone = new JMenuBar();
@@ -41,7 +37,7 @@ public class Filter {
     private final JButton resetButton = new JButton("Reset");
 
     private enum IsDoneState {
-        IRRELEVANT, YES, NO;
+        IRRELEVANT, YES, NO
     }
 
     public Filter(
@@ -77,25 +73,6 @@ public class Filter {
         return blob;
     }
 
-    private static <T extends JMenuItem> void initializer(
-            String name,
-            Function<String, T> optionConstructor,
-            List<String> optionValues,
-            JMenuBar optionMenuBar,
-            OptionGroup<T> optionGroup
-    ) {
-        var optionsMenu = new JMenu(name);
-        T option;
-
-        for (var optVal : optionValues) {
-            option = optionConstructor.apply(optVal);
-            optionsMenu.add(option);
-            optionGroup.add(option);
-        }
-
-        optionMenuBar.add(optionsMenu);
-    }
-
     public void resetFilters() {
         isDoneOptions.setDefault();
         categoryOptions.setDefault();
@@ -105,7 +82,7 @@ public class Filter {
     }
 
     private void initIsDone() {
-        initializer(
+        OptionGroupInitializer.initializer(
                 "Done?",
                 JRadioButtonMenuItem::new,
                 Arrays.stream(IsDoneState.values()).map(EnumUtils::toTitle).toList(),
@@ -115,7 +92,7 @@ public class Filter {
     }
 
     private void initCategories() {
-        initializer(
+        OptionGroupInitializer.initializer(
                 "Category",
                 JCheckBoxMenuItem::new,
                 List.of("a", "b", "c", "Very long string, I'm curious what's gonna happen."),
@@ -125,7 +102,7 @@ public class Filter {
     }
 
     private void initIntervals() {
-        initializer(
+        OptionGroupInitializer.initializer(
                 "Interval",
                 JRadioButtonMenuItem::new,
                 List.of("Irrelevant", "a", "b", "c", "Very long string, I'm curious what's gonna happen."),
