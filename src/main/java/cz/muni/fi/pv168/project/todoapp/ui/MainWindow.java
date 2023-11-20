@@ -13,6 +13,10 @@ import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportSer
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonImporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
 import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
 import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
@@ -77,11 +81,15 @@ public class MainWindow {
         InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
 
         // TODO Validator?
+        var eventValidator = new EventValidator();
+        var categoryValidator = new CategoryValidator();
+        var templateValidator = new TemplateValidator();
+        var intervalValidator = new IntervalValidator();
 
-        var eventCrudService = new EventCrudService(eventRepository);
-        var categoryCrudService = new CategoryCrudService(categoryRepository);
-        var templateCrudService = new TemplateCrudService(templateRepository);
-        var intervalCrudService = new IntervalCrudService(intervalRepository);
+        var eventCrudService = new EventCrudService(eventRepository, eventValidator);
+        var categoryCrudService = new CategoryCrudService(categoryRepository, categoryValidator);
+        var templateCrudService = new TemplateCrudService(templateRepository, templateValidator);
+        var intervalCrudService = new IntervalCrudService(intervalRepository, intervalValidator);
 
         var exportService = new GenericExportService(eventCrudService, categoryCrudService,
                 templateCrudService, intervalCrudService, List.of(new JsonExporter()));

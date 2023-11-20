@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
 /**
@@ -11,8 +13,12 @@ import java.util.List;
 public class CategoryCrudService implements CrudService<Category> {
 
     private final Repository<Category> categoryRepository;
-    public CategoryCrudService(Repository<Category> categoryRepository) {
+
+    private final Validator<Category> categoryValidator;
+
+    public CategoryCrudService(Repository<Category> categoryRepository, Validator<Category> categoryValidator) {
         this.categoryRepository = categoryRepository;
+        this.categoryValidator = categoryValidator;
     }
 
     @Override

@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
 /**
@@ -12,8 +13,11 @@ public class TemplateCrudService implements CrudService<Template> {
 
     private final Repository<Template> templateRepository;
 
-    public TemplateCrudService(Repository<Template> templateRepository) {
+    private final Validator<Template> templateValidator;
+
+    public TemplateCrudService(Repository<Template> templateRepository, Validator<Template> templateValidator) {
         this.templateRepository = templateRepository;
+        this.templateValidator = templateValidator;
     }
 
     @Override

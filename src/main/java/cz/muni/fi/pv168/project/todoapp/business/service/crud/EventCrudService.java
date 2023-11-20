@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
 /**
@@ -11,9 +13,11 @@ import java.util.List;
 public class EventCrudService implements CrudService<Event> {
 
     private final Repository<Event> eventRepository;
+    private final Validator<Event> eventValidator;
 
-    public EventCrudService(Repository<Event> EventRepository) {
+    public EventCrudService(Repository<Event> EventRepository, Validator<Event> validator) {
         this.eventRepository = EventRepository;
+        this.eventValidator = validator;
     }
 
     @Override
