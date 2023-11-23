@@ -28,8 +28,7 @@ public class EditEvent extends AbstractEditAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.checkSelectedCountAndCancelEditing();
-        int modelRow = getTable().convertRowIndexToModel(super.getSelectedRowModelIndex());
-        var event = ((ScheduleTableModel) getTable().getModel()).getEntity(modelRow);
+        var event = ((ScheduleTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
         ListModel<Template> templateListModel = new ListModel<>(getCrudHolder().getTemplates());
         ListModel<Interval> intervalListModel = new ListModel<>(getCrudHolder().getIntervals());
         var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories(), event);

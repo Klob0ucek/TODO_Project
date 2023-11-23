@@ -25,8 +25,7 @@ public class EditInterval extends AbstractEditAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.checkSelectedCountAndCancelEditing();
-        int modelRow = getTable().convertRowIndexToModel(super.getSelectedRowModelIndex());
-        var interval = ((IntervalTableModel) getTable().getModel()).getEntity(modelRow);
+        var interval = ((IntervalTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
         var dialog = new IntervalDialog(interval);
         dialog.show(getFrame(), "Edit Interval").ifPresent(((IntervalTableModel) getTable().getModel())::updateRow);
     }

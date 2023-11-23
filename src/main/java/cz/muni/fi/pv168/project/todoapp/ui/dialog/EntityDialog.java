@@ -1,14 +1,14 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
-import javax.swing.JPanel;
+import java.awt.Component;
+import java.util.Optional;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import java.awt.Component;
-import java.util.Optional;
+import javax.swing.JPanel;
 
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;

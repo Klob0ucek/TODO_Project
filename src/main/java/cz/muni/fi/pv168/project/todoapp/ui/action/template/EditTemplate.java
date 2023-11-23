@@ -25,8 +25,7 @@ public class EditTemplate extends AbstractEditAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.checkSelectedCountAndCancelEditing();
-        int modelRow = getTable().convertRowIndexToModel(super.getSelectedRowModelIndex());
-        var template = ((TemplateTableModel) getTable().getModel()).getEntity(modelRow);
+        var template = ((TemplateTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
         var dialog = new TemplateDialog(getCrudHolder().getCategories(), template);
         dialog.show(getFrame(), "Edit Template").ifPresent(((TemplateTableModel) getTable().getModel())::updateRow);
     }
