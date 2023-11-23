@@ -20,9 +20,10 @@ public class EventsTab extends GeneralTab {
             var table = (JTable) this.getComponent();
             var frame = this.getFrame();
             var crudHolder = this.getCrudHolder();
+            var filter = this.getFilter();
             return new EventsTab(
                     this
-                            .addAddAction(new AddEvent(table, frame, crudHolder))
+                            .addAddAction(new AddEvent(table, frame, crudHolder, filter))
                             .addEditAction(new EditEvent(table, frame, crudHolder))
                             .addDeleteAction(new DeleteEvent(table, frame, crudHolder))
             );

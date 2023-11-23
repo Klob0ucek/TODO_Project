@@ -7,7 +7,6 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
-
 import java.util.List;
 
 /**
@@ -69,4 +68,15 @@ public class CrudHolder {
     public long getPlannedEventsCount() {
         return getEvents().size() - getDoneEventsCount();
     }
+
+    public int getLowestDuration() {
+        var min = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).min();
+        return min.isEmpty() ? 0 : (int) min.getAsLong();
+    }
+
+    public int getHighestDuration() {
+        var max = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).max();
+        return max.isEmpty() ? 0 : (int) max.getAsLong();
+    }
+
 }

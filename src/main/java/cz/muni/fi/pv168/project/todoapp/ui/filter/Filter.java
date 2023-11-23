@@ -1,55 +1,95 @@
 package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
 import com.github.lgooddatepicker.components.DatePicker;
-
-import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
-import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.RadioGroup;
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.components.FilterComboBoxBuilder;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterCategoryValues;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterDoneValues;
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.CategoryRenderer;
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterCategoryValuesRenderer;
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterDoneValuesRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
-import cz.muni.fi.pv168.project.todoapp.ui.util.EnumUtils;
-import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-
+import cz.muni.fi.pv168.project.todoapp.utils.Either;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Arrays;
-import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
+/**
+ * Class holding all GUI components for filters.
+ */
 public class Filter {
-    private final JMenuBar isDone = new JMenuBar();
-    private final RadioGroup isDoneOptions = new RadioGroup();
-
-    private final JMenuBar categories = new JMenuBar();
-    private final CheckGroup categoryOptions = new CheckGroup();
-
+    private final JComboBox<Either<SpecialFilterDoneValues, Boolean>> doneComboBox;
+    private final JComboBox<Either<SpecialFilterCategoryValues, Category>> categoryComboBox;
+    private final EventTableFilter eventTableFilter;
+    private final CrudHolder crudHolder;
     private final DatePicker fromDate = new DatePicker(CustomDatePickerSettings.getSettings());
     private final DatePicker toDate = new DatePicker(CustomDatePickerSettings.getSettings());
-
-    private final JMenuBar intervals = new JMenuBar();
-    private final RadioGroup intervalOptions = new RadioGroup();
-
+    private final JSpinner intervalLower;
+    private final JSpinner intervalUpper;
     private final JButton resetButton = new JButton("Reset");
 
-    private enum IsDoneState {
-        IRRELEVANT, YES, NO
-    }
 
     public Filter(
-            /* should have access to all currently existing Categories and Intervals */
+            CrudHolder crudHolder,
+            EventTableFilter eventTableFilter
     ) {
-        initIsDone();
-        initCategories();
-        initIntervals();
+        this.crudHolder = crudHolder;
+        this.eventTableFilter = eventTableFilter;
 
+        this.doneComboBox = createDoneFilter(eventTableFilter);
+        this.categoryComboBox = createCategoryFilter(eventTableFilter);
+        this.intervalLower = new JSpinner(
+                new SpinnerNumberModel(crudHolder.getLowestDuration(), 0, 525600, 5));
+        this.intervalUpper = new JSpinner(
+                new SpinnerNumberModel(crudHolder.getHighestDuration(), 0, 525600, 5));
+        initIntervals();
+        initDates();
         resetButton.addActionListener(e -> resetFilters());
 
         resetFilters();
+    }
+
+    private JComboBox<Either<SpecialFilterDoneValues, Boolean>> createDoneFilter(
+            EventTableFilter eventTableFilter) {
+        return FilterComboBoxBuilder.create(SpecialFilterDoneValues.class, new Boolean[0])
+                .setSelectedItem(SpecialFilterDoneValues.ALL)
+                .setSpecialValuesRenderer(new SpecialFilterDoneValuesRenderer())
+                .setFilter(eventTableFilter::filterDone)
+                .build();
+    }
+
+    private JComboBox<Either<SpecialFilterCategoryValues, Category>> createCategoryFilter(
+            EventTableFilter eventTableFilter) {
+        return FilterComboBoxBuilder.create(SpecialFilterCategoryValues.class, crudHolder.getCategories().toArray(Category[]::new))
+                .setSelectedItem(SpecialFilterCategoryValues.ALL)
+                .setSpecialValuesRenderer(new SpecialFilterCategoryValuesRenderer())
+                .setValuesRenderer(new CategoryRenderer())
+                .setFilter(eventTableFilter::filterCategory)
+                .build();
+    }
+
+    private void initDates() {
+        fromDate.addDateChangeListener(e -> eventTableFilter.filterFromDate(fromDate.getDate()));
+        toDate.addDateChangeListener(e -> eventTableFilter.filterToDate(toDate.getDate()));
+    }
+
+    private void initIntervals() {
+        intervalLower.addChangeListener(e -> eventTableFilter.filterLowerDuration((int) intervalLower.getValue()));
+        intervalUpper.addChangeListener(e -> eventTableFilter.filterUpperDuration((int) intervalUpper.getValue()));
+    }
+
+    private JComponent createNamedComponent(String name, JComponent toBeNamed) {
+        var named = new JPanel();
+        named.add(new JLabel(name));
+        named.add(toBeNamed);
+        return named;
     }
 
     private static JComponent createNamedVerticalPair(
@@ -73,51 +113,43 @@ public class Filter {
         return blob;
     }
 
+    /**
+     * This method checks whether Duration Filter needs to be updated
+     * It is updated when Interval Filter was not tempered with and if new Duration is lower or
+     * higher that previous max or min.
+     *
+     * @param newDuration of event that will be added
+     */
+
+    public void updateIntervals(int newDuration) {
+        if ((int) intervalUpper.getValue() == crudHolder.getHighestDuration() &&
+                (int) intervalLower.getValue() == crudHolder.getLowestDuration()) {
+            // Filters are set on default value
+            if ((int) intervalLower.getValue() > newDuration) {
+                intervalLower.setValue(newDuration);
+            } else if ((int) intervalUpper.getValue() < newDuration) {
+                intervalUpper.setValue(newDuration);
+            }
+        }
+    }
+
     public void resetFilters() {
-        isDoneOptions.setDefault();
-        categoryOptions.setDefault();
+        doneComboBox.setSelectedItem(doneComboBox.getItemAt(0));
+        categoryComboBox.setSelectedItem(categoryComboBox.getItemAt(0));
         fromDate.clear();
         toDate.clear();
-        intervalOptions.setDefault();
-    }
-
-    private void initIsDone() {
-        OptionGroupInitializer.initializer(
-                "Done?",
-                JRadioButtonMenuItem::new,
-                Arrays.stream(IsDoneState.values()).map(EnumUtils::toTitle).toList(),
-                isDone,
-                isDoneOptions
-        );
-    }
-
-    private void initCategories() {
-        OptionGroupInitializer.initializer(
-                "Category",
-                JCheckBoxMenuItem::new,
-                List.of("a", "b", "c", "Very long string, I'm curious what's gonna happen."),
-                categories,
-                categoryOptions
-        );
-    }
-
-    private void initIntervals() {
-        OptionGroupInitializer.initializer(
-                "Interval",
-                JRadioButtonMenuItem::new,
-                List.of("Irrelevant", "a", "b", "c", "Very long string, I'm curious what's gonna happen."),
-                intervals,
-                intervalOptions
-        );
+        intervalLower.setValue(crudHolder.getLowestDuration());
+        intervalUpper.setValue(crudHolder.getHighestDuration());
     }
 
     public JComponent getFilterBar() {
         var filterBar = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        filterBar.add(isDone);
-        filterBar.add(categories);
+        filterBar.add(createNamedComponent("Status:", doneComboBox));
+        filterBar.add(createNamedComponent("Category:", categoryComboBox));
         filterBar.add(createNamedVerticalPair("From:", fromDate, "To:", toDate));
-        filterBar.add(intervals);
+        filterBar.add(createNamedVerticalPair("Lower duration bound:", intervalLower,
+                "Upper duration bound:", intervalUpper));
         filterBar.add(resetButton);
 
         return filterBar;
