@@ -11,7 +11,7 @@ public class IntervalValidator implements Validator<Interval> {
     @Override
     public ValidationResult validate(Interval model) {
         var validators = List.of(
-                extracting(Interval::getName, new StringLengthValidator(2, 150, "Name")),
+                extracting(Interval::getName, new StringLengthValidator(2, 60, "Name")),
                 extracting(Interval::getAbbreviation, new StringLengthValidator(1, 10, "Abbreviation")),
                 extracting(Interval::getGuid, new GuidValidator("Guid"))
         );
