@@ -7,14 +7,25 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 
-public class AddIntervalDialog extends EntityDialog<Interval> {
+public class IntervalDialog extends EntityDialog<Interval> {
     private final JTextField nameField = new JTextField();
     private final JTextField abbreviationField = new JTextField();
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    public AddIntervalDialog() {
+    private Interval interval = new Interval(null, null, null);
+
+    public IntervalDialog() {
         addFields();
+    }
+
+    public IntervalDialog(Interval interval) {
+        this();
+        this.interval = interval;
+
+        nameField.setText(interval.getName());
+        abbreviationField.setText(interval.getAbbreviation());
+        durationSpinner.setValue(interval.getDuration().toMinutes());
     }
 
     private void addFields() {
@@ -25,9 +36,9 @@ public class AddIntervalDialog extends EntityDialog<Interval> {
 
     @Override
     Interval getEntity() {
-        String name = nameField.getText();
-        String abbreviation = abbreviationField.getText();
-        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
-        return new Interval(name, abbreviation, duration);
+        interval.setName(nameField.getText());
+        interval.setAbbreviation(abbreviationField.getText());
+        interval.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
+        return interval;
     }
 }

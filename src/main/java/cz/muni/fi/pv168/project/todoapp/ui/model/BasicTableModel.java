@@ -82,6 +82,11 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
         refreshFromCrud();
     }
 
+    public void updateRow(T row) {
+        crudService.update(row);
+        refreshFromCrud();
+    }
+
     public void refreshFromCrud() {
         this.rows = new ArrayList<>(crudService.findAll());
         fireTableDataChanged();

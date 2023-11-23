@@ -27,11 +27,6 @@ public class Template extends AbstractCoreEvent {
     }
 
     @Override
-    public String getGuid() {
-        return templateName;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Template template)) return false;

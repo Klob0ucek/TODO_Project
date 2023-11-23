@@ -2,7 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
-import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddCategoryDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
@@ -26,9 +26,8 @@ public class AddCategory extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new AddCategoryDialog();
-        dialog.show(getFrame(), "Add category").ifPresent(getCrudHolder()::create);
-        ((CategoryTableModel) getTable().getModel()).refreshFromCrud();
+        var dialog = new CategoryDialog();
+        dialog.show(getFrame(), "Add category").ifPresent(((CategoryTableModel) getTable().getModel())::addRow);
         new NotificationDialog(getFrame(), "Category added successfully!").showNotification();
     }
 }

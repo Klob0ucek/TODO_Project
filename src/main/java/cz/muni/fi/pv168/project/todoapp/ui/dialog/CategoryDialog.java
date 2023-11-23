@@ -8,12 +8,22 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class AddCategoryDialog extends EntityDialog<Category> {
+public class CategoryDialog extends EntityDialog<Category> {
     private final JTextField nameField = new JTextField();
     private final ComboBoxModel<CategoryColor> categoryColorModel = new DefaultComboBoxModel<>(CategoryColor.values());
 
-    public AddCategoryDialog() {
+    private Category category = new Category(null, null);
+
+    public CategoryDialog() {
         addFields();
+    }
+
+    public CategoryDialog(Category category) {
+        this();
+        this.category = category;
+
+        nameField.setText(category.getName());
+        categoryColorModel.setSelectedItem(category.getColor());
     }
 
     private void addFields() {
@@ -23,8 +33,8 @@ public class AddCategoryDialog extends EntityDialog<Category> {
 
     @Override
     Category getEntity() {
-        String name = nameField.getText();
-        CategoryColor color = (CategoryColor) categoryColorModel.getSelectedItem();
-        return new Category(name, color);
+        category.setName(nameField.getText());
+        category.setColor((CategoryColor) categoryColorModel.getSelectedItem());
+        return category;
     }
 }
