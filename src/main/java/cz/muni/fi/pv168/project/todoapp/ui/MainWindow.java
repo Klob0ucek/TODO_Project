@@ -58,6 +58,7 @@ public class MainWindow {
         ToolBarManager toolBarManager = createCruds(verticalToolBar);
 
         TableRowSorter<ScheduleTableModel> rowSorter = new TableRowSorter<>(scheduleTableModel);
+        rowSorter.toggleSortOrder(4);
         EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder);
         Filter filter = new Filter(crudHolder, eventTableFilter);
 
