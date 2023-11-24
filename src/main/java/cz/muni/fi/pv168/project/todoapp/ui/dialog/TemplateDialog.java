@@ -48,10 +48,17 @@ public class TemplateDialog extends EntityDialog<Template> {
         templateNameField.setText(template.getTemplateName());
         doneField.setSelected(template.isDone());
         eventNameField.setText(template.getName());
-        template.getCategories().forEach(c -> categoryOptions.getCheckBoxes().get(categories.indexOf(c)).setState(true));
         locationField.setText(template.getLocation());
         timePicker.setTime(template.getTime());
-        durationSpinner.setValue(template.getDuration().toMinutes());
+
+        if (template.getCategories() != null) {
+            template.getCategories()
+                    .forEach(c -> categoryOptions.getCheckBoxes().get(categories.indexOf(c)).setState(true));
+        }
+
+        if (template.getDuration() != null) {
+            durationSpinner.setValue(template.getDuration().toMinutes());
+        }
     }
 
     private void addFields() {

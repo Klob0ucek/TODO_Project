@@ -70,7 +70,9 @@ public class EventDialog extends EntityDialog<Event> {
         locationField.setText(event.getLocation());
         dateTimePicker.datePicker.setDate(event.getDate());
         dateTimePicker.timePicker.setTime(event.getTime());
-        durationSpinner.setValue(event.getDuration().toMinutes());
+        if (event.getDuration() != null) {
+            durationSpinner.setValue(event.getDuration().toMinutes());
+        }
     }
 
     private void addFields() {
