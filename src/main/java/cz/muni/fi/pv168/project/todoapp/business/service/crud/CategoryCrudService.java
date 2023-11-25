@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
@@ -15,11 +16,10 @@ import java.util.List;
 public class CategoryCrudService implements CrudService<Category> {
 
     private final Repository<Category> categoryRepository;
-    private final Validator<Category> categoryValidator;
+    private final Validator<Category> categoryValidator = new CategoryValidator();
 
-    public CategoryCrudService(Repository<Category> categoryRepository, Validator<Category> categoryValidator) {
+    public CategoryCrudService(Repository<Category> categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.categoryValidator = categoryValidator;
     }
 
     @Override

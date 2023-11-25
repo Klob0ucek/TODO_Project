@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
@@ -16,11 +17,10 @@ public class TemplateCrudService implements CrudService<Template> {
 
     private final Repository<Template> templateRepository;
 
-    private final Validator<Template> templateValidator;
+    private final Validator<Template> templateValidator = new TemplateValidator();
 
-    public TemplateCrudService(Repository<Template> templateRepository, Validator<Template> templateValidator) {
+    public TemplateCrudService(Repository<Template> templateRepository) {
         this.templateRepository = templateRepository;
-        this.templateValidator = templateValidator;
     }
 
     @Override

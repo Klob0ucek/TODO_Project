@@ -87,16 +87,10 @@ public class MainWindow {
         InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
         InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
 
-        // TODO Validator?
-        var eventValidator = new EventValidator();
-        var categoryValidator = new CategoryValidator();
-        var templateValidator = new TemplateValidator();
-        var intervalValidator = new IntervalValidator();
-
-        var eventCrudService = new EventCrudService(eventRepository, eventValidator);
-        var categoryCrudService = new CategoryCrudService(categoryRepository, categoryValidator);
-        var templateCrudService = new TemplateCrudService(templateRepository, templateValidator);
-        var intervalCrudService = new IntervalCrudService(intervalRepository, intervalValidator);
+        var eventCrudService = new EventCrudService(eventRepository);
+        var categoryCrudService = new CategoryCrudService(categoryRepository);
+        var templateCrudService = new TemplateCrudService(templateRepository);
+        var intervalCrudService = new IntervalCrudService(intervalRepository);
 
         var exportService = new GenericExportService(eventCrudService, categoryCrudService,
                 templateCrudService, intervalCrudService, List.of(new JsonExporter()));
