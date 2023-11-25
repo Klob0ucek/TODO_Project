@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
@@ -26,8 +27,13 @@ public class AddCategory extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new CategoryDialog();
-        dialog.show(getFrame(), "Add category").ifPresent(((CategoryTableModel) getTable().getModel())::addRow);
-        new NotificationDialog(getFrame(), "Category added successfully!").showNotification();
+        try {
+            var dialog = new CategoryDialog();
+            dialog.show(getFrame(), "Add category").ifPresent(((CategoryTableModel) getTable().getModel())::addRow);
+        } catch (ValidationException validationException) {
+            new NotificationDialog(getFrame(), "Invalid category not created!").showNotification();
+            return;
+        }
+        new NotificationDialog(getFrame(), "Category added successfully.").showNotification();
     }
 }

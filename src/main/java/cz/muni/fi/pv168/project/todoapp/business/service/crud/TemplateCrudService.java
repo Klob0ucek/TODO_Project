@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
@@ -37,8 +38,9 @@ public class TemplateCrudService implements CrudService<Template> {
         }
         if (validationResult.isValid()) {
             templateRepository.create(newEntity);
+        } else {
+            throw new ValidationException("Added template not valid", validationResult.getValidationErrors());
         }
-        // TODO could return validationResult if needed
         return validationResult.isValid();
     }
 
@@ -47,8 +49,9 @@ public class TemplateCrudService implements CrudService<Template> {
         var validationResult = templateValidator.validate(entity);
         if (validationResult.isValid()) {
             templateRepository.update(entity);
+        } else {
+            throw new ValidationException("Added template not valid", validationResult.getValidationErrors());
         }
-
         return validationResult.isValid();
     }
 

@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
+
 /**
  * Validation result stores the list of validation errors
  * if the list of errors is empty, the validation passed

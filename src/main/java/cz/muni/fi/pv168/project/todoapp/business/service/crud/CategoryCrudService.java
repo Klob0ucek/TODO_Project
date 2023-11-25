@@ -3,8 +3,8 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
@@ -37,8 +37,9 @@ public class CategoryCrudService implements CrudService<Category> {
         }
         if (validationResult.isValid()) {
             categoryRepository.create(newEntity);
+        } else {
+            throw new ValidationException("Added category not valid", validationResult.getValidationErrors());
         }
-        // TODO could return validationResult if needed
         return validationResult.isValid();
     }
 
@@ -47,6 +48,8 @@ public class CategoryCrudService implements CrudService<Category> {
         var validationResult = categoryValidator.validate(entity);
         if (validationResult.isValid()) {
             categoryRepository.update(entity);
+        } else {
+            throw new ValidationException("Edited category not valid", validationResult.getValidationErrors());
         }
 
         return validationResult.isValid();

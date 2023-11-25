@@ -3,10 +3,9 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
 
@@ -38,8 +37,9 @@ public class EventCrudService implements CrudService<Event> {
         }
         if (validationResult.isValid()) {
             eventRepository.create(newEntity);
+        } else {
+            throw new ValidationException("Added event not valid", validationResult.getValidationErrors());
         }
-        // TODO could return validationResult if needed
         return validationResult.isValid();
     }
 
@@ -48,8 +48,9 @@ public class EventCrudService implements CrudService<Event> {
         var validationResult = eventValidator.validate(entity);
         if (validationResult.isValid()) {
             eventRepository.update(entity);
+        } else {
+            throw new ValidationException("Edited event not valid", validationResult.getValidationErrors());
         }
-
         return validationResult.isValid();
     }
 

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.TemplateDialog;
@@ -25,8 +26,13 @@ public class AddTemplate extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new TemplateDialog(getCrudHolder().getCategories());
-        dialog.show(getFrame(), "Add template").ifPresent(((TemplateTableModel) getTable().getModel())::addRow);
+        try {
+            var dialog = new TemplateDialog(getCrudHolder().getCategories());
+            dialog.show(getFrame(), "Add template").ifPresent(((TemplateTableModel) getTable().getModel())::addRow);
+        } catch (ValidationException validationException) {
+            new NotificationDialog(getFrame(), "Invalid template not created!").showNotification();
+            return;
+        }
         new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
     }
 }

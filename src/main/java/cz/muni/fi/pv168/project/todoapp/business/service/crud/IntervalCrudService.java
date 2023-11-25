@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
@@ -39,8 +40,9 @@ public class IntervalCrudService implements CrudService<Interval> {
         }
         if (validationResult.isValid()) {
             intervalRepository.create(newEntity);
+        } else {
+            throw new ValidationException("Added interval not valid", validationResult.getValidationErrors());
         }
-        // TODO could return validationResult if needed
         return validationResult.isValid();
     }
 
@@ -49,6 +51,8 @@ public class IntervalCrudService implements CrudService<Interval> {
         var validationResult = intervalValidator.validate(entity);
         if (validationResult.isValid()) {
             intervalRepository.update(entity);
+        } else {
+            throw new ValidationException("Edited interval not valid", validationResult.getValidationErrors());
         }
 
         return validationResult.isValid();

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
+import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
@@ -40,9 +41,14 @@ public class AddEvent extends AbstractAddAction {
         var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories());
         Optional<Event> event = dialog.show(getFrame(), "Add event");
         if (event.isPresent()) {
-            filter.updateIntervals((int) event.get().getDuration().toMinutes());
-            ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
-            new NotificationDialog(getFrame(), "Event added successfully!").showNotification();
+            try {
+                filter.updateIntervals((int) event.get().getDuration().toMinutes());
+                ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid event not created!").showNotification();
+                return;
+            }
+            new NotificationDialog(getFrame(), "Event added successfully.").showNotification();
         }
     }
 }
