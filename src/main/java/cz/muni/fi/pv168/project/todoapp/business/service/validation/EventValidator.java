@@ -18,7 +18,6 @@ public class EventValidator implements Validator<Event> {
                 extracting(Event::getLocation, new StringLengthValidator(2, 150, "Location")),
                 extracting(Event::getCategories, new CategoryListValidator("Category List")),
                 extracting(Event::getGuid, new GuidValidator("Guid"))
-
         );
 
         return Validator.compose(validators).validate(model);

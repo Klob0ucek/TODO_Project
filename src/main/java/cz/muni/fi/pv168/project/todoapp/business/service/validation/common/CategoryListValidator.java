@@ -15,7 +15,7 @@ public class CategoryListValidator extends PropertyValidator<List<Category>> {
         var result = new ValidationResult();
         var size = categories.size();
 
-        if (size > 0) {
+        if (size == 0) {
             result.add("Event or template does not have any categories");
         }
 

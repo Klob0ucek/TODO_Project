@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public abstract class AbstractCoreEvent extends Entity {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return Collections.unmodifiableList(categories);
     }
 
     public void setCategories(List<Category> categories) {
