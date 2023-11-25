@@ -76,7 +76,7 @@ public class EventDialog extends EntityDialog<Event> {
     }
 
     private void addFields() {
-        addTwoComponentPanel("From template:", templateComboBoxSetup(), "", resetButtonSetup());
+        addTwoComponentPanel("From template:", templateComboBoxSetup(), "", clearButtonSetup());
         JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", nameField);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(categoriesMenuBar);
@@ -124,10 +124,10 @@ public class EventDialog extends EntityDialog<Event> {
         return intervalComboBox;
     }
 
-    private JButton resetButtonSetup() {
-        JButton resetButton = new JButton("Reset");
+    private JButton clearButtonSetup() {
+        JButton clearButton = new JButton("Clear");
 
-        resetButton.addActionListener(e -> {
+        clearButton.addActionListener(e -> {
             templateComboBox.setSelectedIndex(-1);
             doneField.setSelected(false);
             nameField.setText("");
@@ -138,7 +138,7 @@ public class EventDialog extends EntityDialog<Event> {
             durationSpinner.setValue(0);
         });
 
-        return resetButton;
+        return clearButton;
     }
 
     @Override
