@@ -2,6 +2,8 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
@@ -22,6 +24,9 @@ public class EditCategory extends AbstractEditAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        super.checkSelectedCountAndCancelEditing();
+        var employee = ((CategoryTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var dialog = new CategoryDialog(employee);
+        dialog.show(getFrame(), "Edit Category").ifPresent(((CategoryTableModel) getTable().getModel())::updateRow);
     }
 }

@@ -25,13 +25,11 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.Box;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class AddEventDialog extends EntityDialog<Event> {
+public class EventDialog extends EntityDialog<Event> {
     private final ComboBoxModel<Template> templateListModel;
     private final JComboBox<Template> templateComboBox = new JComboBox<>();
     private final JCheckBox doneField = new JCheckBox();
@@ -49,8 +47,10 @@ public class AddEventDialog extends EntityDialog<Event> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    public AddEventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
-                          List<Category> categories) {
+    private Event event = new Event();
+
+    public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
+                       List<Category> categories) {
         this.templateListModel = new ComboBoxModelAdapter<>(templateListModel);
         this.intervalListModel = new ComboBoxModelAdapter<>(intervalListModel);
         this.categories = categories;
@@ -59,8 +59,24 @@ public class AddEventDialog extends EntityDialog<Event> {
         addFields();
     }
 
+    public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
+                       List<Category> categories, Event event) {
+        this(templateListModel, intervalListModel, categories);
+        this.event = event;
+
+        doneField.setSelected(event.isDone());
+        nameField.setText(event.getName());
+        event.getCategories().forEach(c -> categoryOptions.getCheckBoxes().get(categories.indexOf(c)).setState(true));
+        locationField.setText(event.getLocation());
+        dateTimePicker.datePicker.setDate(event.getDate());
+        dateTimePicker.timePicker.setTime(event.getTime());
+        if (event.getDuration() != null) {
+            durationSpinner.setValue(event.getDuration().toMinutes());
+        }
+    }
+
     private void addFields() {
-        addTwoComponentPanel("From template:", templateComboBoxSetup(), "", resetButtonSetup());
+        addTwoComponentPanel("From template:", templateComboBoxSetup(), "", clearButtonSetup());
         JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", nameField);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(categoriesMenuBar);
@@ -108,10 +124,10 @@ public class AddEventDialog extends EntityDialog<Event> {
         return intervalComboBox;
     }
 
-    private JButton resetButtonSetup() {
-        JButton resetButton = new JButton("Reset");
+    private JButton clearButtonSetup() {
+        JButton clearButton = new JButton("Clear");
 
-        resetButton.addActionListener(e -> {
+        clearButton.addActionListener(e -> {
             templateComboBox.setSelectedIndex(-1);
             doneField.setSelected(false);
             nameField.setText("");
@@ -122,22 +138,23 @@ public class AddEventDialog extends EntityDialog<Event> {
             durationSpinner.setValue(0);
         });
 
-        return resetButton;
+        return clearButton;
     }
 
     @Override
     Event getEntity() {
-        boolean isDone = doneField.isSelected();
+        event.setDone(doneField.isSelected());
         List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
         List<Category> categories = IntStream.range(0, checkBoxes.size())
                 .filter(i -> checkBoxes.get(i).getState())
                 .mapToObj(this.categories::get)
                 .collect(Collectors.toList());
-        String name = nameField.getText();
-        String location = locationField.getText();
-        LocalDate date = dateTimePicker.getDatePicker().getDate();
-        LocalTime time = dateTimePicker.getTimePicker().getTime();
-        Duration duration = Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue());
-        return new Event(isDone, name, categories, location, date, time, duration);
+        event.setCategories(categories);
+        event.setName(nameField.getText());
+        event.setLocation(locationField.getText());
+        event.setDate(dateTimePicker.getDatePicker().getDate());
+        event.setTime(dateTimePicker.getTimePicker().getTime());
+        event.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
+        return event;
     }
 }

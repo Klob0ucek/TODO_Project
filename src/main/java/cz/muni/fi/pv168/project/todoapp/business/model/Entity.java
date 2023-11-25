@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.business.model;
 
-
 import java.util.Objects;
 
 public abstract class Entity {

@@ -11,6 +11,9 @@ public class Category extends Entity {
         this.color = color;
     }
 
+    public Category() {
+    }
+
     public String getName() {
         return name;
     }
@@ -25,11 +28,6 @@ public class Category extends Entity {
 
     public void setColor(CategoryColor color) {
         this.color = color;
-    }
-
-    @Override
-    public String getGuid() {
-        return getName();
     }
 
     @Override

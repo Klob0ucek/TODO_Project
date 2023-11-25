@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.tab;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 import java.awt.Component;
 import javax.swing.Action;
@@ -26,6 +27,7 @@ public abstract class GeneralTab {
         private Action editAction;
         private Action deleteAction;
         private CrudHolder crudHolder;
+        private Filter filter;
 
         protected abstract T self();
 
@@ -41,6 +43,10 @@ public abstract class GeneralTab {
             return crudHolder;
         }
 
+        public Filter getFilter() {
+            return filter;
+        }
+
         public T addTabDetails(
                 String title,
                 Component component,
@@ -51,6 +57,11 @@ public abstract class GeneralTab {
             this.component = component;
             this.frame = frame;
             this.crudHolder = crudHolder;
+            return self();
+        }
+
+        public T addFilter(Filter filter) {
+            this.filter = filter;
             return self();
         }
 

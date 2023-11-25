@@ -18,17 +18,15 @@ public class Template extends AbstractCoreEvent {
         this.templateName = templateName;
     }
 
+    public Template() {
+    }
+
     public String getTemplateName() {
         return templateName;
     }
 
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
-    }
-
-    @Override
-    public String getGuid() {
-        return templateName;
     }
 
     @Override

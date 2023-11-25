@@ -16,12 +16,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JPanel;
 import javax.swing.Box;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class AddTemplateDialog extends EntityDialog<Template> {
+public class TemplateDialog extends EntityDialog<Template> {
     private final JCheckBox doneField = new JCheckBox();
     private final JTextField templateNameField = new JTextField();
     private final JTextField eventNameField = new JTextField("", 20);
@@ -33,11 +32,33 @@ public class AddTemplateDialog extends EntityDialog<Template> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    public AddTemplateDialog(List<Category> categories) {
+    private Template template = new Template();
+
+    public TemplateDialog(List<Category> categories) {
         this.categories = categories;
         OptionGroupInitializer.initializer("Categories", JCheckBoxMenuItem::new,
                 categories.stream().map(Category::getName).toList(), categoriesMenuBar, categoryOptions);
         addFields();
+    }
+
+    public TemplateDialog(List<Category> categories, Template template) {
+        this(categories);
+        this.template = template;
+
+        templateNameField.setText(template.getTemplateName());
+        doneField.setSelected(template.isDone());
+        eventNameField.setText(template.getName());
+        locationField.setText(template.getLocation());
+        timePicker.setTime(template.getTime());
+
+        if (template.getCategories() != null) {
+            template.getCategories()
+                    .forEach(c -> categoryOptions.getCheckBoxes().get(categories.indexOf(c)).setState(true));
+        }
+
+        if (template.getDuration() != null) {
+            durationSpinner.setValue(template.getDuration().toMinutes());
+        }
     }
 
     private void addFields() {
@@ -52,17 +73,18 @@ public class AddTemplateDialog extends EntityDialog<Template> {
 
     @Override
     Template getEntity() {
-        String templateName = templateNameField.getText();
-        boolean isDone = doneField.isSelected();
-        String name = eventNameField.getText();
+        template.setTemplateName(templateNameField.getText());
+        template.setDone(doneField.isSelected());
+        template.setName(eventNameField.getText());
         List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
         List<Category> categories = IntStream.range(0, checkBoxes.size())
                 .filter(i -> checkBoxes.get(i).getState())
                 .mapToObj(this.categories::get)
                 .collect(Collectors.toList());
-        String location = locationField.getText();
-        LocalTime time = timePicker.getTime();
-        Duration duration = Duration.ofMinutes((Integer) durationSpinner.getValue());
-        return new Template(templateName, isDone, name, categories, location, time, duration);
+        template.setCategories(categories);
+        template.setLocation(locationField.getText());
+        template.setTime(timePicker.getTime());
+        template.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
+        return template;
     }
 }
