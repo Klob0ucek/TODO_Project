@@ -2,6 +2,8 @@ package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.TemplateDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
@@ -22,6 +24,9 @@ public class EditTemplate extends AbstractEditAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        super.checkSelectedCountAndCancelEditing();
+        var template = ((TemplateTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var dialog = new TemplateDialog(getCrudHolder().getCategories(), template);
+        dialog.show(getFrame(), "Edit Template").ifPresent(((TemplateTableModel) getTable().getModel())::updateRow);
     }
 }

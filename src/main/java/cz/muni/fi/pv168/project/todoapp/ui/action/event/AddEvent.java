@@ -5,12 +5,13 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
-import cz.muni.fi.pv168.project.todoapp.ui.dialog.AddEventDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.EventDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Optional;
@@ -36,12 +37,11 @@ public class AddEvent extends AbstractAddAction {
     public void actionPerformed(ActionEvent e) {
         ListModel<Template> templateListModel = new ListModel<>(getCrudHolder().getTemplates());
         ListModel<Interval> intervalListModel = new ListModel<>(getCrudHolder().getIntervals());
-        var dialog = new AddEventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories());
+        var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories());
         Optional<Event> event = dialog.show(getFrame(), "Add event");
         if (event.isPresent()) {
             filter.updateIntervals((int) event.get().getDuration().toMinutes());
-            getCrudHolder().create(event.get());
-            ((ScheduleTableModel) getTable().getModel()).refreshFromCrud();
+            ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
             new NotificationDialog(getFrame(), "Event added successfully!").showNotification();
         }
     }
