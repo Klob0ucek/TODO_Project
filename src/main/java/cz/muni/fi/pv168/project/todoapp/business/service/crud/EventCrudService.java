@@ -1,13 +1,14 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Crud operations for the {@link Event} entity.
@@ -30,12 +31,15 @@ public class EventCrudService implements CrudService<Event> {
     @Override
     public boolean create(Event newEntity) {
         var validationResult = eventValidator.validate(newEntity);
+
         if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
             newEntity.setGuid(UniqueIdProvider.newId());
         } else if (eventRepository.existByGuid(newEntity.getGuid())) {
             throw new EntityAlreadyExistsException("Event with given guid already exists: " + newEntity.getGuid());
         }
+
         if (validationResult.isValid()) {
+            // todo add renaming
             eventRepository.create(newEntity);
         } else {
             throw new ValidationException("Added event not valid", validationResult.getValidationErrors());

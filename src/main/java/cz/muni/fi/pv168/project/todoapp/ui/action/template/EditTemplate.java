@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;

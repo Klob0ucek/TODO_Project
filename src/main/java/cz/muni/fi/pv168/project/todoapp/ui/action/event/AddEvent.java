@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;

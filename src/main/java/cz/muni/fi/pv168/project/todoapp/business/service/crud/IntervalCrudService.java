@@ -1,9 +1,9 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.EntityAlreadyExistsException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
-import cz.muni.fi.pv168.project.todoapp.business.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
