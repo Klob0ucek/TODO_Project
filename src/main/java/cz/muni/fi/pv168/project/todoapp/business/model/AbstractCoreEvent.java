@@ -23,6 +23,9 @@ public abstract class AbstractCoreEvent extends Entity {
         this.duration = duration;
     }
 
+    public AbstractCoreEvent() {
+    }
+
     public boolean isDone() {
         return isDone;
     }

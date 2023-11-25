@@ -13,14 +13,14 @@ public class IntervalDialog extends EntityDialog<Interval> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Interval interval = new Interval(null, null, null);
+    private Interval interval = new Interval();
 
     public IntervalDialog() {
         addFields();
     }
 
     public IntervalDialog(Interval interval) {
-        this();
+        addFields();
         this.interval = interval;
 
         nameField.setText(interval.getName());

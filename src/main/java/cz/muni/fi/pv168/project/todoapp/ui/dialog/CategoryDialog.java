@@ -12,14 +12,14 @@ public class CategoryDialog extends EntityDialog<Category> {
     private final JTextField nameField = new JTextField();
     private final ComboBoxModel<CategoryColor> categoryColorModel = new DefaultComboBoxModel<>(CategoryColor.values());
 
-    private Category category = new Category(null, null);
+    private Category category = new Category();
 
     public CategoryDialog() {
         addFields();
     }
 
     public CategoryDialog(Category category) {
-        this();
+        addFields();
         this.category = category;
 
         nameField.setText(category.getName());

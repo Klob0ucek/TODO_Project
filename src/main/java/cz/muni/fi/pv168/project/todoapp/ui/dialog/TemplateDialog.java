@@ -32,7 +32,7 @@ public class TemplateDialog extends EntityDialog<Template> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Template template = new Template(null, false, null, null, null, null, null);
+    private Template template = new Template();
 
     public TemplateDialog(List<Category> categories) {
         this.categories = categories;

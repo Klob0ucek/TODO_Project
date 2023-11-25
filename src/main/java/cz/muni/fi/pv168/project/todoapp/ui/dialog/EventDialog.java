@@ -47,7 +47,7 @@ public class EventDialog extends EntityDialog<Event> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Event event = new Event(false, null, null, null, null, null, null);
+    private Event event = new Event();
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories) {

@@ -19,6 +19,9 @@ public class Interval extends Entity {
         this.duration = duration;
     }
 
+    public Interval() {
+    }
+
     public String getName() {
         return name;
     }
