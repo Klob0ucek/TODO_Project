@@ -1,8 +1,10 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.NameAlreadyExistException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
@@ -39,8 +41,16 @@ public class EventCrudService implements CrudService<Event> {
         }
 
         if (validationResult.isValid()) {
-            // todo add renaming
+            Optional<String> newName = UniqueNameProvider.checkAndRename(newEntity.getName(),
+                    eventRepository.findAll().stream().map(Event::getName).toList());
+            String oldName = newEntity.getName();
+            newName.ifPresent(newEntity::setName);
+
             eventRepository.create(newEntity);
+
+            if (newName.isPresent()) {
+                throw new NameAlreadyExistException(oldName, newName.get(), "New Entity renamed");
+            }
         } else {
             throw new ValidationException("Added event not valid", validationResult.getValidationErrors());
         }

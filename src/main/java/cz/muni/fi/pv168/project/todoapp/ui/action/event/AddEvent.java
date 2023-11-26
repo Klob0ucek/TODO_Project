@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.NameAlreadyExistException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
@@ -46,6 +47,9 @@ public class AddEvent extends AbstractAddAction {
                 ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
             } catch (ValidationException validationException) {
                 new NotificationDialog(getFrame(), "Invalid event not created!").showNotification();
+                return;
+            } catch (NameAlreadyExistException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
                 return;
             }
             new NotificationDialog(getFrame(), "Event added successfully.").showNotification();
