@@ -32,11 +32,10 @@ public class UniqueNameProvider {
             if (endMatcher.find()) {
                 String parentheses = endMatcher.group();
                 i = Integer.parseInt(parentheses.substring(1, parentheses.length() - 1));
-                name = name.replaceAll("\\(\\d+\\)$", "");
+                name = endMatcher.replaceAll("");
             }
         }
 
-        System.out.println(name + " " + i);
         do {
             newName = name + "(" + i + ")";
             i++;
