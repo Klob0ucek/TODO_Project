@@ -16,6 +16,10 @@ public class UniqueNameProvider {
     }
 
     // TODO method worth testing
+
+    /**
+     * Method creates new name in format "name(number)" that is not in library
+     */
     private static String getUniqueName(String name, List<String> library) {
         int i = 1;
         String newName = "";
@@ -40,6 +44,9 @@ public class UniqueNameProvider {
         return newName;
     }
 
+    /**
+     * Method tests if given name is in list
+     */
     private static boolean checkUniqueName(String name, List<String> existing) {
         return existing.stream().noneMatch(n -> n.equals(name));
     }
