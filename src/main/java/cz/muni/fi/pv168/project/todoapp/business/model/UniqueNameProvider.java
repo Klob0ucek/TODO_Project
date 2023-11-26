@@ -17,17 +17,22 @@ public class UniqueNameProvider {
 
     // TODO method worth testing
     private static String getUniqueName(String name, List<String> library) {
-        //TODO Patter does not match
-        Pattern pattern = Pattern.compile("^[A-Za-z]+\\(d+\\)$");
-        Matcher matcher = pattern.matcher(name);
-
-        if (matcher.matches()) {
-            System.out.println("Pattern matched!");
-            return name;
-        }
-
         int i = 1;
         String newName = "";
+
+        Pattern pattern = Pattern.compile("^\\w+\\(\\d+\\)$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.matches()) {
+            Pattern lastNumber = Pattern.compile("\\(\\d+\\)$");
+            Matcher endMatcher = lastNumber.matcher(name);
+            if (endMatcher.find()) {
+                String parentheses = endMatcher.group();
+                i = Integer.parseInt(parentheses.substring(1, parentheses.length() - 1));
+                name = name.replaceAll("\\(\\d+\\)$", "");
+            }
+        }
+
+        System.out.println(name + " " + i);
         do {
             newName = name + "(" + i + ")";
             i++;
