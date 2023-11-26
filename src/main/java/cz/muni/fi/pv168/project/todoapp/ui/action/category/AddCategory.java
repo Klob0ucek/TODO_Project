@@ -31,7 +31,8 @@ public class AddCategory extends AbstractAddAction {
             var dialog = new CategoryDialog();
             dialog.show(getFrame(), "Add category").ifPresent(((CategoryTableModel) getTable().getModel())::addRow);
         } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid category not created!").showNotification();
+            new NotificationDialog(getFrame(), "Invalid category not created!",
+                    validationException.getValidationErrors()).showNotification();
             return;
         }
         new NotificationDialog(getFrame(), "Category added successfully.").showNotification();

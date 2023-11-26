@@ -46,7 +46,8 @@ public class AddEvent extends AbstractAddAction {
                 filter.updateIntervals((int) event.get().getDuration().toMinutes());
                 ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
             } catch (ValidationException validationException) {
-                new NotificationDialog(getFrame(), "Invalid event not created!").showNotification();
+                new NotificationDialog(getFrame(), "Invalid event not created!",
+                        validationException.getValidationErrors()).showNotification();
                 return;
             } catch (NameAlreadyExistException nameException) {
                 new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
