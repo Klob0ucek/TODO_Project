@@ -39,6 +39,7 @@ public class IntervalCrudService implements CrudService<Interval> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             intervalRepository.create(newEntity);
         } else {
             throw new ValidationException("Added interval not valid", validationResult.getValidationErrors());
@@ -50,6 +51,7 @@ public class IntervalCrudService implements CrudService<Interval> {
     public boolean update(Interval entity) {
         var validationResult = intervalValidator.validate(entity);
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             intervalRepository.update(entity);
         } else {
             throw new ValidationException("Edited interval not valid", validationResult.getValidationErrors());

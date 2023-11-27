@@ -61,6 +61,7 @@ public class EventCrudService implements CrudService<Event> {
     public boolean update(Event entity) {
         var validationResult = eventValidator.validate(entity);
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             eventRepository.update(entity);
         } else {
             throw new ValidationException("Edited event not valid", validationResult.getValidationErrors());

@@ -37,6 +37,7 @@ public class TemplateCrudService implements CrudService<Template> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             templateRepository.create(newEntity);
         } else {
             throw new ValidationException("Added template not valid", validationResult.getValidationErrors());
@@ -48,6 +49,7 @@ public class TemplateCrudService implements CrudService<Template> {
     public boolean update(Template entity) {
         var validationResult = templateValidator.validate(entity);
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             templateRepository.update(entity);
         } else {
             throw new ValidationException("Added template not valid", validationResult.getValidationErrors());

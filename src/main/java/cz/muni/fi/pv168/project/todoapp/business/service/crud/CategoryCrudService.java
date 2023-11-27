@@ -36,6 +36,7 @@ public class CategoryCrudService implements CrudService<Category> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             categoryRepository.create(newEntity);
         } else {
             throw new ValidationException("Added category not valid", validationResult.getValidationErrors());
@@ -47,6 +48,7 @@ public class CategoryCrudService implements CrudService<Category> {
     public boolean update(Category entity) {
         var validationResult = categoryValidator.validate(entity);
         if (validationResult.isValid()) {
+            // TODO test if name already exist
             categoryRepository.update(entity);
         } else {
             throw new ValidationException("Edited category not valid", validationResult.getValidationErrors());
