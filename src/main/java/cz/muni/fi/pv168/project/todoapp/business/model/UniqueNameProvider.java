@@ -46,7 +46,7 @@ public class UniqueNameProvider {
     /**
      * Method tests if given name is in list
      */
-    private static boolean checkUniqueName(String name, List<String> existing) {
+    public static boolean checkUniqueName(String name, List<String> existing) {
         return existing.stream().noneMatch(n -> n.equals(name));
     }
 }
