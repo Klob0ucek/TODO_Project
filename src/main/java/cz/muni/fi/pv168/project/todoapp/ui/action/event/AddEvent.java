@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventNameException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventRenameException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
@@ -49,7 +49,7 @@ public class AddEvent extends AbstractAddAction {
                 new NotificationDialog(getFrame(), "Invalid event not created!",
                         validationException.getValidationErrors()).showNotification();
                 return;
-            } catch (EventNameException nameException) {
+            } catch (EventRenameException nameException) {
                 new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
                 return;
             }

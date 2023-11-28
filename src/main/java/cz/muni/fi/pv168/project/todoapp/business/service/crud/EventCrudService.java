@@ -4,7 +4,7 @@ import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventNameException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventRenameException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
@@ -49,7 +49,7 @@ public class EventCrudService implements CrudService<Event> {
             eventRepository.create(newEntity);
 
             if (newName.isPresent()) {
-                throw new EventNameException(oldName, newName.get(), "New Entity renamed");
+                throw new EventRenameException(oldName, newName.get(), "New Entity renamed");
             }
         } else {
             throw new ValidationException("Added event not valid", validationResult.getValidationErrors());
@@ -69,7 +69,7 @@ public class EventCrudService implements CrudService<Event> {
             eventRepository.create(entity);
 
             if (newName.isPresent()) {
-                throw new EventNameException(oldName, newName.get(), "New Entity renamed");
+                throw new EventRenameException(oldName, newName.get(), "New Entity renamed");
             }
         } else {
             throw new ValidationException("Edited event not valid", validationResult.getValidationErrors());
