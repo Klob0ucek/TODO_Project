@@ -21,7 +21,6 @@ public class EventValidator implements Validator<Event> {
         ));
 
         if (model.getLocation() != null && !model.getLocation().isEmpty()) {
-            System.out.println("Empty location");
             validators.add(extracting(Event::getLocation, new StringLengthValidator(2, 150, "Location")));
         }
 
