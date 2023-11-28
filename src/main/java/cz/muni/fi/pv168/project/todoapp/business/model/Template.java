@@ -18,6 +18,18 @@ public class Template extends AbstractCoreEvent {
         this.templateName = templateName;
     }
 
+    public Template(String guid,
+                    String templateName,
+                    boolean isDone,
+                    String eventName,
+                    List<Category> categories,
+                    String location,
+                    LocalTime time,
+                    Duration duration) {
+        super(isDone, eventName, categories, location, time, duration);
+        this.templateName = templateName;
+    }
+
     public Template() {
     }
 

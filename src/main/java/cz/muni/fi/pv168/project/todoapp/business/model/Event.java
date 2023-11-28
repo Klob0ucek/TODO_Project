@@ -25,6 +25,21 @@ public class Event extends AbstractCoreEvent {
     public Event() {
     }
 
+    // Need for retrieving Event from db
+    public Event(
+            String guid,
+            boolean isDone,
+            String name,
+            List<Category> categories,
+            String location,
+            LocalDate date,
+            LocalTime time,
+            Duration duration
+    ) {
+        super(guid, isDone, name, categories, location, time, duration);
+        this.date = date;
+    }
+
     public LocalDate getDate() {
         return date;
     }

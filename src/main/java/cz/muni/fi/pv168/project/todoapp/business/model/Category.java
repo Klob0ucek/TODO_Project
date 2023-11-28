@@ -12,6 +12,13 @@ public class Category extends Entity {
     }
 
     public Category() {
+
+    }
+
+    public Category(String guid, String name, CategoryColor color) {
+        super(guid);
+        this.name = name;
+        this.color = color;
     }
 
     public String getName() {
