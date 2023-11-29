@@ -12,7 +12,7 @@ public class CategoryDialog extends EntityDialog<Category> {
     private final JTextField nameField = new JTextField();
     private final ComboBoxModel<CategoryColor> categoryColorModel = new DefaultComboBoxModel<>(CategoryColor.values());
 
-    private Category category = new Category();
+    private final Category category = new Category();
 
     public CategoryDialog() {
         addFields();
@@ -20,8 +20,16 @@ public class CategoryDialog extends EntityDialog<Category> {
 
     public CategoryDialog(Category category) {
         addFields();
-        this.category = category;
+        makeCopy(category);
+        setFields(category);
+    }
 
+    private void makeCopy(Category category) {
+        this.category.setName(category.getName());
+        this.category.setColor(category.getColor());
+    }
+
+    private void setFields(Category category) {
         nameField.setText(category.getName());
         categoryColorModel.setSelectedItem(category.getColor());
     }

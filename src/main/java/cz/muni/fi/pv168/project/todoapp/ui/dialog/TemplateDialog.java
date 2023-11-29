@@ -32,7 +32,7 @@ public class TemplateDialog extends EntityDialog<Template> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Template template = new Template();
+    private final Template template = new Template();
 
     public TemplateDialog(List<Category> categories) {
         this.categories = categories;
@@ -43,8 +43,22 @@ public class TemplateDialog extends EntityDialog<Template> {
 
     public TemplateDialog(List<Category> categories, Template template) {
         this(categories);
-        this.template = template;
+        makeCopy(template);
+        setFields(template);
+    }
 
+    private void makeCopy(Template template) {
+        this.template.setGuid(template.getGuid());
+        this.template.setTemplateName(template.getTemplateName());
+        this.template.setDone(template.isDone());
+        this.template.setName(template.getName());
+        this.template.setLocation(template.getLocation());
+        this.template.setTime(template.getTime());
+        this.template.setCategories(template.getCategories());
+        this.template.setDuration(template.getDuration());
+    }
+
+    private void setFields(Template template) {
         templateNameField.setText(template.getTemplateName());
         doneField.setSelected(template.isDone());
         eventNameField.setText(template.getName());
