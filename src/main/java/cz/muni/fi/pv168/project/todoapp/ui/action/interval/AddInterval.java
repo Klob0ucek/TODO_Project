@@ -30,14 +30,12 @@ public class AddInterval extends AbstractAddAction {
         try {
             var dialog = new IntervalDialog();
             dialog.show(getFrame(), "Add interval").ifPresent(((IntervalTableModel) getTable().getModel())::addRow);
+            new NotificationDialog(getFrame(), "Interval added successfully.").showNotification();
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid interval not created!",
                     validationException.getValidationErrors()).showNotification();
-            return;
         } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-            return;
         }
-        new NotificationDialog(getFrame(), "Interval added successfully.").showNotification();
     }
 }

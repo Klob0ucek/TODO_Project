@@ -39,14 +39,12 @@ public class EditInterval extends AbstractEditAction {
 
         try {
             dialog.show(getFrame(), "Edit Interval").ifPresent(((IntervalTableModel) getTable().getModel())::updateRow);
+            new NotificationDialog(getFrame(), "Interval edited successfully.").showNotification();
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid interval changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
-            return;
         } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-            return;
         }
-        new NotificationDialog(getFrame(), "Interval edited successfully.").showNotification();
     }
 }

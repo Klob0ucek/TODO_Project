@@ -44,14 +44,12 @@ public class EditEvent extends AbstractEditAction {
 
         try {
             dialog.show(getFrame(), "Edit Event").ifPresent(((ScheduleTableModel) getTable().getModel())::updateRow);
+            new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid event changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
-            return;
         } catch (EventRenameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-            return;
         }
-        new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
     }
 }

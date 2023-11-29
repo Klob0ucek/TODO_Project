@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.validation;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.CategoryListValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.GuidValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.StringLengthValidator;
 import java.util.List;

@@ -38,14 +38,12 @@ public class EditTemplate extends AbstractEditAction {
         var dialog = new TemplateDialog(getCrudHolder().getCategories(), template);
         try {
             dialog.show(getFrame(), "Edit Template").ifPresent(((TemplateTableModel) getTable().getModel())::updateRow);
+            new NotificationDialog(getFrame(), "Template edited successfully.").showNotification();
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid template changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
-            return;
         } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-            return;
         }
-        new NotificationDialog(getFrame(), "Template edited successfully.").showNotification();
     }
 }

@@ -1,12 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.validation.common;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
 import java.util.List;
 
-public class CategoryListValidator extends PropertyValidator<List<Category>> {
-    public CategoryListValidator(String name) {
+public class NoCategoriesValidator extends PropertyValidator<List<Category>> {
+    public NoCategoriesValidator(String name) {
         super(name);
     }
 
@@ -16,7 +15,7 @@ public class CategoryListValidator extends PropertyValidator<List<Category>> {
         var size = categories.size();
 
         if (size == 0) {
-            result.add("Event or template does not have any categories");
+            result.add("Event does not have any categories");
         }
 
         return result;

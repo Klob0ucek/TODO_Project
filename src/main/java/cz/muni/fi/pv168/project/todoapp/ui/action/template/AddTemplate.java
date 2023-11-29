@@ -30,14 +30,12 @@ public class AddTemplate extends AbstractAddAction {
         try {
             var dialog = new TemplateDialog(getCrudHolder().getCategories());
             dialog.show(getFrame(), "Add template").ifPresent(((TemplateTableModel) getTable().getModel())::addRow);
+            new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid template not created!",
                     validationException.getValidationErrors()).showNotification();
-            return;
         } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-            return;
         }
-        new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
     }
 }

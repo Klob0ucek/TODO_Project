@@ -14,11 +14,11 @@ public class Main {
         var errorHandler = new ApplicationErrorHandler();
         Thread.setDefaultUncaughtExceptionHandler(errorHandler);
 
-        Runnable flatLaf = () -> {
+        Runnable init = () -> {
             FlatDarkLaf.setup();
             MainWindow mainWindow = new MainWindow();
             mainWindow.show();
         };
-        SwingUtilities.invokeLater(flatLaf);
+        SwingUtilities.invokeLater(init);
     }
 }
