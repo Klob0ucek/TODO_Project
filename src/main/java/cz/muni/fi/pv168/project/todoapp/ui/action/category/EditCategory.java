@@ -38,8 +38,11 @@ public class EditCategory extends AbstractEditAction {
         var dialog = new CategoryDialog(employee);
 
         try {
-            dialog.show(getFrame(), "Edit Category").ifPresent(((CategoryTableModel) getTable().getModel())::updateRow);
-            new NotificationDialog(getFrame(), "Category edited successfully.").showNotification();
+            var newEntity = dialog.show(getFrame(), "Edit Category");
+            if (newEntity.isPresent()) {
+                ((CategoryTableModel) getTable().getModel()).updateRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Category edited successfully.").showNotification();
+            }
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid Category changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();

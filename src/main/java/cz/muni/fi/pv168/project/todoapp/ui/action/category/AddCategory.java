@@ -7,6 +7,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
@@ -30,8 +31,11 @@ public class AddCategory extends AbstractAddAction {
     public void actionPerformed(ActionEvent e) {
         try {
             var dialog = new CategoryDialog();
-            dialog.show(getFrame(), "Add category").ifPresent(((CategoryTableModel) getTable().getModel())::addRow);
-            new NotificationDialog(getFrame(), "Category added successfully.").showNotification();
+            var newEntity = dialog.show(getFrame(), "Add category");
+            if (newEntity.isPresent()) {
+                ((CategoryTableModel) getTable().getModel()).addRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Category added successfully.").showNotification();
+            }
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid category not created!",
                     validationException.getValidationErrors()).showNotification();

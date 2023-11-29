@@ -43,8 +43,11 @@ public class EditEvent extends AbstractEditAction {
         var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories(), event);
 
         try {
-            dialog.show(getFrame(), "Edit Event").ifPresent(((ScheduleTableModel) getTable().getModel())::updateRow);
-            new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
+            var newEntity = dialog.show(getFrame(), "Edit Event");
+            if (newEntity.isPresent()) {
+                ((ScheduleTableModel) getTable().getModel()).updateRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
+            }
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid event changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
