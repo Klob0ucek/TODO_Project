@@ -41,7 +41,10 @@ public class EditTemplate extends AbstractEditAction {
             new NotificationDialog(getFrame(), "Invalid template changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
             return;
-        }
+        } /*catch (ExistingNameException nameException) {
+            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+            return;
+        }*/
         new NotificationDialog(getFrame(), "Template edited successfully.").showNotification();
     }
 }

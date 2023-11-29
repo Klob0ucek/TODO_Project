@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.category;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
@@ -33,6 +34,9 @@ public class AddCategory extends AbstractAddAction {
         } catch (ValidationException validationException) {
             new NotificationDialog(getFrame(), "Invalid category not created!",
                     validationException.getValidationErrors()).showNotification();
+            return;
+        } catch (ExistingNameException nameException) {
+            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
             return;
         }
         new NotificationDialog(getFrame(), "Category added successfully.").showNotification();

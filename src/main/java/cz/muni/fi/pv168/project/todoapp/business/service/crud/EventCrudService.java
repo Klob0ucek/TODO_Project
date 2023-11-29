@@ -39,7 +39,6 @@ public class EventCrudService implements CrudService<Event> {
         } else if (eventRepository.existByGuid(newEntity.getGuid())) {
             throw new EntityAlreadyExistsException("Event with given guid already exists: " + newEntity.getGuid());
         }
-
         if (validationResult.isValid()) {
             Optional<String> newName = UniqueNameProvider.checkAndRename(newEntity.getName(),
                     eventRepository.findAll().stream().map(Event::getName).toList());
@@ -66,7 +65,10 @@ public class EventCrudService implements CrudService<Event> {
             String oldName = entity.getName();
             newName.ifPresent(entity::setName);
 
-            eventRepository.create(entity);
+            // TODO Renaming event even though event name was unchanged same during edit
+            // TODO How do we know we should validate "new" name?
+
+            eventRepository.update(entity);
 
             if (newName.isPresent()) {
                 throw new EventRenameException(oldName, newName.get(), "New Entity renamed");

@@ -16,8 +16,6 @@ public class TemplateValidator implements Validator<Template> {
     public ValidationResult validate(Template model) {
         var validators = new ArrayList<>(List.of(
                 extracting(Template::getTemplateName, new StringLengthValidator(2, 60, "Template name")),
-                extracting(Template::getName, new StringLengthValidator(2, 60, "Event Name")),
-                extracting(Template::getCategories, new CategoryListValidator("Category List")),
                 extracting(Template::getGuid, new GuidValidator("Guid"))
         ));
 

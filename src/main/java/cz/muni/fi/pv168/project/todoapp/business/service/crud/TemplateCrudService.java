@@ -1,8 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
@@ -37,7 +40,11 @@ public class TemplateCrudService implements CrudService<Template> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
-            // TODO test if name already exist
+            if (!UniqueNameProvider.checkUniqueName(newEntity.getName(),
+                    templateRepository.findAll().stream().map(Template::getTemplateName).toList())) {
+                throw new ExistingNameException("\"" + newEntity.getName() + "\" already exists - please use unique name!",
+                        "Entity name not Unique");
+            }
             templateRepository.create(newEntity);
         } else {
             throw new ValidationException("Added template not valid", validationResult.getValidationErrors());
@@ -49,7 +56,13 @@ public class TemplateCrudService implements CrudService<Template> {
     public boolean update(Template entity) {
         var validationResult = templateValidator.validate(entity);
         if (validationResult.isValid()) {
-            // TODO test if name already exist
+            // TODO Name check always throws exception - changing existing entity
+            // TODO No change to name during edit throws exception - how do we know we should validate "new" name?
+            /*if (!UniqueNameProvider.checkUniqueName(entity.getName(),
+                    templateRepository.findAll().stream().map(Template::getTemplateName).toList())) {
+                throw new ExistingNameException("\"" + entity.getName() + "\" already exists - please use unique name!",
+                        "Entity name not Unique");
+            } */
             templateRepository.update(entity);
         } else {
             throw new ValidationException("Added template not valid", validationResult.getValidationErrors());
