@@ -42,8 +42,7 @@ public class IntervalCrudService implements CrudService<Interval> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
-            if (!UniqueNameProvider.checkUniqueName(newEntity.getName(),
-                    intervalRepository.findAll().stream().map(Interval::getName).toList())) {
+            if (nameNotUnique(newEntity)) {
                 throw new ExistingNameException("\"" + newEntity.getName() + "\" already exists - please use unique name!",
                         "Entity name not Unique");
             }
@@ -58,19 +57,25 @@ public class IntervalCrudService implements CrudService<Interval> {
     public boolean update(Interval entity) {
         var validationResult = intervalValidator.validate(entity);
         if (validationResult.isValid()) {
-            // TODO Name check always throws exception - changing existing entity
-            // TODO No change to name during edit throws exception - how do we know we should validate "new" name?
-            /*if (!UniqueNameProvider.checkUniqueName(entity.getName(),
-                    intervalRepository.findAll().stream().map(Interval::getName).toList())) {
+            if (nameNotUnique(entity)) {
                 throw new ExistingNameException("\"" + entity.getName() + "\" already exists - please use unique name!",
                         "Entity name not Unique");
-            } */
+            }
             intervalRepository.update(entity);
         } else {
             throw new ValidationException("Edited interval not valid", validationResult.getValidationErrors());
         }
 
         return validationResult.isValid();
+    }
+
+    private boolean nameNotUnique(Interval newInterval) {
+        for (Interval old : intervalRepository.findAll()) {
+            if (!newInterval.getGuid().equals(old.getGuid()) && newInterval.getName().equals(old.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

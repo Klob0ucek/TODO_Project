@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
@@ -41,10 +42,10 @@ public class EditTemplate extends AbstractEditAction {
             new NotificationDialog(getFrame(), "Invalid template changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
             return;
-        } /*catch (ExistingNameException nameException) {
+        } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
             return;
-        }*/
+        }
         new NotificationDialog(getFrame(), "Template edited successfully.").showNotification();
     }
 }

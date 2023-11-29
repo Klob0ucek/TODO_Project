@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
+import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
@@ -38,8 +39,7 @@ public class CategoryCrudService implements CrudService<Category> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
-            if (!UniqueNameProvider.checkUniqueName(newEntity.getName(),
-                    categoryRepository.findAll().stream().map(Category::getName).toList())) {
+            if (nameNotUnique(newEntity)) {
                 throw new ExistingNameException("\"" + newEntity.getName() + "\" already exists - please use unique name!",
                         "Entity name not Unique");
             }
@@ -54,19 +54,25 @@ public class CategoryCrudService implements CrudService<Category> {
     public boolean update(Category entity) {
         var validationResult = categoryValidator.validate(entity);
         if (validationResult.isValid()) {
-            // TODO Name check always throws exception - changing existing entity
-            // TODO No change to name during edit throws exception - how do we know we should validate "new" name?
-            /*if (!UniqueNameProvider.checkUniqueName(entity.getName(),
-                    categoryRepository.findAll().stream().map(Category::getName).toList())) {
+            if (nameNotUnique(entity)) {
                 throw new ExistingNameException("\"" + entity.getName() + "\" already exists - please use unique name!",
                         "Entity name not Unique");
-            } */
+            }
             categoryRepository.update(entity);
         } else {
             throw new ValidationException("Edited category not valid", validationResult.getValidationErrors());
         }
 
         return validationResult.isValid();
+    }
+
+    private boolean nameNotUnique(Category newCategory) {
+        for (Category old : categoryRepository.findAll()) {
+            if (!newCategory.getGuid().equals(old.getGuid()) && newCategory.getName().equals(old.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

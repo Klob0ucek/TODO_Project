@@ -8,19 +8,7 @@ import java.util.regex.Pattern;
 public class UniqueNameProvider {
 
     // TODO method worth testing
-    public static Optional<String> checkAndRename(String name, List<String> existing) {
-        if (checkUniqueName(name, existing)) {
-            return Optional.empty();
-        }
-        return Optional.of(getUniqueName(name, existing));
-    }
-
-    // TODO method worth testing
-
-    /**
-     * Method creates new name in format "name(number)" that is not in library
-     */
-    private static String getUniqueName(String name, List<String> library) {
+    public static String getUniqueName(String name, List<String> library) {
         int i = 1;
         String newName = "";
 
@@ -43,10 +31,7 @@ public class UniqueNameProvider {
         return newName;
     }
 
-    /**
-     * Method tests if given name is in list
-     */
-    public static boolean checkUniqueName(String name, List<String> existing) {
+    private static boolean checkUniqueName(String name, List<String> existing) {
         return existing.stream().noneMatch(n -> n.equals(name));
     }
 }

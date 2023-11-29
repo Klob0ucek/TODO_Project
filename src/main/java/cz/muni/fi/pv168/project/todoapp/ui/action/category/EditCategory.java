@@ -43,10 +43,10 @@ public class EditCategory extends AbstractEditAction {
             new NotificationDialog(getFrame(), "Invalid Category changes - data not saved!",
                     validationException.getValidationErrors()).showNotification();
             return;
-        } /*catch (ExistingNameException nameException) {
+        } catch (ExistingNameException nameException) {
             new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
             return;
-        }*/
+        }
         new NotificationDialog(getFrame(), "Category edited successfully.").showNotification();
     }
 }
