@@ -26,6 +26,7 @@ public class IntervalDialog extends EntityDialog<Interval> {
     }
 
     private void makeCopy(Interval interval) {
+        this.interval.setGuid(interval.getGuid());
         this.interval.setName(interval.getName());
         this.interval.setAbbreviation(interval.getAbbreviation());
         this.interval.setDuration(interval.getDuration());

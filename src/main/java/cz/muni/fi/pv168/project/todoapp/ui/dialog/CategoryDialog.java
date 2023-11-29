@@ -25,6 +25,7 @@ public class CategoryDialog extends EntityDialog<Category> {
     }
 
     private void makeCopy(Category category) {
+        this.category.setGuid(category.getGuid());
         this.category.setName(category.getName());
         this.category.setColor(category.getColor());
     }
