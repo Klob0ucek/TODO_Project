@@ -47,7 +47,7 @@ public class EventDialog extends EntityDialog<Event> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Event event = new Event();
+    private final Event event = new Event();
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories) {
@@ -62,8 +62,22 @@ public class EventDialog extends EntityDialog<Event> {
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories, Event event) {
         this(templateListModel, intervalListModel, categories);
-        this.event = event;
+        makeCopy(event);
+        setFields(event);
+    }
 
+    private void makeCopy(Event event) {
+        this.event.setGuid(event.getGuid());
+        this.event.setDone(event.isDone());
+        this.event.setName(event.getName());
+        this.event.setCategories(event.getCategories());
+        this.event.setLocation(event.getLocation());
+        this.event.setDate(event.getDate());
+        this.event.setTime(event.getTime());
+        this.event.setDuration(event.getDuration());
+    }
+
+    private void setFields(Event event) {
         doneField.setSelected(event.isDone());
         nameField.setText(event.getName());
         event.getCategories().forEach(c -> categoryOptions.getCheckBoxes().get(categories.indexOf(c)).setState(true));
