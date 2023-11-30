@@ -34,20 +34,23 @@ public class EditCategory extends AbstractEditAction {
             return;
         }
 
-        var employee = ((CategoryTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
-        var dialog = new CategoryDialog(employee);
+        var oldEntity = ((CategoryTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var dialog = new CategoryDialog(oldEntity);
+        var newEntity = dialog.show(getFrame(), "Edit Category");
 
-        try {
-            var newEntity = dialog.show(getFrame(), "Edit Category");
-            if (newEntity.isPresent()) {
+        while (newEntity.isPresent()) {
+            try {
                 ((CategoryTableModel) getTable().getModel()).updateRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Category edited successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid Category changes - data not saved!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Category");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Category");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid Category changes - data not saved!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

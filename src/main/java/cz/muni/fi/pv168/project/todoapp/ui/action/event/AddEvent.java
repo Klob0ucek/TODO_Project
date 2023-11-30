@@ -40,17 +40,21 @@ public class AddEvent extends AbstractAddAction {
         ListModel<Template> templateListModel = new ListModel<>(getCrudHolder().getTemplates());
         ListModel<Interval> intervalListModel = new ListModel<>(getCrudHolder().getIntervals());
         var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories());
-        Optional<Event> event = dialog.show(getFrame(), "Add event");
-        if (event.isPresent()) {
+        var newEntity = dialog.show(getFrame(), "Add event");
+
+        while (newEntity.isPresent()) {
+            filter.updateIntervals((int) newEntity.get().getDuration().toMinutes());
             try {
-                filter.updateIntervals((int) event.get().getDuration().toMinutes());
-                ((ScheduleTableModel) getTable().getModel()).addRow(event.get());
+                ((ScheduleTableModel) getTable().getModel()).addRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Event added successfully.").showNotification();
+                return;
             } catch (ValidationException validationException) {
                 new NotificationDialog(getFrame(), "Invalid event not created!",
                         validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add event");
             } catch (EventRenameException nameException) {
                 new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                return;
             }
         }
     }

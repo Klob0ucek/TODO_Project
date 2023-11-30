@@ -27,18 +27,22 @@ public class AddTemplate extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            var dialog = new TemplateDialog(getCrudHolder().getCategories());
-            var newEntity = dialog.show(getFrame(), "Add template");
-            if (newEntity.isPresent()) {
+        var dialog = new TemplateDialog(getCrudHolder().getCategories());
+        var newEntity = dialog.show(getFrame(), "Add template");
+
+        while (newEntity.isPresent()) {
+            try {
                 ((TemplateTableModel) getTable().getModel()).addRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid template not created!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add template");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add template");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid template not created!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

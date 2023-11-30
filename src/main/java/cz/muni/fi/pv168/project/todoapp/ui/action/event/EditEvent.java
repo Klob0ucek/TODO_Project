@@ -37,22 +37,25 @@ public class EditEvent extends AbstractEditAction {
             return;
         }
 
-        var event = ((ScheduleTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var oldEntity = ((ScheduleTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
         ListModel<Template> templateListModel = new ListModel<>(getCrudHolder().getTemplates());
         ListModel<Interval> intervalListModel = new ListModel<>(getCrudHolder().getIntervals());
-        var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories(), event);
+        var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories(), oldEntity);
+        var newEntity = dialog.show(getFrame(), "Edit Event");
 
-        try {
-            var newEntity = dialog.show(getFrame(), "Edit Event");
-            if (newEntity.isPresent()) {
+        while (newEntity.isPresent()) {
+            try {
                 ((ScheduleTableModel) getTable().getModel()).updateRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid event changes - data not saved!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Event");
+            } catch (EventRenameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                return;
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid event changes - data not saved!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (EventRenameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }
