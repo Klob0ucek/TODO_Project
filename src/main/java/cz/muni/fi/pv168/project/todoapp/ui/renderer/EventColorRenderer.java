@@ -28,7 +28,6 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
         if (column == 2) {
             List<String> names = Arrays.stream(value.toString().split(", ")).toList();
             if (names.isEmpty()) {
-                this.setBackground(null);
                 return this;
             }
 
@@ -41,7 +40,7 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
             } else {
                 this.setBackground(calculateGradientColor(colors));
             }
-        } else {
+        } else if (!isSelected) {
             this.setBackground(null);
         }
         return this;

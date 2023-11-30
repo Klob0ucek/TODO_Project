@@ -21,7 +21,9 @@ public class TemplateColorRenderer extends DefaultTableCellRenderer {
 
         if (column == 3) {
             if (value == null || value.equals("")) {
-                this.setBackground(null);
+                if (!isSelected) {
+                    this.setBackground(null);
+                }
                 return this;
             }
             List<String> names = Arrays.stream(value.toString().split(", ")).toList();
@@ -35,7 +37,7 @@ public class TemplateColorRenderer extends DefaultTableCellRenderer {
             } else {
                 this.setBackground(calculateGradientColor(colors));
             }
-        } else {
+        } else if (!isSelected) {
             this.setBackground(null);
         }
         return this;
