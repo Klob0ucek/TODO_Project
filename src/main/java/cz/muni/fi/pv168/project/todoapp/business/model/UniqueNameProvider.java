@@ -9,6 +9,9 @@ public class UniqueNameProvider {
 
     // TODO method worth testing
     public static String getUniqueName(String name, List<String> library) {
+        if (checkUniqueName(name, library)) {
+            return name;
+        }
         int i = 1;
         String newName = "";
 
