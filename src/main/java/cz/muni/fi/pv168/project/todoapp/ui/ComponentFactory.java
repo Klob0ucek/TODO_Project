@@ -1,12 +1,16 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.HelpTab;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
+import java.util.List;
+import java.util.Locale;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
@@ -37,8 +41,10 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createScheduleTable(ScheduleTableModel model) {
-        return createTableFromModel(model);
+    public static JTable createScheduleTable(ScheduleTableModel model, CrudHolder ch) {
+        JTable table = createTableFromModel(model);
+        model.setRowBackgroundColors(table, ch);
+        return table;
     }
 
     public static JTable createCategoryTable(CategoryTableModel model) {

@@ -23,7 +23,7 @@ public class TabFactory {
             Filter filter
     ) {
         return new EventsTab.BuildTemplate()
-                .addTabDetails("Events", ComponentFactory.createScheduleTable(model), frame, crudHolder)
+                .addTabDetails("Events", ComponentFactory.createScheduleTable(model, crudHolder), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .addFilter(filter)
                 .build();
