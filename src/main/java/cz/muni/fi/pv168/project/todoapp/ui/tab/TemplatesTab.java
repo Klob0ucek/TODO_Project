@@ -23,6 +23,7 @@ public class TemplatesTab extends GeneralTab {
                             .addAddAction(new AddTemplate(table, frame, crudHolder))
                             .addEditAction(new EditTemplate(table, frame, crudHolder))
                             .addDeleteAction(new DeleteTemplate(table, frame, crudHolder))
+                            .addPopupMenu(table)
             );
         }
     }

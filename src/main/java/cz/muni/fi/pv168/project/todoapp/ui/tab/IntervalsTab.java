@@ -23,6 +23,7 @@ public class IntervalsTab extends GeneralTab {
                             .addAddAction(new AddInterval(table, frame, crudHolder))
                             .addEditAction(new EditInterval(table, frame, crudHolder))
                             .addDeleteAction(new DeleteInterval(table, frame, crudHolder))
+                            .addPopupMenu(table)
             );
         }
     }

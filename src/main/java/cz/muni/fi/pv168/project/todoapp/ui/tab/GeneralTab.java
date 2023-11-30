@@ -4,11 +4,14 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
+
 import java.awt.Component;
 import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JPopupMenu;
 
 public abstract class GeneralTab {
     private final String title;
@@ -92,6 +95,19 @@ public abstract class GeneralTab {
             this.deleteAction = deleteAction;
             return self();
         }
+
+        protected T addPopupMenu(JTable table) {
+            table.setComponentPopupMenu(createTablePopupMenu());
+            return self();
+        }
+
+        private JPopupMenu createTablePopupMenu() {
+            var menu = new JPopupMenu();
+            menu.add(addAction);
+            menu.add(editAction);
+            menu.add(deleteAction);
+            return menu;
+        }
     }
 
     protected GeneralTab(
@@ -128,5 +144,4 @@ public abstract class GeneralTab {
     ) {
         tabbedPane.addTab(title, null, new JScrollPane(component), null);
     }
-
 }
