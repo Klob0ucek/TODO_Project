@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.ui.util.ColorMixer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -36,32 +37,13 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
                     .map(c -> c.getColor().getColor())
                     .toList();
             if (isSelected) {
-                this.setBackground(calculateGradientColor(colors).darker());
+                this.setBackground(ColorMixer.calculateGradient(colors).darker());
             } else {
-                this.setBackground(calculateGradientColor(colors));
+                this.setBackground(ColorMixer.calculateGradient(colors));
             }
         } else if (!isSelected) {
             this.setBackground(null);
         }
         return this;
     }
-
-    private static Color calculateGradientColor(List<Color> colors) {
-        int redSum = 0;
-        int greenSum = 0;
-        int blueSum = 0;
-
-        for (Color color : colors) {
-            redSum += color.getRed();
-            greenSum += color.getGreen();
-            blueSum += color.getBlue();
-        }
-
-        int averageRed = redSum / colors.size();
-        int averageGreen = greenSum / colors.size();
-        int averageBlue = blueSum / colors.size();
-
-        return new Color(averageRed, averageGreen, averageBlue);
-    }
-
 }
