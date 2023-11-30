@@ -7,149 +7,150 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+/**
+ * Unit tests for the {@link EventCrudService}
+ */
 class EventCrudServiceUnitTest {
-    private static final Category FOOD_DEPARTMENT = new Category("Food", CategoryColor.YELLOW);
+    private static final Category FOOD_CATEGORY = new Category("Food", CategoryColor.YELLOW);
+    private static final Category SPORT_CATEGORY = new Category("Sport", CategoryColor.BLUE);
 
     private EventCrudService eventCrudService;
     private Repository<Event> eventRepository;
-    private UniqueIdProvider guidProvider;
-
     private EventValidator eventValidator;
-
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     void setUp() {
         eventRepository = Mockito.mock(Repository.class);
-        eventValidator = new EventValidator();
-        eventCrudService = new EventCrudService(eventRepository);
-
+        eventValidator = Mockito.mock(EventValidator.class);
+        eventCrudService = new EventCrudService(eventRepository, eventValidator);
     }
 
     @Test
     void createWithGuidSucceeds() {
-        var employee = createEvent("e-1");
+        var event = createEvent(UniqueIdProvider.newId());
 
-        when(eventValidator.validate(employee))
+        when(eventValidator.validate(event))
                 .thenReturn(ValidationResult.success());
 
-        var result = eventCrudService.create(employee);
+        var result = eventCrudService.create(event);
 
-        assertThat(result).isEqualTo(ValidationResult.success());
+        assertThat(result).isEqualTo(true);
         verify(eventRepository, times(1))
-                .create(employee);
+                .create(event);
     }
 
     @Test
     void createWithoutGuidSucceeds() {
-        var employee = createEvent(null);
-        var newGuid = "new-guid";
-        var expectedEmployee = createEvent(newGuid);
+        var event = createEvent(null);
 
-        when(guidProvider.newId())
-                .thenReturn(newGuid);
-
-        when(eventValidator.validate(employee))
+        when(eventValidator.validate(event))
                 .thenReturn(ValidationResult.success());
 
-        var result = eventCrudService.create(employee);
+        var result = eventCrudService.create(event);
 
-        assertThat(result).isEqualTo(ValidationResult.success());
+        assertThat(event.getGuid()).isNotEmpty();
+        assertThat(result).isEqualTo(true);
         verify(eventRepository, times(1))
-                .create(refEq(expectedEmployee));
+                .create(event);
     }
 
     @Test
     void createValidationError() {
-        var employee = createEvent("e-1");
+        var event = createEvent(UniqueIdProvider.newId());
 
-        when(eventValidator.validate(employee))
+        when(eventValidator.validate(event))
                 .thenReturn(ValidationResult.failed("validation failed"));
 
-        var result = eventCrudService.create(employee);
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> eventCrudService.create(event))
+                .withMessage("Validation failed: Added event not valid");
 
-        assertThat(result).isEqualTo(ValidationResult.failed("validation failed"));
         verify(eventRepository, times(0))
-                .create(employee);
+                .create(event);
     }
 
     @Test
     void createFailsForDuplicateGuid() {
-        var employee = createEvent("e-1");
+        var guid = UniqueIdProvider.newId();
+        var event = createEvent(guid);
 
-        when(eventValidator.validate(employee))
-                .thenReturn(ValidationResult.success());
-        when(eventRepository.existByGuid("e-1"))
+        when(eventRepository.existByGuid(guid))
                 .thenReturn(true);
 
         assertThatExceptionOfType(EntityAlreadyExistsException.class)
-                .isThrownBy(() -> eventCrudService.create(employee))
-                .withMessage("Employee with given guid already exists: e-1");
+                .isThrownBy(() -> eventCrudService.create(event))
+                .withMessage("Event with given guid already exists: " + guid);
     }
 
     @Test
     void updateWithGuidSucceeds() {
-        var employee = createEvent("e-1");
+        var event = createEvent(UniqueIdProvider.newId());
 
-        when(eventValidator.validate(employee))
+        when(eventValidator.validate(event))
                 .thenReturn(ValidationResult.success());
 
-        var result = eventCrudService.update(employee);
+        var result = eventCrudService.update(event);
 
-        assertThat(result).isEqualTo(ValidationResult.success());
+        assertThat(result).isEqualTo(true);
         verify(eventRepository, times(1))
-                .update(employee);
+                .update(event);
     }
 
     @Test
     void updateValidationError() {
-        var employee = createEvent("e-1");
+        var event = createEvent(UniqueIdProvider.newId());
 
-        when(eventValidator.validate(employee))
+        when(eventValidator.validate(event))
                 .thenReturn(ValidationResult.failed("validation failed"));
 
-        var result = eventCrudService.update(employee);
+        assertThatExceptionOfType(ValidationException.class)
+                .isThrownBy(() -> eventCrudService.update(event))
+                .withMessage("Validation failed: Edited event not valid");
 
-        assertThat(result).isEqualTo(ValidationResult.failed("validation failed"));
         verify(eventRepository, times(0))
-                .update(employee);
+                .update(event);
     }
 
     @Test
     void deleteByGuid() {
-        eventCrudService.deleteByGuid("guid");
+        var guid = UniqueIdProvider.newId();
+        eventCrudService.deleteByGuid(guid);
 
         verify(eventRepository, times(1))
-                .deleteByGuid("guid");
+                .deleteByGuid(guid);
     }
 
     @Test
     void findAll() {
-        var expectedEmployeeList = List.of(createEvent("e-1"));
+        var expectedEvents = List.of(createEvent(UniqueIdProvider.newId()));
+
         when(eventRepository.findAll())
-                .thenReturn(expectedEmployeeList);
+                .thenReturn(expectedEvents);
 
         var foundEmployees = eventCrudService.findAll();
 
-        assertThat(foundEmployees).isEqualTo(expectedEmployeeList);
+        assertThat(foundEmployees).isEqualTo(expectedEvents);
     }
 
     @Test
@@ -164,8 +165,8 @@ class EventCrudServiceUnitTest {
         var event = new Event(
                 false,
                 "Name",
-                List.of(new Category("Sport", CategoryColor.ORANGE)),
-                "Home",
+                List.of(FOOD_CATEGORY, SPORT_CATEGORY),
+                "Location",
                 LocalDate.now(),
                 LocalTime.now(),
                 Duration.ZERO

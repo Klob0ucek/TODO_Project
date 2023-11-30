@@ -8,16 +8,18 @@ public class GuidValidator extends PropertyValidator<String> {
     }
 
     @Override
-    public ValidationResult validate(String string) {
+    public ValidationResult validate(String guid) {
         var result = new ValidationResult();
-        var length = string.length();
 
+        if (guid == null) {
+            return result;
+        }
 
-        if (length != 36
-                && string.charAt(8) != '-' &&
-                string.charAt(13) == '-'
-                && string.charAt(18) == '-'
-                && string.charAt(23) == '-') {
+        if (guid.length() != 36
+                && guid.charAt(8) != '-'
+                && guid.charAt(13) != '-'
+                && guid.charAt(18) != '-'
+                && guid.charAt(23) != '-') {
             result.add("'%s' length is not in format XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX");
         }
 
