@@ -17,7 +17,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryVali
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
-import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.memory.InMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

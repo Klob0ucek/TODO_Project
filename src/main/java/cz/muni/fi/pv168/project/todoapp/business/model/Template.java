@@ -26,7 +26,7 @@ public class Template extends AbstractCoreEvent {
                     String location,
                     LocalTime time,
                     Duration duration) {
-        super(isDone, eventName, categories, location, time, duration);
+        super(guid, isDone, eventName, categories, location, time, duration);
         this.templateName = templateName;
     }
 

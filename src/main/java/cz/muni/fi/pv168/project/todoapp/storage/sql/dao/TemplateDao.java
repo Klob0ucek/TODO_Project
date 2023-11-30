@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.storage.sql.dao;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.ConnectionHandler;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.TemplateEntity;
 
@@ -8,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,23 +49,28 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             statement.setString(3, newTemplate.eventName());
             statement.setBoolean(4, newTemplate.isDone());
             statement.setString(5, newTemplate.location());
-            statement.setTime(6, Time.valueOf(newTemplate.time()));
+            if (newTemplate.time() != null) {
+                statement.setTime(6, Time.valueOf(newTemplate.time()));
+            } else {
+                statement.setTime(6, null);
+            }
             statement.setInt(7, (int) newTemplate.duration().toMinutes());
-            statement.executeUpdate();
 
+
+            statement.executeUpdate();
             try (var keyResultSet = statement.getGeneratedKeys()) {
-                long eventId;
+                long templateId;
 
                 if (keyResultSet.next()) {
-                    eventId = keyResultSet.getLong(1);
+                    templateId = keyResultSet.getLong(1);
                 } else {
                     throw new DataStorageException("Failed to fetch generated key for: " + newTemplate);
                 }
                 if (keyResultSet.next()) {
                     throw new DataStorageException("Multiple keys returned for: " + newTemplate);
                 }
-
-                return findById(eventId).orElseThrow();
+                CategoryConnectionDao.createGuidConnection(connections, newTemplate.guid(), newTemplate.categories(), false);
+                return findById(templateId).orElseThrow();
             }
         } catch (SQLException ex) {
             throw new DataStorageException("Failed to store: " + newTemplate, ex);
@@ -90,17 +95,17 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
 
-            List<TemplateEntity> events = new ArrayList<>();
+            List<TemplateEntity> templates = new ArrayList<>();
             try (var resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    var event = eventFromResultSet(resultSet);
-                    events.add(event);
+                    var template = templateFromResultSet(resultSet);
+                    templates.add(template);
                 }
             }
 
-            return events;
+            return templates;
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load all events", ex);
+            throw new DataStorageException("Failed to load all templates", ex);
         }
     }
 
@@ -125,13 +130,13 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             statement.setLong(1, id);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(eventFromResultSet(resultSet));
+                return Optional.of(templateFromResultSet(resultSet));
             } else {
-                // event not found
+                // template not found
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load template by id", ex);
         }
     }
 
@@ -156,13 +161,13 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             statement.setString(1, guid);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(eventFromResultSet(resultSet));
+                return Optional.of(templateFromResultSet(resultSet));
             } else {
-                // event not found
+                // template not found
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load template by id", ex);
         }
     }
 
@@ -196,17 +201,20 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
                 throw new DataStorageException("Template not found, id: " + entity.id());
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been updated: %s"
+                throw new DataStorageException("More then 1 template (rows=%d) has been updated: %s"
                         .formatted(rowsUpdated, entity));
             }
+            CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, entity.guid(), false);
+            CategoryConnectionDao.createGuidConnection(connections, entity.guid(), entity.categories(), false);
             return entity;
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to update event: " + entity, ex);
+            throw new DataStorageException("Failed to update template: " + entity, ex);
         }
     }
 
     @Override
     public void deleteByGuid(String guid) {
+        CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, guid, false);
         var sql = "DELETE FROM Template WHERE guid = ?";
         try (
                 var connection = connections.get();
@@ -218,16 +226,17 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
                 throw new DataStorageException("Template not found, guid: " + guid);
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been deleted: %s"
+                throw new DataStorageException("More then 1 template (rows=%d) has been deleted: %s"
                         .formatted(rowsUpdated, guid));
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete event, guid: " + guid, ex);
+            throw new DataStorageException("Failed to delete template, guid: " + guid, ex);
         }
     }
 
     @Override
     public void deleteAll() {
+        CategoryConnectionDao.deleteAllCategoryConnections(connections, false);
         var sql = "DELETE FROM Template";
         try (
                 var connection = connections.get();
@@ -235,7 +244,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
         ) {
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete all events", ex);
+            throw new DataStorageException("Failed to delete all templates", ex);
         }
     }
 
@@ -254,20 +263,22 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             var resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to check if event exists: " + guid, ex);
+            throw new DataStorageException("Failed to check if template exists: " + guid, ex);
         }
     }
 
-    private static TemplateEntity eventFromResultSet(ResultSet resultSet) throws SQLException {
+    private TemplateEntity templateFromResultSet(ResultSet resultSet) throws SQLException {
+        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsByGuid(connections, resultSet.getString("guid"), false);
+        Time time = resultSet.getTime("time");
         return new TemplateEntity(
                 resultSet.getString("guid"),
                 resultSet.getLong("id"),
                 resultSet.getBoolean("isDone"),
                 resultSet.getString("templateName"),
                 resultSet.getString("eventName"),
-                List.of(),
+                cats,
                 resultSet.getString("location"),
-                LocalTime.of(15, 12),
+                time == null ? null : time.toLocalTime(),
                 Duration.ofMinutes(resultSet.getInt("duration"))
         );
     }

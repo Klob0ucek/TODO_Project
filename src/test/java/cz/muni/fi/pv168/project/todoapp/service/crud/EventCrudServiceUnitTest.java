@@ -10,22 +10,20 @@ import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlready
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for the {@link EventCrudService}
@@ -95,7 +93,7 @@ class EventCrudServiceUnitTest {
         var guid = UniqueIdProvider.newId();
         var event = createEvent(guid);
 
-        when(eventRepository.existByGuid(guid))
+        when(eventRepository.existsByGuid(guid))
                 .thenReturn(true);
 
         assertThatExceptionOfType(EntityAlreadyExistsException.class)

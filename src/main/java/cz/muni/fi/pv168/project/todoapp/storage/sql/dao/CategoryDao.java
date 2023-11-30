@@ -144,6 +144,32 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
         }
     }
 
+    public static Optional<CategoryEntity> findByGuid(String guid, Supplier<ConnectionHandler> connections) {
+        var sql = """
+                SELECT id,
+                       guid,
+                       name,
+                       color
+                FROM Category
+                WHERE guid = ?
+                """;
+        try (
+                var connection = connections.get();
+                var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, guid);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(categoryFromResultSet(resultSet));
+            } else {
+                // event not found
+                return Optional.empty();
+            }
+        } catch (SQLException ex) {
+            throw new DataStorageException("Failed to load category by id", ex);
+        }
+    }
+
     @Override
     public CategoryEntity update(CategoryEntity entity) {
         var sql = """
@@ -188,11 +214,11 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
                 throw new DataStorageException("Category not found, guid: " + guid);
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been deleted: %s"
+                throw new DataStorageException("More then 1 category (rows=%d) has been deleted: %s"
                         .formatted(rowsUpdated, guid));
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete event, guid: " + guid, ex);
+            throw new FailedToDeleteCategoryException("Failed to delete category, guid: " + guid, ex);
         }
     }
 

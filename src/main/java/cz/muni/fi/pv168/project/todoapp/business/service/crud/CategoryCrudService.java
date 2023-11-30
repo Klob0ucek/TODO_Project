@@ -1,8 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
-import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
-import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
@@ -37,7 +35,7 @@ public class CategoryCrudService implements CrudService<Category> {
         var validationResult = categoryValidator.validate(newEntity);
         if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
             newEntity.setGuid(UniqueIdProvider.newId());
-        } else if (categoryRepository.existByGuid(newEntity.getGuid())) {
+        } else if (categoryRepository.existsByGuid(newEntity.getGuid())) {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {

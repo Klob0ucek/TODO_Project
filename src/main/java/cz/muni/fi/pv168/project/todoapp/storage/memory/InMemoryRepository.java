@@ -30,7 +30,7 @@ public class InMemoryRepository<T extends Entity> implements Repository<T> {
         return Optional.ofNullable(data.get(guid));
     }
 
-    public boolean existByGuid(String guid) {
+    public boolean existsByGuid(String guid) {
         return findByGuid(guid).isPresent();
     }
 

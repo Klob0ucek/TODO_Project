@@ -2,8 +2,8 @@ package cz.muni.fi.pv168.project.todoapp.storage.sql;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
-import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataStorageException;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataAccessObject;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataStorageException;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.TemplateEntity;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.EntityMapper;
 
@@ -12,8 +12,6 @@ import java.util.Optional;
 
 /**
  * Implementation of {@link Repository} for {@link Template} entity using SQL database.
- *
- * @author Vojtech Sassmann
  */
 public class TemplateSqlRepository implements Repository<Template> {
 
@@ -62,6 +60,7 @@ public class TemplateSqlRepository implements Repository<Template> {
         templateDao.deleteAll();
     }
 
+    @Override
     public boolean existsByGuid(String guid) {
         return templateDao.existsByGuid(guid);
     }

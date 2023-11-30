@@ -62,6 +62,7 @@ public class EventSqlRepository implements Repository<Event> {
         employeeDao.deleteAll();
     }
 
+    @Override
     public boolean existsByGuid(String guid) {
         return employeeDao.existsByGuid(guid);
     }

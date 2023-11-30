@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
@@ -13,7 +12,6 @@ import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidat
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Crud operations for the {@link Event} entity.
@@ -39,7 +37,7 @@ public class EventCrudService implements CrudService<Event> {
 
         if (newEntity.getGuid() == null || newEntity.getGuid().isBlank()) {
             newEntity.setGuid(UniqueIdProvider.newId());
-        } else if (eventRepository.existByGuid(newEntity.getGuid())) {
+        } else if (eventRepository.existsByGuid(newEntity.getGuid())) {
             throw new EntityAlreadyExistsException("Event with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {

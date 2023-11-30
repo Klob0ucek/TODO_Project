@@ -23,20 +23,6 @@ CREATE TABLE IF NOT EXISTS "Category"
     `name`      VARCHAR(50) NOT NULL UNIQUE,
     `createdAt` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
---
--- Category mapping for Template
---
-CREATE TABLE IF NOT EXISTS "TemplateCats"
-(
-    `id`         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    `templateId` BIGINT REFERENCES "Template" (`id`) NOT NULL,
-    `categoryId` BIGINT REFERENCES "Category" (`id`) NOT NULL,
-    `createdAt`  TIMESTAMP                           NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-
--- TODO Categories
 --
 -- Template table definition
 --
@@ -45,26 +31,42 @@ CREATE TABLE IF NOT EXISTS "Template"
     `id`           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`         VARCHAR      NOT NULL UNIQUE,
     `templateName` VARCHAR(150) NOT NULL,
-    `eventName`    VARCHAR(150) NOT NULL,
+    `eventName`    VARCHAR(150),
     `isDone`       BOOLEAN      NOT NULL,
-    `location`     VARCHAR(150) NOT NULL,
-    `time`         VARCHAR(15)  NOT NULL,
-    `duration`     INT          NOT NULL,
+    `location`     VARCHAR(150),
+    `time`         VARCHAR(15),
+    `duration`     INT,
     `createdAt`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
---
 -- Event table definition
 --
 CREATE TABLE IF NOT EXISTS "Event"
 (
     `id`        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`      VARCHAR      NOT NULL UNIQUE,
-    `name`      VARCHAR(150) NOT NULL,
+    `name`      VARCHAR(150) NOT NULL UNIQUE,
     `isDone`    BOOLEAN      NOT NULL,
-    `location`  VARCHAR(150) NOT NULL,
-    `date`      VARCHAR(15)  NOT NULL,
-    `time`      VARCHAR(15)  NOT NULL,
+    `location`  VARCHAR(15),
+    `date`      DATE,
+    `time`      TIME,
     `duration`  INT          NOT NULL,
     `createdAt` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--
+-- Category mapping for Template and Event mapping to categories
+--
+CREATE TABLE IF NOT EXISTS "EntityCats"
+(
+    "id"           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    "templateGuid" VARCHAR,
+    "eventGuid"    VARCHAR,
+    "categoryGuid" VARCHAR                             NOT NULL,
+    "createdAt"    TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY ("templateGuid") REFERENCES "Template" ("guid"),
+    FOREIGN KEY ("eventGuid") REFERENCES "Event" ("guid"),
+    FOREIGN KEY ("categoryGuid") REFERENCES "Category" ("guid")
+);
+
+SELECT *
+from "EntityCats";

@@ -60,6 +60,7 @@ public class CategorySqlRepository implements Repository<Category> {
         categoryDao.deleteAll();
     }
 
+    @Override
     public boolean existsByGuid(String guid) {
         return categoryDao.existsByGuid(guid);
     }

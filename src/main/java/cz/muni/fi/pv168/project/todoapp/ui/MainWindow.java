@@ -18,12 +18,12 @@ import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryVali
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
-import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
-import cz.muni.fi.pv168.project.todoapp.storage.memory.InMemoryRepository;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.CategorySqlRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.EventSqlRepository;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.IntervalSqlRepository;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.TemplateSqlRepository;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.CategoryDao;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.EventDao;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.IntervalDao;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.TemplateDao;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.DatabaseManager;
@@ -32,6 +32,7 @@ import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutor;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutorImpl;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionManagerImpl;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.CategoryMapper;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.EventMapper;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.IntervalMapper;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.TemplateMapper;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
@@ -116,7 +117,10 @@ public class MainWindow {
         var categoryDao = new CategoryDao(transactionConnectionSupplier);
         Repository<Category> categoryRepository = new CategorySqlRepository(categoryDao, categoryMapper);
 
-        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
+        var eventMapper = new EventMapper();
+        var eventDao = new EventDao(transactionConnectionSupplier);
+        Repository<Event> eventRepository = new EventSqlRepository(eventDao, eventMapper);
+//        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
 
         TemplateMapper templateMapper = new TemplateMapper();
         TemplateDao templateDao = new TemplateDao(transactionConnectionSupplier);

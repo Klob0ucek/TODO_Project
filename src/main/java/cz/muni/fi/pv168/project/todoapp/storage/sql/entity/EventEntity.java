@@ -37,8 +37,8 @@ public record EventEntity(
         this.name = Objects.requireNonNull(name, "name must not be null");
         this.categories = Objects.requireNonNull(categories, "categories must not be null");
         this.location = Objects.requireNonNull(location, "location must not be null");
-        this.date = Objects.requireNonNull(date, "date must not be null");
-        this.time = Objects.requireNonNull(time, "time must not be null");
+        this.date = date;
+        this.time = time;
         this.duration = Objects.requireNonNull(duration, "duration must not be null");
     }
 }

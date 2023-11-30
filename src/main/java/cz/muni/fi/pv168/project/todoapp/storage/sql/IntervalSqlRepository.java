@@ -60,6 +60,7 @@ public class IntervalSqlRepository implements Repository<Interval> {
         intervalDao.deleteAll();
     }
 
+    @Override
     public boolean existsByGuid(String guid) {
         return intervalDao.existsByGuid(guid);
     }
