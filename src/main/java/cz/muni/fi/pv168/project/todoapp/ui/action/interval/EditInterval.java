@@ -34,20 +34,23 @@ public class EditInterval extends AbstractEditAction {
             return;
         }
 
-        var interval = ((IntervalTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
-        var dialog = new IntervalDialog(interval);
+        var oldEntity = ((IntervalTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var dialog = new IntervalDialog(oldEntity);
+        var newEntity = dialog.show(getFrame(), "Edit Interval");
 
-        try {
-            var newEntity = dialog.show(getFrame(), "Edit Interval");
-            if (newEntity.isPresent()) {
+        while (newEntity.isPresent()) {
+            try {
                 ((IntervalTableModel) getTable().getModel()).updateRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Interval edited successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid interval changes - data not saved!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Interval");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Interval");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid interval changes - data not saved!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

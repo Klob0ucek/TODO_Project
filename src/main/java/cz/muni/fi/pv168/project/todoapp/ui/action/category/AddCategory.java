@@ -7,7 +7,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
@@ -29,18 +28,21 @@ public class AddCategory extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            var dialog = new CategoryDialog();
-            var newEntity = dialog.show(getFrame(), "Add category");
-            if (newEntity.isPresent()) {
+        var dialog = new CategoryDialog();
+        var newEntity = dialog.show(getFrame(), "Add category");
+        while (newEntity.isPresent()) {
+            try {
                 ((CategoryTableModel) getTable().getModel()).addRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Category added successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid category not created!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add category");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add category");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid category not created!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

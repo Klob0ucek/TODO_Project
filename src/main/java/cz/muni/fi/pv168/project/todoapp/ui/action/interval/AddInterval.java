@@ -27,18 +27,22 @@ public class AddInterval extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            var dialog = new IntervalDialog();
-            var newEntity = dialog.show(getFrame(), "Add interval");
-            if (newEntity.isPresent()) {
+        var dialog = new IntervalDialog();
+        var newEntity = dialog.show(getFrame(), "Add interval");
+
+        while (newEntity.isPresent()) {
+            try {
                 ((IntervalTableModel) getTable().getModel()).addRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Interval added successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid interval not created!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add interval");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Add interval");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid interval not created!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

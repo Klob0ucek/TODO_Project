@@ -34,19 +34,23 @@ public class EditTemplate extends AbstractEditAction {
             return;
         }
 
-        var template = ((TemplateTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
-        var dialog = new TemplateDialog(getCrudHolder().getCategories(), template);
-        try {
-            var newEntity = dialog.show(getFrame(), "Edit Template");
-            if (newEntity.isPresent()) {
+        var oldEntity = ((TemplateTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
+        var dialog = new TemplateDialog(getCrudHolder().getCategories(), oldEntity);
+        var newEntity = dialog.show(getFrame(), "Edit Template");
+
+        while (newEntity.isPresent()) {
+            try {
                 ((TemplateTableModel) getTable().getModel()).updateRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Template edited successfully.").showNotification();
+                return;
+            } catch (ValidationException validationException) {
+                new NotificationDialog(getFrame(), "Invalid template changes - data not saved!",
+                        validationException.getValidationErrors()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Template");
+            } catch (ExistingNameException nameException) {
+                new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+                newEntity = dialog.show(getFrame(), "Edit Template");
             }
-        } catch (ValidationException validationException) {
-            new NotificationDialog(getFrame(), "Invalid template changes - data not saved!",
-                    validationException.getValidationErrors()).showNotification();
-        } catch (ExistingNameException nameException) {
-            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
         }
     }
 }

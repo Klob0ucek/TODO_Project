@@ -11,6 +11,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationExc
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -61,8 +62,6 @@ public class EventCrudService implements CrudService<Event> {
         var validationResult = eventValidator.validate(entity);
         if (validationResult.isValid()) {
             if (nameNotUnique(entity)) {
-                // TODO Newly generated name does not appear immediately
-                // -> table updates only after edit with unique name
                 String newName = UniqueNameProvider.getUniqueName(entity.getName(),
                         eventRepository.findAll().stream().map(Event::getName).toList());
                 String oldName = entity.getName();

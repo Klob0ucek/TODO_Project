@@ -28,7 +28,6 @@ public abstract class AbstractEditAction extends AbstractAction {
     public void checkSelectedCountAndCancelEditing() {
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length != 1) {
-            // TODO we should handle this exception somewhere
             throw new IllegalStateException("Invalid selected rows count (must be 1): " + selectedRows.length);
         }
         if (table.isEditing()) {
