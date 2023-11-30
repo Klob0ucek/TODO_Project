@@ -11,6 +11,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationExc
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
+
 import java.util.List;
 
 
@@ -20,12 +21,11 @@ import java.util.List;
 public class IntervalCrudService implements CrudService<Interval> {
 
     private final Repository<Interval> intervalRepository;
+    private final Validator<Interval> intervalValidator;
 
-    private final Validator<Interval> intervalValidator = new IntervalValidator();
-
-
-    public IntervalCrudService(Repository<Interval> intervalRepository) {
+    public IntervalCrudService(Repository<Interval> intervalRepository, Validator<Interval> intervalValidator) {
         this.intervalRepository = intervalRepository;
+        this.intervalValidator = intervalValidator;
     }
 
     @Override

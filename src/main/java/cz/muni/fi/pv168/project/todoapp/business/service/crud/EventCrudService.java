@@ -21,10 +21,11 @@ import java.util.Optional;
 public class EventCrudService implements CrudService<Event> {
 
     private final Repository<Event> eventRepository;
-    private final Validator<Event> eventValidator = new EventValidator();
+    private final Validator<Event> eventValidator;
 
-    public EventCrudService(Repository<Event> EventRepository) {
+    public EventCrudService(Repository<Event> EventRepository, Validator<Event> eventValidator) {
         this.eventRepository = EventRepository;
+        this.eventValidator = eventValidator;
     }
 
     @Override

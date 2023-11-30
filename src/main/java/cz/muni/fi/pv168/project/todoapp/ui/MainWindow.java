@@ -32,6 +32,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -87,10 +88,10 @@ public class MainWindow {
         InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
         InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
 
-        var eventCrudService = new EventCrudService(eventRepository);
-        var categoryCrudService = new CategoryCrudService(categoryRepository);
-        var templateCrudService = new TemplateCrudService(templateRepository);
-        var intervalCrudService = new IntervalCrudService(intervalRepository);
+        var eventCrudService = new EventCrudService(eventRepository, new EventValidator());
+        var categoryCrudService = new CategoryCrudService(categoryRepository, new CategoryValidator());
+        var templateCrudService = new TemplateCrudService(templateRepository, new TemplateValidator());
+        var intervalCrudService = new IntervalCrudService(intervalRepository, new IntervalValidator());
 
         var exportService = new GenericExportService(eventCrudService, categoryCrudService,
                 templateCrudService, intervalCrudService, List.of(new JsonExporter()));

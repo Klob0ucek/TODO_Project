@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.export;
 
-
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
