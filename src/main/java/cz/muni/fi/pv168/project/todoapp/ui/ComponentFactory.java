@@ -41,9 +41,9 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createScheduleTable(ScheduleTableModel model, CrudHolder ch) {
+    public static JTable createScheduleTable(ScheduleTableModel model, CrudHolder crudHolder) {
         JTable table = createTableFromModel(model);
-        model.setRowBackgroundColors(table, ch);
+        model.setRowBackgroundColors(table, crudHolder);
         return table;
     }
 

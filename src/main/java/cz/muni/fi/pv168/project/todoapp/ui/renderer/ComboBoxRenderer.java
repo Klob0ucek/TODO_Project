@@ -20,8 +20,8 @@ public class ComboBoxRenderer extends DefaultListCellRenderer {
         if (value instanceof Interval interval) {
             setText(interval.getName());
         }
-        if (value instanceof CategoryColor) {
-            this.setBackground(((CategoryColor) value).getColor());
+        if (value instanceof CategoryColor color) {
+            this.setBackground(color.getColor());
         }
         return this;
     }
