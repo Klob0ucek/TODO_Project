@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 
+import cz.muni.fi.pv168.project.todoapp.ui.renderer.ComboBoxRenderer;
 import javax.swing.JTextField;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -37,7 +38,9 @@ public class CategoryDialog extends EntityDialog<Category> {
 
     private void addFields() {
         add("Name:", nameField);
-        add("Color:", new JComboBox<>(categoryColorModel));
+        var comboBox = new JComboBox<>(categoryColorModel);
+        comboBox.setRenderer(new ComboBoxRenderer());
+        add("Color:", comboBox);
     }
 
     @Override
