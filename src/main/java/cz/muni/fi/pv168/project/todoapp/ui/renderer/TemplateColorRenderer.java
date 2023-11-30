@@ -1,23 +1,17 @@
 package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class EventColorRenderer extends DefaultTableCellRenderer {
+public class TemplateColorRenderer extends DefaultTableCellRenderer {
     private final CrudHolder crudHolder;
 
-    public EventColorRenderer(CrudHolder crudHolder) {
+    public TemplateColorRenderer(CrudHolder crudHolder) {
         this.crudHolder = crudHolder;
     }
 
@@ -25,12 +19,12 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        if (column == 2) {
-            List<String> names = Arrays.stream(value.toString().split(", ")).toList();
-            if (names.isEmpty()) {
+        if (column == 3) {
+            if (value == null || value.equals("")) {
                 this.setBackground(null);
                 return this;
             }
+            List<String> names = Arrays.stream(value.toString().split(", ")).toList();
 
             List<Color> colors = crudHolder.getCategories().stream()
                     .filter(c -> names.contains(c.getName()))
@@ -64,5 +58,4 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
 
         return new Color(averageRed, averageGreen, averageBlue);
     }
-
 }

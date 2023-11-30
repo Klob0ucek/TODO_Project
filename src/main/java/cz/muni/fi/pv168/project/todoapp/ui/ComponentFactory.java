@@ -58,8 +58,10 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createTemplateTable(TemplateTableModel model) {
-        return createTableFromModel(model);
+    public static JTable createTemplateTable(TemplateTableModel model, CrudHolder crudHolder) {
+        JTable table = createTableFromModel(model);
+        model.setRowBackgroundColors(table, crudHolder);
+        return table;
     }
 
     public static JTable createIntervalTable(IntervalTableModel model) {
