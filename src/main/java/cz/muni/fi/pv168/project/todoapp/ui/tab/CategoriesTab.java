@@ -23,6 +23,7 @@ public class CategoriesTab extends GeneralTab {
                             .addAddAction(new AddCategory(table, frame, crudHolder))
                             .addEditAction(new EditCategory(table, frame, crudHolder))
                             .addDeleteAction(new DeleteCategory(table, frame, crudHolder))
+                            .addPopupMenu(table)
             );
         }
     }
