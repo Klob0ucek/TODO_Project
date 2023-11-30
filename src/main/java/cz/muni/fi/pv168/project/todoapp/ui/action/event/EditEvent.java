@@ -1,10 +1,13 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventRenameException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractEditAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.EventDialog;
+import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
@@ -27,11 +30,29 @@ public class EditEvent extends AbstractEditAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        super.checkSelectedCountAndCancelEditing();
+        try {
+            super.checkSelectedCountAndCancelEditing();
+        } catch (IllegalStateException illegalStateException) {
+            new NotificationDialog(getFrame(), "Invalid number of selected rows").showNotification();
+            return;
+        }
+
         var event = ((ScheduleTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
         ListModel<Template> templateListModel = new ListModel<>(getCrudHolder().getTemplates());
         ListModel<Interval> intervalListModel = new ListModel<>(getCrudHolder().getIntervals());
         var dialog = new EventDialog(templateListModel, intervalListModel, getCrudHolder().getCategories(), event);
-        dialog.show(getFrame(), "Edit Event").ifPresent(((ScheduleTableModel) getTable().getModel())::updateRow);
+
+        try {
+            var newEntity = dialog.show(getFrame(), "Edit Event");
+            if (newEntity.isPresent()) {
+                ((ScheduleTableModel) getTable().getModel()).updateRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Event edited successfully.").showNotification();
+            }
+        } catch (ValidationException validationException) {
+            new NotificationDialog(getFrame(), "Invalid event changes - data not saved!",
+                    validationException.getValidationErrors()).showNotification();
+        } catch (EventRenameException nameException) {
+            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+        }
     }
 }

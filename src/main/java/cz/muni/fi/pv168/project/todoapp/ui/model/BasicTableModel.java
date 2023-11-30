@@ -78,13 +78,19 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
     }
 
     public void addRow(T row) {
-        crudService.create(row);
-        refreshFromCrud();
+        try {
+            crudService.create(row);
+        } finally {
+            refreshFromCrud();
+        }
     }
 
     public void updateRow(T row) {
-        crudService.update(row);
-        refreshFromCrud();
+        try {
+            crudService.update(row);
+        } finally {
+            refreshFromCrud();
+        }
     }
 
     public void refreshFromCrud() {

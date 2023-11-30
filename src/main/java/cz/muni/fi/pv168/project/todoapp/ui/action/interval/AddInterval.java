@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.interval;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.IntervalDialog;
@@ -25,8 +27,18 @@ public class AddInterval extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new IntervalDialog();
-        dialog.show(getFrame(), "Add interval").ifPresent(((IntervalTableModel) getTable().getModel())::addRow);
-        new NotificationDialog(getFrame(), "Interval added successfully!").showNotification();
+        try {
+            var dialog = new IntervalDialog();
+            var newEntity = dialog.show(getFrame(), "Add interval");
+            if (newEntity.isPresent()) {
+                ((IntervalTableModel) getTable().getModel()).addRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Interval added successfully.").showNotification();
+            }
+        } catch (ValidationException validationException) {
+            new NotificationDialog(getFrame(), "Invalid interval not created!",
+                    validationException.getValidationErrors()).showNotification();
+        } catch (ExistingNameException nameException) {
+            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+        }
     }
 }

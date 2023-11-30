@@ -13,6 +13,10 @@ import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportSer
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonImporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
+import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
 import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
 import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
@@ -82,8 +86,6 @@ public class MainWindow {
         InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(ExampleData.getCategories());
         InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
         InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
-
-        // TODO Validator?
 
         var eventCrudService = new EventCrudService(eventRepository);
         var categoryCrudService = new CategoryCrudService(categoryRepository);

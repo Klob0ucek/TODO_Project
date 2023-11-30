@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
+import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.TemplateDialog;
@@ -25,8 +27,18 @@ public class AddTemplate extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new TemplateDialog(getCrudHolder().getCategories());
-        dialog.show(getFrame(), "Add template").ifPresent(((TemplateTableModel) getTable().getModel())::addRow);
-        new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
+        try {
+            var dialog = new TemplateDialog(getCrudHolder().getCategories());
+            var newEntity = dialog.show(getFrame(), "Add template");
+            if (newEntity.isPresent()) {
+                ((TemplateTableModel) getTable().getModel()).addRow(newEntity.get());
+                new NotificationDialog(getFrame(), "Template added successfully!").showNotification();
+            }
+        } catch (ValidationException validationException) {
+            new NotificationDialog(getFrame(), "Invalid template not created!",
+                    validationException.getValidationErrors()).showNotification();
+        } catch (ExistingNameException nameException) {
+            new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
+        }
     }
 }
