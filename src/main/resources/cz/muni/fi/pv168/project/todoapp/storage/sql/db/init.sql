@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "Intervalz"
     `guid`         VARCHAR     NOT NULL UNIQUE,
     `name`         VARCHAR(50) NOT NULL UNIQUE,
     `abbreviation` VARCHAR(10) NOT NULL UNIQUE,
-    `duration`     BIGINT      NOT NULL UNIQUE,
+    `duration`     BIGINT      NOT NULL,
     `createdAt`    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -67,6 +67,3 @@ CREATE TABLE IF NOT EXISTS "EntityCats"
     FOREIGN KEY ("eventGuid") REFERENCES "Event" ("guid"),
     FOREIGN KEY ("categoryGuid") REFERENCES "Category" ("guid")
 );
-
-SELECT *
-from "EntityCats";
