@@ -3,10 +3,11 @@ package cz.muni.fi.pv168.project.todoapp.service.validation;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.StringLengthValidator;
-import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UniqueNameProviderTest {
