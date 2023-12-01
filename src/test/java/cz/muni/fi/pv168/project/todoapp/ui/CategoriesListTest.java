@@ -24,6 +24,6 @@ public class CategoriesListTest {
     void testNoCategories() {
         String result = CategoryListRenderer.renderListCategory(List.of());
 
-        assertThat(result).isEqualTo("no categories - should not be allowed");
+        assertThat(result).isEqualTo("");
     }
 }

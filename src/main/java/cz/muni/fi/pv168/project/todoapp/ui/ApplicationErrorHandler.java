@@ -11,6 +11,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         // TODO: Handle exceptions better
+        System.err.println(e.toString());
         showGeneralError(e.toString(), true);
     }
 
