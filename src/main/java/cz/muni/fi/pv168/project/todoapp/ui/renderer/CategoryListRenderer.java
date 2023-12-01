@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 public class CategoryListRenderer {
     public static String renderListCategory(List<Category> categories) {
         StringJoiner stringJoiner = new StringJoiner(", ");
-        stringJoiner.setEmptyValue("no categories - should not be allowed");
+        stringJoiner.setEmptyValue("");
         for (Category category : categories) {
             stringJoiner.add(category.getName());
         }

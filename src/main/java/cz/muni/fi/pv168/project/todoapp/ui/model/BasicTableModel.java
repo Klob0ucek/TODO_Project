@@ -36,7 +36,7 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object o = columns.get(columnIndex).getValue(getEntity(rowIndex));
 
-        if (o instanceof List && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof Category) {
+        if (o instanceof List) {
             return CategoryListRenderer.renderListCategory((List<Category>) o);
         } else if (o instanceof Duration) {
             return DurationRenderer.renderDuration((Duration) o);
