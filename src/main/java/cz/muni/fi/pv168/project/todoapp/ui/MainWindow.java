@@ -45,6 +45,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.statistics.Statistics;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
@@ -53,12 +54,19 @@ import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import javax.swing.DefaultComboBoxModel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.LayoutStyle;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
@@ -113,6 +121,7 @@ public class MainWindow {
                 comboBoxModel.setSelectedItem(selected);
             }
         });
+        Statistics statistics = new Statistics(crudHolder);
 
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
@@ -121,7 +130,7 @@ public class MainWindow {
         frame.add(filter.getFilterBar(), BorderLayout.NORTH);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
-        frame.add(createBottomLine(), BorderLayout.SOUTH);
+        frame.add(statistics.getStats(), BorderLayout.SOUTH);
         frame.pack();
     }
 
