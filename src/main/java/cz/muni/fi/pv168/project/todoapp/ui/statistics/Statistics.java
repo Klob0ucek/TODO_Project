@@ -4,8 +4,12 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +20,8 @@ public class Statistics {
     private final JPanel statsPanel;
     private final JButton toggleButton;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public Statistics(CrudHolder crudHolder) {
         this.crudHolder = crudHolder;
         this.statsPanel = createStatsPanel();
@@ -24,19 +30,31 @@ public class Statistics {
 
     public JPanel createStatsPanel() {
         JPanel panel = new JPanel();
-        new BoxLayout(panel, BoxLayout.X_AXIS);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(0, 40));
         fillData(panel);
         panel.setVisible(false);
         return panel;
     }
 
     private void fillData(JPanel panel) {
-        panel.add(getLabel("Planned events: ", crudHolder.getPlannedEventsCount()));
-        panel.add(getLabel("Finished events: ", crudHolder.getDoneEventsCount()));
-        panel.add(getLabel("Events total: ", crudHolder.getEvents().size()));
-        panel.add(getLabel("Categories: ", crudHolder.getCategories().size()));
-        panel.add(getLabel("Templates: ", crudHolder.getTemplates().size()));
-        panel.add(getLabel("Intervals: ", crudHolder.getIntervals().size()));
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        topPanel.add(getLabel("Planned events: " + crudHolder.getPlannedEventsCount()));
+        topPanel.add(getLabel("Finished events: " + crudHolder.getDoneEventsCount()));
+        topPanel.add(getLabel("Events total: " + crudHolder.getEvents().size()));
+        topPanel.add(getLabel("Categories: " + crudHolder.getCategories().size()));
+        topPanel.add(getLabel("Templates: " + crudHolder.getTemplates().size()));
+        topPanel.add(getLabel("Intervals: " + crudHolder.getIntervals().size()));
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        bottomPanel.add(getLabel("Closest event: " + crudHolder.getClosestDate().format(formatter)));
+        bottomPanel.add(getLabel("Oldest event: " + crudHolder.getOldestEvent().format(formatter)));
+        panel.add(topPanel);
+        panel.add(bottomPanel);
     }
 
     private void refreshData() {
@@ -44,8 +62,8 @@ public class Statistics {
         fillData(statsPanel);
     }
 
-    private JLabel getLabel(String name, long count) {
-        return new JLabel("  " + name + count + "  ");
+    private JLabel getLabel(String name) {
+        return new JLabel("  " + name + "  ");
     }
 
     private JButton createToggleButton() {
