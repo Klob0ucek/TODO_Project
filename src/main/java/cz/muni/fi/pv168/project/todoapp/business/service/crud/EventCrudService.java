@@ -2,13 +2,12 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
+import cz.muni.fi.pv168.project.todoapp.business.error.EntityAlreadyExistsException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventRenameException;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.error.EventRenameException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 
 import java.util.List;

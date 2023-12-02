@@ -9,8 +9,8 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudServic
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EntityAlreadyExistsException;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.error.EntityAlreadyExistsException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonImporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;

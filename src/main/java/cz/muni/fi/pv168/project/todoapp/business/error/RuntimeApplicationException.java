@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.business.error;
 
+
 import java.io.Serial;
 
 public class RuntimeApplicationException extends RuntimeException implements ApplicationException {
