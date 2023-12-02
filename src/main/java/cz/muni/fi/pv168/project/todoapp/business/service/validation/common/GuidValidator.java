@@ -15,11 +15,19 @@ public class GuidValidator extends PropertyValidator<String> {
             return result;
         }
 
+<<<<<<< Updated upstream
         if (guid.length() != 36
                 && guid.charAt(8) != '-'
                 && guid.charAt(13) != '-'
                 && guid.charAt(18) != '-'
                 && guid.charAt(23) != '-') {
+=======
+        if (length != 36
+                || string.charAt(8) != '-'
+                || string.charAt(13) != '-'
+                || string.charAt(18) != '-'
+                || string.charAt(23) != '-') {
+>>>>>>> Stashed changes
             result.add("'%s' length is not in format XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX");
         }
 
