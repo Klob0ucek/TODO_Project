@@ -1,13 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.business.model;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UniqueNameProvider {
 
-    // TODO method worth testing
     public static String getUniqueName(String name, List<String> library) {
         if (checkUniqueName(name, library)) {
             return name;

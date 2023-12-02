@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.business.service.exeptions;
+package cz.muni.fi.pv168.project.todoapp.business.error;
 
 /**
  * This Exception is thrown added or edited event has a name, that already exists

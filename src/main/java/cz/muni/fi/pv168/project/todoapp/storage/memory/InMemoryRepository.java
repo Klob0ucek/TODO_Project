@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.storage;
+package cz.muni.fi.pv168.project.todoapp.storage.memory;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
@@ -30,7 +30,7 @@ public class InMemoryRepository<T extends Entity> implements Repository<T> {
         return Optional.ofNullable(data.get(guid));
     }
 
-    public boolean existByGuid(String guid) {
+    public boolean existsByGuid(String guid) {
         return findByGuid(guid).isPresent();
     }
 

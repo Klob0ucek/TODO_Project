@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.event;
 
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.EventRenameException;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.error.EventRenameException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;

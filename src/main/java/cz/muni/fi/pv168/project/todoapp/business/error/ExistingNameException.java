@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.business.service.exeptions;
+package cz.muni.fi.pv168.project.todoapp.business.error;
 
 /**
  * Exception thrown when added or edited Category/Template/Interval does not have unique name

@@ -1,4 +1,5 @@
-package cz.muni.fi.pv168.project.todoapp.business.service.exeptions;
+package cz.muni.fi.pv168.project.todoapp.business.error;
+
 
 import java.io.Serial;
 

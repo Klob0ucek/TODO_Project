@@ -10,6 +10,10 @@ public abstract class Entity {
         this.guid = UniqueIdProvider.newId();
     }
 
+    protected Entity(String guid) {
+        this.guid = guid;
+    }
+
 
     /**
      * Returns globally unique identifier of the given entity.

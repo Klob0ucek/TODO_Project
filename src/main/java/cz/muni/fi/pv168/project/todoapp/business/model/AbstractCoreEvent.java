@@ -13,6 +13,9 @@ public abstract class AbstractCoreEvent extends Entity {
     protected LocalTime time;
     protected Duration duration;
 
+    public AbstractCoreEvent() {
+    }
+
     protected AbstractCoreEvent(boolean isDone, String name, List<Category> categories,
                                 String location, LocalTime time, Duration duration) {
         this.isDone = isDone;
@@ -23,7 +26,10 @@ public abstract class AbstractCoreEvent extends Entity {
         this.duration = duration;
     }
 
-    public AbstractCoreEvent() {
+    protected AbstractCoreEvent(String guid, boolean isDone, String name, List<Category> categories,
+                                String location, LocalTime time, Duration duration) {
+        this(isDone, name, categories, location, time, duration);
+        this.guid = guid;
     }
 
     public boolean isDone() {

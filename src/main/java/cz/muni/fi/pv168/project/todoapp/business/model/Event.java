@@ -9,6 +9,9 @@ import java.util.Objects;
 public class Event extends AbstractCoreEvent {
     private LocalDate date;
 
+    public Event() {
+    }
+
     public Event(
             boolean isDone,
             String name,
@@ -22,7 +25,18 @@ public class Event extends AbstractCoreEvent {
         this.date = date;
     }
 
-    public Event() {
+    public Event(
+            String guid,
+            boolean isDone,
+            String name,
+            List<Category> categories,
+            String location,
+            LocalDate date,
+            LocalTime time,
+            Duration duration
+    ) {
+        super(guid, isDone, name, categories, location, time, duration);
+        this.date = date;
     }
 
     public LocalDate getDate() {

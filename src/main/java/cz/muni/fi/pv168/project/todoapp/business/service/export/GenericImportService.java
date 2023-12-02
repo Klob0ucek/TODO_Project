@@ -38,15 +38,17 @@ public class GenericImportService implements ImportService {
 
     @Override
     public void importData(String filePath) {
+        // TODO whole function should be transactional
         eventCrudService.deleteAll();
-        categoryCrudService.deleteAll();
         templateCrudService.deleteAll();
+        categoryCrudService.deleteAll();
         intervalCrudService.deleteAll();
 
         Batch batch = getImporter(filePath).importBatch(filePath);
 
-        batch.events().forEach(this::createEvent);
+        // Categories have to be stored first - events and templates depends on them
         batch.categories().forEach(this::createCategory);
+        batch.events().forEach(this::createEvent);
         batch.templates().forEach(this::createTemplate);
         batch.intervals().forEach(this::createInterval);
     }

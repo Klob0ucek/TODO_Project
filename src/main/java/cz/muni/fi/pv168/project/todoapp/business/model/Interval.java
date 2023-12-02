@@ -8,18 +8,27 @@ public class Interval extends Entity {
     private String abbreviation;
     private Duration duration;
 
+    public Interval() {
+    }
+
     public Interval(
             String name,
             String abbreviation,
             Duration duration
     ) {
-        super();
         this.name = name;
         this.abbreviation = abbreviation;
         this.duration = duration;
     }
 
-    public Interval() {
+    public Interval(
+            String guid,
+            String name,
+            String abbreviation,
+            Duration duration
+    ) {
+        this(name, abbreviation, duration);
+        this.guid = guid;
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui;
 
+import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
@@ -17,8 +18,23 @@ import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryVali
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
-import cz.muni.fi.pv168.project.todoapp.data.ExampleData;
-import cz.muni.fi.pv168.project.todoapp.storage.InMemoryRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.CategorySqlRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.EventSqlRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.IntervalSqlRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.TemplateSqlRepository;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.CategoryDao;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.EventDao;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.IntervalDao;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.TemplateDao;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.db.DatabaseManager;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionConnectionSupplier;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutor;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutorImpl;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionManagerImpl;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.CategoryMapper;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.EventMapper;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.IntervalMapper;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.TemplateMapper;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.EventTableFilter;
@@ -33,10 +49,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,8 +58,14 @@ import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.table.TableRowSorter;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainWindow {
+    private final DatabaseManager databaseManager = createDatabaseManager();
+    private TransactionExecutor transactionExecutor;
     private final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
     private ScheduleTableModel scheduleTableModel;
@@ -82,11 +100,37 @@ public class MainWindow {
         return new JLabel("BOTTOM-SIDE");
     }
 
+    private DatabaseManager createDatabaseManager() {
+        DatabaseManager databaseManager = DatabaseManager.createProductionInstance();
+        databaseManager.initSchema();
+
+        return databaseManager;
+    }
+
+
     private ToolBarManager createCruds(JComponent verticalToolBar) {
-        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
-        InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(ExampleData.getCategories());
-        InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
-        InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
+        var transactionManager = new TransactionManagerImpl(databaseManager);
+        this.transactionExecutor = new TransactionExecutorImpl(transactionManager::beginTransaction);
+        var transactionConnectionSupplier = new TransactionConnectionSupplier(transactionManager, databaseManager);
+
+        var categoryMapper = new CategoryMapper();
+        var categoryDao = new CategoryDao(transactionConnectionSupplier);
+        Repository<Category> categoryRepository = new CategorySqlRepository(categoryDao, categoryMapper);
+
+        var eventMapper = new EventMapper();
+        var eventDao = new EventDao(transactionConnectionSupplier);
+        Repository<Event> eventRepository = new EventSqlRepository(eventDao, eventMapper);
+//        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(ExampleData.getEvents());
+
+        TemplateMapper templateMapper = new TemplateMapper();
+        TemplateDao templateDao = new TemplateDao(transactionConnectionSupplier);
+        Repository<Template> templateRepository = new TemplateSqlRepository(templateDao, templateMapper);
+//        InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(ExampleData.getTemplates());
+
+        IntervalMapper intervalMapper = new IntervalMapper();
+        IntervalDao intervalDao = new IntervalDao(transactionConnectionSupplier);
+        Repository<Interval> intervalRepository = new IntervalSqlRepository(intervalDao, intervalMapper);
+//        Repository<Interval> intervalRepository = new InMemoryRepository<>(ExampleData.getIntervals());
 
         var eventCrudService = new EventCrudService(eventRepository, new EventValidator());
         var categoryCrudService = new CategoryCrudService(categoryRepository, new CategoryValidator());
