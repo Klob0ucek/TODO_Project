@@ -51,8 +51,26 @@ public class Statistics {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-        bottomPanel.add(getLabel("Closest event: " + crudHolder.getClosestDate().format(formatter)));
-        bottomPanel.add(getLabel("Oldest event: " + crudHolder.getOldestEvent().format(formatter)));
+
+        var closest = crudHolder.getClosestDate();
+        String dataClosest;
+        if (closest == null) {
+            dataClosest = "No Events";
+        } else {
+            dataClosest = closest.format(formatter);
+        }
+        bottomPanel.add(getLabel("Closest event: " + dataClosest));
+
+
+        var oldest = crudHolder.getOldestEvent();
+        String dataOldest;
+        if (oldest == null) {
+            dataOldest = "No Events";
+        } else {
+            dataOldest = oldest.format(formatter);
+        }
+        bottomPanel.add(getLabel("Oldest event: " + dataOldest));
+
         panel.add(topPanel);
         panel.add(bottomPanel);
     }
