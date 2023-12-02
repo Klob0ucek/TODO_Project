@@ -42,20 +42,15 @@ public class CategoryConnectionDao {
 
                 statement.executeUpdate();
                 try (var keyResultSet = statement.getGeneratedKeys()) {
-                    long eventId;
-
-                    if (keyResultSet.next()) {
-                        eventId = keyResultSet.getLong(1);
-                    } else {
-                        throw new DataStorageException("Failed to fetch generated key for entity with guid: " + guid);
+                    if (!keyResultSet.next()) {
+                        throw new DataStorageException("Failed to fetch generated key for category connection");
                     }
                     if (keyResultSet.next()) {
-                        throw new DataStorageException("Multiple keys returned for entity with guid: " + guid);
+                        throw new DataStorageException("Multiple keys returned");
                     }
-
                 }
             } catch (SQLException ex) {
-                throw new DataStorageException("Failed to store entity with guid: " + guid, ex);
+                throw new DataStorageException("Failed to store cat connection for template/event with guid: " + guid, ex);
             }
         }
     }
@@ -74,7 +69,7 @@ public class CategoryConnectionDao {
             statement.setString(1, guid);
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete template, guid: " + guid, ex);
+            throw new DataStorageException("Failed to delete category connection, guid of associated entity: " + guid, ex);
         }
     }
 

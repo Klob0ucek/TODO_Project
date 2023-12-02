@@ -86,7 +86,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
 
             return events;
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load all events", ex);
+            throw new DataStorageException("Failed to load all categories", ex);
         }
     }
 
@@ -113,7 +113,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load category by id", ex);
         }
     }
 
@@ -140,7 +140,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load category by guid", ex);
         }
     }
 
@@ -166,7 +166,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load category by id", ex);
+            throw new DataStorageException("Failed to load category by guid", ex);
         }
     }
 
@@ -185,19 +185,18 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
             statement.setString(1, entity.name());
             statement.setString(2, entity.color().name());
             statement.setLong(3, entity.id());
-            statement.executeUpdate();
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated == 0) {
                 throw new DataStorageException("Category not found, id: " + entity.id());
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been updated: %s"
+                throw new DataStorageException("More then 1 category (rows=%d) has been updated: %s"
                         .formatted(rowsUpdated, entity));
             }
             return entity;
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to update event: " + entity, ex);
+            throw new DataStorageException("Failed to update category: " + entity, ex);
         }
     }
 
@@ -231,7 +230,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
         ) {
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete all events", ex);
+            throw new DataStorageException("Failed to delete all categories", ex);
         }
     }
 
@@ -250,7 +249,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
             var resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to check if event exists: " + guid, ex);
+            throw new DataStorageException("Failed to check if category exists: " + guid, ex);
         }
     }
 

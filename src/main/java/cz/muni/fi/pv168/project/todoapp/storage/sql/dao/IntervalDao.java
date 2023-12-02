@@ -118,7 +118,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load interval by id", ex);
         }
     }
 
@@ -146,7 +146,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load interval by guid", ex);
         }
     }
 
@@ -167,19 +167,18 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
             statement.setString(2, entity.abbreviation());
             statement.setInt(3, (int) entity.duration().toMinutes());
             statement.setLong(4, entity.id());
-            statement.executeUpdate();
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated == 0) {
                 throw new DataStorageException("Interval not found, id: " + entity.id());
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been updated: %s"
+                throw new DataStorageException("More then 1 interval (rows=%d) has been updated: %s"
                         .formatted(rowsUpdated, entity));
             }
             return entity;
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to update event: " + entity, ex);
+            throw new DataStorageException("Failed to update interval: " + entity, ex);
         }
     }
 
@@ -196,11 +195,11 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                 throw new DataStorageException("Interval not found, guid: " + guid);
             }
             if (rowsUpdated > 1) {
-                throw new DataStorageException("More then 1 event (rows=%d) has been deleted: %s"
+                throw new DataStorageException("More then 1 interval (rows=%d) has been deleted: %s"
                         .formatted(rowsUpdated, guid));
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete event, guid: " + guid, ex);
+            throw new DataStorageException("Failed to delete interval, guid: " + guid, ex);
         }
     }
 
@@ -213,7 +212,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
         ) {
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to delete all events", ex);
+            throw new DataStorageException("Failed to delete all intervals", ex);
         }
     }
 
@@ -232,7 +231,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
             var resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to check if event exists: " + guid, ex);
+            throw new DataStorageException("Failed to check if interval exists: " + guid, ex);
         }
     }
 

@@ -144,7 +144,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
                        location,
                        date,
                        time,
-                       duration,
+                       duration
                 FROM Event
                 WHERE guid = ?
                 """;
@@ -161,7 +161,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
                 return Optional.empty();
             }
         } catch (SQLException ex) {
-            throw new DataStorageException("Failed to load event by id", ex);
+            throw new DataStorageException("Failed to load event by guid", ex);
         }
     }
 
@@ -188,7 +188,6 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             statement.setTime(5, entity.time() == null ? null : Time.valueOf(entity.time()));
             statement.setInt(6, (int) entity.duration().toMinutes());
             statement.setLong(7, entity.id());
-            statement.executeUpdate();
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated == 0) {
