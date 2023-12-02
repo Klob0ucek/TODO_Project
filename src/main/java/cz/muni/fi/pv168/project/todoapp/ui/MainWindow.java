@@ -165,7 +165,7 @@ public class MainWindow {
         tabs.addAll(
                 List.of(
                         TabFactory.createEventsTab(frame, toolBarManager, scheduleTableModel, crudHolder, filter),
-                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel, crudHolder),
+                        TabFactory.createCategoriesTab(frame, toolBarManager, categoryTableModel, crudHolder, this::refreshModels),
                         TabFactory.createTemplatesTab(frame, toolBarManager, templateTableModel, crudHolder),
                         TabFactory.createIntervalsTab(frame, toolBarManager, intervalTableModel, crudHolder),
                         TabFactory.createHelpTab(frame, toolBarManager)

@@ -15,12 +15,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class EditCategory extends AbstractEditAction {
+    final Runnable refresher;
+
     public EditCategory(
             JTable table,
             JFrame frame,
-            CrudHolder crudHolder
+            CrudHolder crudHolder,
+            Runnable refresher
     ) {
         super(Icons.EDIT.getIcon(), table, frame, crudHolder);
+        this.refresher = refresher;
         putValue(SHORT_DESCRIPTION, "Edit selected category (Alt + e)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_E);
     }
@@ -42,7 +46,7 @@ public class EditCategory extends AbstractEditAction {
             try {
                 ((CategoryTableModel) getTable().getModel()).updateRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Category edited successfully.").showNotification();
-                return;
+                break;
             } catch (ValidationException validationException) {
                 new NotificationDialog(getFrame(), "Invalid Category changes - data not saved!",
                         validationException.getValidationErrors()).showNotification();
@@ -52,5 +56,7 @@ public class EditCategory extends AbstractEditAction {
                 newEntity = dialog.show(getFrame(), "Edit Category");
             }
         }
+        // Category is edited, so we have to refresh event and template tables
+        refresher.run();
     }
 }
