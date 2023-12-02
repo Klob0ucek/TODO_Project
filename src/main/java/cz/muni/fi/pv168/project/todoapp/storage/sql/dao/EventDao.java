@@ -47,16 +47,8 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             statement.setString(2, newEvent.name());
             statement.setBoolean(3, newEvent.isDone());
             statement.setString(4, newEvent.location());
-            if (newEvent.date() != null) {
-                statement.setDate(5, Date.valueOf(newEvent.date()));
-            } else {
-                statement.setDate(5, null);
-            }
-            if (newEvent.time() != null) {
-                statement.setTime(6, Time.valueOf(newEvent.time()));
-            } else {
-                statement.setTime(6, null);
-            }
+            statement.setDate(5, newEvent.date() == null ? null : Date.valueOf(newEvent.date()));
+            statement.setTime(6, newEvent.time() == null ? null : Time.valueOf(newEvent.time()));
             statement.setInt(7, (int) newEvent.duration().toMinutes());
             statement.executeUpdate();
 
@@ -192,16 +184,8 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             statement.setString(1, entity.name());
             statement.setBoolean(2, entity.isDone());
             statement.setString(3, entity.location());
-            if (entity.date() != null) {
-                statement.setDate(4, Date.valueOf(entity.date()));
-            } else {
-                statement.setDate(4, null);
-            }
-            if (entity.time() != null) {
-                statement.setTime(5, Time.valueOf(entity.time()));
-            } else {
-                statement.setTime(5, null);
-            }
+            statement.setDate(4, entity.date() == null ? null : Date.valueOf(entity.date()));
+            statement.setTime(5, entity.time() == null ? null : Time.valueOf(entity.time()));
             statement.setInt(6, (int) entity.duration().toMinutes());
             statement.setLong(7, entity.id());
             statement.executeUpdate();

@@ -1,20 +1,21 @@
 package cz.muni.fi.pv168.project.todoapp.storage.sql.db;
 
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataStorageException;
+import org.h2.jdbcx.JdbcConnectionPool;
+import org.tinylog.Logger;
+
+import javax.sql.DataSource;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import javax.sql.DataSource;
-import org.h2.jdbcx.JdbcConnectionPool;
-import org.tinylog.Logger;
 
 /**
  * The class is responsible for managing H2 database connection and schemas
  */
 public final class DatabaseManager {
 
-    private static final String PROJECT_NAME = "employee-records";
+    private static final String PROJECT_NAME = "todo-app";
     private static final String DB_PROPERTIES_STRING = "DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
 
     private final DataSource dataSource;

@@ -6,19 +6,17 @@ public class Category extends Entity {
     private String name;
     private CategoryColor color;
 
+    public Category() {
+    }
+
     public Category(String name, CategoryColor color) {
         this.name = name;
         this.color = color;
     }
 
-    public Category() {
-
-    }
-
     public Category(String guid, String name, CategoryColor color) {
-        super(guid);
-        this.name = name;
-        this.color = color;
+        this(name, color);
+        this.guid = guid;
     }
 
     public String getName() {

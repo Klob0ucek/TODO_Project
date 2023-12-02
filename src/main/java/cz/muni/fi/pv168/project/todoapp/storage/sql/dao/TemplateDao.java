@@ -49,11 +49,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             statement.setString(3, newTemplate.eventName());
             statement.setBoolean(4, newTemplate.isDone());
             statement.setString(5, newTemplate.location());
-            if (newTemplate.time() != null) {
-                statement.setTime(6, Time.valueOf(newTemplate.time()));
-            } else {
-                statement.setTime(6, null);
-            }
+            statement.setTime(6, newTemplate.time() == null ? null : Time.valueOf(newTemplate.time()));
             statement.setInt(7, (int) newTemplate.duration().toMinutes());
 
 
@@ -191,7 +187,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             statement.setString(2, entity.eventName());
             statement.setBoolean(3, entity.isDone());
             statement.setString(4, entity.location());
-            statement.setTime(5, Time.valueOf(entity.time()));
+            statement.setTime(5, entity.time() == null ? null : Time.valueOf(entity.time()));
             statement.setInt(6, (int) entity.duration().toMinutes());
             statement.setLong(7, entity.id());
             statement.executeUpdate();

@@ -7,6 +7,9 @@ import java.util.List;
 public class Template extends AbstractCoreEvent {
     String templateName;
 
+    public Template() {
+    }
+
     public Template(String templateName,
                     boolean isDone,
                     String eventName,
@@ -28,9 +31,6 @@ public class Template extends AbstractCoreEvent {
                     Duration duration) {
         super(guid, isDone, eventName, categories, location, time, duration);
         this.templateName = templateName;
-    }
-
-    public Template() {
     }
 
     public String getTemplateName() {
