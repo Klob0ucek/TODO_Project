@@ -33,6 +33,9 @@ public class TemplateColorRenderer extends DefaultTableCellRenderer {
                     .filter(c -> names.contains(c.getName()))
                     .map(c -> c.getColor().getColor())
                     .toList();
+            if (colors.isEmpty()) {
+                return this;
+            }
             if (isSelected) {
                 this.setBackground(ColorMixer.calculateGradient(colors).darker());
             } else {
