@@ -13,10 +13,10 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.ListModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class AddEvent extends AbstractAddAction {
     private final Filter filter;
@@ -41,19 +41,21 @@ public class AddEvent extends AbstractAddAction {
         var newEntity = dialog.show(getFrame(), "Add event");
 
         while (newEntity.isPresent()) {
-            filter.updateIntervals((int) newEntity.get().getDuration().toMinutes());
             try {
                 ((ScheduleTableModel) getTable().getModel()).addRow(newEntity.get());
                 new NotificationDialog(getFrame(), "Event added successfully.").showNotification();
-                return;
+                break;
             } catch (ValidationException validationException) {
                 new NotificationDialog(getFrame(), "Invalid event not created!",
                         validationException.getValidationErrors()).showNotification();
                 newEntity = dialog.show(getFrame(), "Add event");
             } catch (EventRenameException nameException) {
                 new NotificationDialog(getFrame(), nameException.getUserMessage()).showNotification();
-                return;
+                break;
             }
+        }
+        if (newEntity.isPresent()) {
+            filter.resetIntervals();
         }
     }
 }
