@@ -14,9 +14,10 @@ public enum Icons {
     EXPORT("file-download-big-icon.png"),
     IMPORT("file-upload-big-icon.png"),
     EXIT("exit-left-big-icon.png"),
-
     UP("statistics-up-icon.png"),
-    DOWN("statistics-down-icon.png");
+    DOWN("statistics-down-icon.png"),
+    LEFT("statistics-left-icon.png"),
+    RIGHT("statistics-right-icon.png");
 
     private final String iconPath;
 
