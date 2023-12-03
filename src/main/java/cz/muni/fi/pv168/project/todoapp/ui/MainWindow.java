@@ -14,6 +14,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportSer
 import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonImporter;
+import cz.muni.fi.pv168.project.todoapp.business.service.export.TransactionalImportService;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
@@ -71,7 +72,7 @@ public class MainWindow {
     private TemplateTableModel templateTableModel;
     private IntervalTableModel intervalTableModel;
     private GenericExportService exportService;
-    private GenericImportService importService;
+    private TransactionalImportService importService;
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
@@ -136,8 +137,9 @@ public class MainWindow {
 
         exportService = new GenericExportService(eventCrudService, categoryCrudService,
                 templateCrudService, intervalCrudService, List.of(new JsonExporter()));
-        importService = new GenericImportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new JsonImporter()), transactionExecutor);
+        var genericImportService = new GenericImportService(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService, List.of(new JsonImporter()));
+        importService = new TransactionalImportService(genericImportService, transactionExecutor);
 
         scheduleTableModel = new ScheduleTableModel(eventCrudService);
         categoryTableModel = new CategoryTableModel(categoryCrudService);

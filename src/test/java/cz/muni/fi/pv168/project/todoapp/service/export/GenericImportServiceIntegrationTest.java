@@ -55,7 +55,7 @@ class GenericImportServiceIntegrationTest {
         var intervalCrudService = new IntervalCrudService(intervalRepository, new IntervalValidator());
 
         genericImportService = new GenericImportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new JsonImporter()), null);
+                templateCrudService, intervalCrudService, List.of(new JsonImporter()));
     }
 
     @Test
