@@ -11,8 +11,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterCategoryValuesR
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterDoneValuesRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -20,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 /**
  * Class holding all GUI components for filters.
@@ -113,24 +114,9 @@ public class Filter {
         return blob;
     }
 
-    /**
-     * This method checks whether Duration Filter needs to be updated
-     * It is updated when Interval Filter was not tempered with and if new Duration is lower or
-     * higher that previous max or min.
-     *
-     * @param newDuration of event that will be added
-     */
-
-    public void updateIntervals(int newDuration) {
-        if ((int) intervalUpper.getValue() == crudHolder.getHighestDuration() &&
-                (int) intervalLower.getValue() == crudHolder.getLowestDuration()) {
-            // Filters are set on default value
-            if ((int) intervalLower.getValue() > newDuration) {
-                intervalLower.setValue(newDuration);
-            } else if ((int) intervalUpper.getValue() < newDuration) {
-                intervalUpper.setValue(newDuration);
-            }
-        }
+    public void resetIntervals() {
+        intervalLower.setValue(crudHolder.getLowestDuration());
+        intervalUpper.setValue(crudHolder.getHighestDuration());
     }
 
     public void resetFilters() {
@@ -138,8 +124,7 @@ public class Filter {
         categoryComboBox.setSelectedItem(categoryComboBox.getItemAt(0));
         fromDate.clear();
         toDate.clear();
-        intervalLower.setValue(crudHolder.getLowestDuration());
-        intervalUpper.setValue(crudHolder.getHighestDuration());
+        resetIntervals();
     }
 
     public JComponent getFilterBar() {
