@@ -55,11 +55,9 @@ import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import javax.swing.DefaultComboBoxModel;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -121,7 +119,14 @@ public class MainWindow {
             }
         });
         Statistics statistics = new Statistics(crudHolder);
-
+        scheduleTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                statistics.refreshData();
+                System.out.println("refreshed");
+                frame.setVisible(true);
+            }
+        });
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));

@@ -2,18 +2,18 @@ package cz.muni.fi.pv168.project.todoapp.ui.statistics;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
 
 public class Statistics {
     private final CrudHolder crudHolder;
@@ -24,20 +24,19 @@ public class Statistics {
 
     public Statistics(CrudHolder crudHolder) {
         this.crudHolder = crudHolder;
-        this.statsPanel = createStatsPanel();
+        this.statsPanel = new JPanel();
+        setupStatsPanel();
         this.toggleButton = createToggleButton();
     }
 
-    public JPanel createStatsPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(0, 40));
-        fillData(panel);
-        panel.setVisible(false);
-        return panel;
+    public void setupStatsPanel() {
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+        statsPanel.setPreferredSize(new Dimension(0, 40));
+        fillData();
+        statsPanel.setVisible(false);
     }
 
-    private void fillData(JPanel panel) {
+    private void fillData() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
@@ -71,13 +70,13 @@ public class Statistics {
         }
         bottomPanel.add(getLabel("Oldest event: " + dataOldest));
 
-        panel.add(topPanel);
-        panel.add(bottomPanel);
+        statsPanel.add(topPanel);
+        statsPanel.add(bottomPanel);
     }
 
-    private void refreshData() {
+    public void refreshData() {
         statsPanel.removeAll();
-        fillData(statsPanel);
+        fillData();
     }
 
     private JLabel getLabel(String name) {
