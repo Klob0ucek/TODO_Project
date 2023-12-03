@@ -122,13 +122,13 @@ public class CrudHolder {
         if (dateList.isEmpty()) {
             return null;
         }
-        LocalDate oldestDate = dateList.get(0);
+        LocalDate oldestDate = null;
 
         for (LocalDate date : dateList) {
             if (date == null) {
                 continue;
             }
-            if (date.isBefore(oldestDate)) {
+            if ((oldestDate == null) || date.isBefore(oldestDate)) {
                 oldestDate = date;
             }
         }
