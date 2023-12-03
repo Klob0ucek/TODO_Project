@@ -1,12 +1,12 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ImportExportDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -27,7 +27,16 @@ public class ExportAction extends AbstractAction {
         var exportDialog = new ImportExportDialog(exportService.getFormats());
         String exportPath = exportDialog.showFileChooserDialog(frame);
         if (exportPath == null || !exportDialog.showConfirmationDialog(exportPath)) return;
-        exportService.exportData(exportPath);
-        new NotificationDialog(frame, "Successfully exported to selected folder.").showNotification();
+
+        SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+            @Override
+            protected Object doInBackground() {
+                exportService.exportData(exportPath);
+                new NotificationDialog(frame, "Successfully exported to selected folder.").showNotification();
+                return null;
+            }
+        };
+
+        swingWorker.execute();
     }
 }
