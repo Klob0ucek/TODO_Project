@@ -5,13 +5,13 @@ import cz.muni.fi.pv168.project.todoapp.ui.ToolBarManager;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
 import cz.muni.fi.pv168.project.todoapp.utils.Buildable;
 
-import java.awt.Component;
 import javax.swing.Action;
 import javax.swing.JFrame;
-import javax.swing.JTable;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JPopupMenu;
+import javax.swing.JTable;
+import java.awt.Component;
 
 public abstract class GeneralTab {
     private final String title;
@@ -20,6 +20,7 @@ public abstract class GeneralTab {
     private final Action addAction;
     private final Action editAction;
     private final Action deleteAction;
+    private final Runnable refresher;
 
     public abstract static class BuildTemplate<T extends BuildTemplate<T>> implements Buildable<GeneralTab> {
         private String title;
@@ -31,6 +32,7 @@ public abstract class GeneralTab {
         private Action deleteAction;
         private CrudHolder crudHolder;
         private Filter filter;
+        private Runnable refresher;
 
         protected abstract T self();
 
@@ -48,6 +50,10 @@ public abstract class GeneralTab {
 
         public Filter getFilter() {
             return filter;
+        }
+
+        public Runnable getRefresher() {
+            return refresher;
         }
 
         public T addTabDetails(
@@ -72,6 +78,13 @@ public abstract class GeneralTab {
                 ToolBarManager toolBarManager
         ) {
             this.toolBarManager = toolBarManager;
+            return self();
+        }
+
+        public T addRefreshCallback(
+                Runnable callback
+        ) {
+            this.refresher = callback;
             return self();
         }
 
@@ -120,6 +133,7 @@ public abstract class GeneralTab {
         this.deleteAction = buildTemplate.deleteAction;
 
         this.toolBarManager = buildTemplate.toolBarManager;
+        this.refresher = buildTemplate.refresher;
     }
 
     public Component getComponent() {
