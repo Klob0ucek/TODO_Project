@@ -92,4 +92,9 @@ public class EventCrudService implements CrudService<Event> {
     public void deleteAll() {
         eventRepository.deleteAll();
     }
+
+    @Override
+    public boolean existsByGuid(String guid) {
+        return eventRepository.existsByGuid(guid);
+    }
 }

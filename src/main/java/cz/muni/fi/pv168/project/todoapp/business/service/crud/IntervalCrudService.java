@@ -84,4 +84,9 @@ public class IntervalCrudService implements CrudService<Interval> {
     public void deleteAll() {
         intervalRepository.deleteAll();
     }
+
+    @Override
+    public boolean existsByGuid(String guid) {
+        return intervalRepository.existsByGuid(guid);
+    }
 }

@@ -82,4 +82,9 @@ public class TemplateCrudService implements CrudService<Template> {
     public void deleteAll() {
         templateRepository.deleteAll();
     }
+
+    @Override
+    public boolean existsByGuid(String guid) {
+        return templateRepository.existsByGuid(guid);
+    }
 }

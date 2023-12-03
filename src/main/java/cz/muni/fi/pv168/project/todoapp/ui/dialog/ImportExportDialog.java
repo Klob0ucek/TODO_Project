@@ -7,24 +7,24 @@ import javax.swing.*;
 import java.io.File;
 import java.util.Collection;
 
-public class ExportDialog extends JDialog {
+public class ImportExportDialog extends JDialog {
     final Collection<Format> formats;
 
-    public ExportDialog(Collection<Format> formats) {
+    public ImportExportDialog(Collection<Format> formats) {
         this.formats = formats;
     }
 
-    public String showFileChooserDialog() {
+    public String showFileChooserDialog(JFrame frame) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         formats.forEach(f -> fileChooser.addChoosableFileFilter(new Filter(f)));
 
-        int returnValue = fileChooser.showSaveDialog(this);
+        int returnValue = fileChooser.showSaveDialog(frame);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String exportFile = fileChooser.getSelectedFile().getAbsolutePath();
-            var filter = fileChooser.getFileFilter();
-            if (filter instanceof Filter) {
-                exportFile = ((Filter) filter).decorate(exportFile);
+            var fileFilter = fileChooser.getFileFilter();
+            if (fileFilter instanceof Filter filter) {
+                exportFile = filter.decorate(exportFile);
             }
 
             return exportFile;
@@ -34,16 +34,10 @@ public class ExportDialog extends JDialog {
     }
 
     public boolean showConfirmationDialog(String path) {
-        if (path != null) {
-            int ret = JOptionPane.showConfirmDialog(null,
-                    "Export into file: " + path,
-                    "Confirm export file",
-                    JOptionPane.YES_NO_OPTION);
-            // TODO finish file export
-            // ret == 0 = export confirmed by user
-            // ret == 1 = export folder declined
-            return ret == 0;
-        }
-        return false;
+        int ret = JOptionPane.showConfirmDialog(null,
+                "Export into file: " + path,
+                "Confirm export file",
+                JOptionPane.YES_NO_OPTION);
+        return ret == JOptionPane.YES_OPTION;
     }
 }

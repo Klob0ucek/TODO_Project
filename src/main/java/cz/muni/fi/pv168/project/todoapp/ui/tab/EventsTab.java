@@ -23,7 +23,7 @@ public class EventsTab extends GeneralTab {
                     this
                             .addAddAction(new AddEvent(table, frame, crudHolder, filter))
                             .addEditAction(new EditEvent(table, frame, crudHolder, filter))
-                            .addDeleteAction(new DeleteEvent(table, frame, crudHolder))
+                            .addDeleteAction(new DeleteEvent(table, frame, crudHolder, filter))
                             .addPopupMenu(table)
             );
         }

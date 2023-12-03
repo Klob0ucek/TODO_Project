@@ -18,6 +18,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidat
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
 import cz.muni.fi.pv168.project.todoapp.storage.memory.InMemoryRepository;
+import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,13 +55,13 @@ class GenericImportServiceIntegrationTest {
         var intervalCrudService = new IntervalCrudService(intervalRepository, new IntervalValidator());
 
         genericImportService = new GenericImportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new JsonImporter()));
+                templateCrudService, intervalCrudService, List.of(new JsonImporter()), null);
     }
 
     @Test
     void importNoEvents() {
         Path importFilePath = TEST_RESOURCES.resolve("empty.json");
-        genericImportService.importData(importFilePath.toString());
+        genericImportService.importData(importFilePath.toString(), ImportOption.REWRITE);
 
         assertThat(eventCrudService.findAll()).isEmpty();
     }
@@ -68,7 +69,7 @@ class GenericImportServiceIntegrationTest {
     @Test
     void singleEvent() {
         Path importFilePath = TEST_RESOURCES.resolve("single-event.json");
-        genericImportService.importData(importFilePath.toString());
+        genericImportService.importData(importFilePath.toString(), ImportOption.REWRITE);
 
         var category = new Category(
                 "Sport",
@@ -95,7 +96,7 @@ class GenericImportServiceIntegrationTest {
     @Test
     void multipleEvents() {
         Path importFilePath = TEST_RESOURCES.resolve("multiple-events.json");
-        genericImportService.importData(importFilePath.toString());
+        genericImportService.importData(importFilePath.toString(), ImportOption.REWRITE);
 
         var category = new Category(
                 "Sport",
@@ -137,7 +138,7 @@ class GenericImportServiceIntegrationTest {
         var stringPath = importFilePath.toString();
 
         assertThatExceptionOfType(ValidationException.class)
-                .isThrownBy(() -> genericImportService.importData(stringPath))
+                .isThrownBy(() -> genericImportService.importData(stringPath, ImportOption.REWRITE))
                 .withMessageContaining("Validation failed: Added event not valid");
     }
 
@@ -148,7 +149,7 @@ class GenericImportServiceIntegrationTest {
         var stringPath = importFilePath.toString();
 
         assertThatExceptionOfType(EntityAlreadyExistsException.class)
-                .isThrownBy(() -> genericImportService.importData(stringPath))
+                .isThrownBy(() -> genericImportService.importData(stringPath, ImportOption.REWRITE))
                 .withMessage("Event with given guid already exists: ecde3bf8-464b-4103-a42d-460fc0372330");
     }
 }

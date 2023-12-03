@@ -28,7 +28,6 @@ import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.IntervalDao;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.TemplateDao;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.DatabaseManager;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionConnectionSupplier;
-import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutor;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionExecutorImpl;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.db.TransactionManagerImpl;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.mapper.CategoryMapper;
@@ -47,7 +46,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
-import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -64,27 +62,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow {
-    private final DatabaseManager databaseManager = createDatabaseManager();
-    private TransactionExecutor transactionExecutor;
     private final JFrame frame = createFrame();
     private final List<GeneralTab> tabs = new ArrayList<>();
+    private final DatabaseManager databaseManager = createDatabaseManager();
+    private final CrudHolder crudHolder = createCrudHolder();
     private ScheduleTableModel scheduleTableModel;
     private CategoryTableModel categoryTableModel;
     private TemplateTableModel templateTableModel;
     private IntervalTableModel intervalTableModel;
-    private CrudHolder crudHolder;
+    private GenericExportService exportService;
+    private GenericImportService importService;
 
     public MainWindow() {
         JComponent verticalToolBar = new JPanel();
         JTabbedPane tabbedPane = new JTabbedPane();
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
-        ToolBarManager toolBarManager = createCruds(verticalToolBar);
-
         TableRowSorter<ScheduleTableModel> rowSorter = new TableRowSorter<>(scheduleTableModel);
         rowSorter.toggleSortOrder(4);
         EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder);
         Filter filter = new Filter(crudHolder, eventTableFilter);
 
+        ToolBarManager toolBarManager = createToolBarManager(verticalToolBar, filter);
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
@@ -107,10 +105,9 @@ public class MainWindow {
         return databaseManager;
     }
 
-
-    private ToolBarManager createCruds(JComponent verticalToolBar) {
+    private CrudHolder createCrudHolder() {
         var transactionManager = new TransactionManagerImpl(databaseManager);
-        this.transactionExecutor = new TransactionExecutorImpl(transactionManager::beginTransaction);
+        var transactionExecutor = new TransactionExecutorImpl(transactionManager::beginTransaction);
         var transactionConnectionSupplier = new TransactionConnectionSupplier(transactionManager, databaseManager);
 
         var categoryMapper = new CategoryMapper();
@@ -137,22 +134,24 @@ public class MainWindow {
         var templateCrudService = new TemplateCrudService(templateRepository, new TemplateValidator());
         var intervalCrudService = new IntervalCrudService(intervalRepository, new IntervalValidator());
 
-        var exportService = new GenericExportService(eventCrudService, categoryCrudService,
+        exportService = new GenericExportService(eventCrudService, categoryCrudService,
                 templateCrudService, intervalCrudService, List.of(new JsonExporter()));
-        var importService = new GenericImportService(eventCrudService, categoryCrudService,
-                templateCrudService, intervalCrudService, List.of(new JsonImporter()));
+        importService = new GenericImportService(eventCrudService, categoryCrudService,
+                templateCrudService, intervalCrudService, List.of(new JsonImporter()), transactionExecutor);
 
         scheduleTableModel = new ScheduleTableModel(eventCrudService);
         categoryTableModel = new CategoryTableModel(categoryCrudService);
         templateTableModel = new TemplateTableModel(templateCrudService);
         intervalTableModel = new IntervalTableModel(intervalCrudService);
-        ToolBarManager toolBarManager = new ToolBarManager(
+
+        return new CrudHolder(eventCrudService, categoryCrudService, templateCrudService, intervalCrudService);
+    }
+
+    private ToolBarManager createToolBarManager(JComponent verticalToolBar, Filter filter) {
+        return new ToolBarManager(
                 verticalToolBar,
                 new ExportAction(frame, exportService),
-                new ImportAction(frame, importService, this::refreshModels));
-
-        this.crudHolder = new CrudHolder(eventCrudService, categoryCrudService, templateCrudService, intervalCrudService);
-        return toolBarManager;
+                new ImportAction(frame, importService, filter, this::refreshModels));
     }
 
     private void createTabs(
@@ -178,14 +177,11 @@ public class MainWindow {
         ((JTable) tabs.get(0).getComponent()).setRowSorter(rowSorter);
     }
 
-
     private void refreshModels() {
-        // TODO ImportOption should be chosen by user
-        ImportOption option = ImportOption.REWRITE;
-        scheduleTableModel.refreshFromCrud(option);
-        categoryTableModel.refreshFromCrud(option);
-        templateTableModel.refreshFromCrud(option);
-        intervalTableModel.refreshFromCrud(option);
+        scheduleTableModel.refreshFromCrud();
+        categoryTableModel.refreshFromCrud();
+        templateTableModel.refreshFromCrud();
+        intervalTableModel.refreshFromCrud();
     }
 
     private JFrame createFrame() {

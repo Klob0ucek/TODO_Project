@@ -83,4 +83,9 @@ public class CategoryCrudService implements CrudService<Category> {
     public void deleteAll() {
         categoryRepository.deleteAll();
     }
+
+    @Override
+    public boolean existsByGuid(String guid) {
+        return categoryRepository.existsByGuid(guid);
+    }
 }
