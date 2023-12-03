@@ -28,7 +28,11 @@ public class AddCategory extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new CategoryDialog();
+        var dialog = new CategoryDialog(getCrudHolder());
+        if (getCrudHolder().getAvailableColors().length == 0) {
+            new NotificationDialog(getFrame(), "You have to many categories. Delete some before adding new.").showNotification();
+            return;
+        }
         var newEntity = dialog.show(getFrame(), "Add category");
         while (newEntity.isPresent()) {
             try {

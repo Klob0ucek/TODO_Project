@@ -39,7 +39,7 @@ public class EditCategory extends AbstractEditAction {
         }
 
         var oldEntity = ((CategoryTableModel) getTable().getModel()).getEntity(super.getSelectedRowModelIndex());
-        var dialog = new CategoryDialog(oldEntity);
+        var dialog = new CategoryDialog(oldEntity, getCrudHolder());
         var newEntity = dialog.show(getFrame(), "Edit Category");
 
         while (newEntity.isPresent()) {
