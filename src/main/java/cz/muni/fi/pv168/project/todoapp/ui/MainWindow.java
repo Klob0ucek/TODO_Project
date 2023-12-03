@@ -66,7 +66,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.LayoutStyle;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;

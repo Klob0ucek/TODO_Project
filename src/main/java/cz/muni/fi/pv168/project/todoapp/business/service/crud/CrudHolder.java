@@ -107,6 +107,9 @@ public class CrudHolder {
         LocalDate closestFutureDate = null;
 
         for (LocalDate date : dateList) {
+            if (date == null) {
+                continue;
+            }
             if (date.isAfter(today) && (closestFutureDate == null || date.isBefore(closestFutureDate))) {
                 closestFutureDate = date;
             }
@@ -122,6 +125,9 @@ public class CrudHolder {
         LocalDate oldestDate = dateList.get(0);
 
         for (LocalDate date : dateList) {
+            if (date == null) {
+                continue;
+            }
             if (date.isBefore(oldestDate)) {
                 oldestDate = date;
             }

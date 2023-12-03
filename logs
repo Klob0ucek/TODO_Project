@@ -1,2 +1,0 @@
-2023-12-02 23:28:46 [AWT-EventQueue-0] cz.muni.fi.pv168.project.todoapp.storage.sql.db.DatabaseManager.createDbFileSystemPath()
-DEBUG: Root directory for the database already exists: C:\Files\MUNI\PV168\pv168-project-template\db
