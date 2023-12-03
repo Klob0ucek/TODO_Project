@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
@@ -49,6 +50,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,6 +59,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -83,7 +87,26 @@ public class MainWindow {
         TableRowSorter<ScheduleTableModel> rowSorter = new TableRowSorter<>(scheduleTableModel);
         rowSorter.toggleSortOrder(4);
         EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder);
-        Filter filter = new Filter(crudHolder, eventTableFilter);
+        DefaultComboBoxModel<Category> comboBoxModel = new DefaultComboBoxModel<>(crudHolder.getCategories().toArray(Category[]::new));
+        Filter filter = new Filter(crudHolder, eventTableFilter, comboBoxModel);
+        categoryTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                var selected = comboBoxModel.getSelectedItem();
+                Category placeholder = new Category("X", CategoryColor.YELLOW);
+                comboBoxModel.addElement(placeholder);
+
+                for (int size = comboBoxModel.getSize() - 1; size >= 0; size--) {
+                    Category cat = comboBoxModel.getElementAt(size);
+                    if (!cat.getName().equals("X")) {
+                        comboBoxModel.removeElementAt(size);
+                    }
+                }
+                comboBoxModel.addAll(crudHolder.getCategories());
+                comboBoxModel.removeElement(placeholder);
+                comboBoxModel.setSelectedItem(selected);
+            }
+        });
 
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 

@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterDoneValuesRende
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -27,7 +28,8 @@ import java.awt.GridLayout;
  */
 public class Filter {
     private final JComboBox<Either<SpecialFilterDoneValues, Boolean>> doneComboBox;
-    private final JComboBox<Either<SpecialFilterCategoryValues, Category>> categoryComboBox;
+    private final DefaultComboBoxModel<Category> categoriesModel;
+    private JComboBox<Either<SpecialFilterCategoryValues, Category>> categoryComboBox;
     private final EventTableFilter eventTableFilter;
     private final CrudHolder crudHolder;
     private final DatePicker fromDate = new DatePicker(CustomDatePickerSettings.getSettings());
@@ -39,11 +41,12 @@ public class Filter {
 
     public Filter(
             CrudHolder crudHolder,
-            EventTableFilter eventTableFilter
+            EventTableFilter eventTableFilter,
+            DefaultComboBoxModel<Category> catsModel
     ) {
         this.crudHolder = crudHolder;
         this.eventTableFilter = eventTableFilter;
-
+        this.categoriesModel = catsModel;
         this.doneComboBox = createDoneFilter(eventTableFilter);
         this.categoryComboBox = createCategoryFilter(eventTableFilter);
         this.intervalLower = new JSpinner(
@@ -68,7 +71,7 @@ public class Filter {
 
     private JComboBox<Either<SpecialFilterCategoryValues, Category>> createCategoryFilter(
             EventTableFilter eventTableFilter) {
-        return FilterComboBoxBuilder.create(SpecialFilterCategoryValues.class, crudHolder.getCategories().toArray(Category[]::new))
+        return FilterComboBoxBuilder.create(SpecialFilterCategoryValues.class, categoriesModel)
                 .setSelectedItem(SpecialFilterCategoryValues.ALL)
                 .setSpecialValuesRenderer(new SpecialFilterCategoryValuesRenderer())
                 .setValuesRenderer(new CategoryRenderer())
