@@ -61,10 +61,9 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        // TODO should call crudService.update(entity) and then call refreshFromCrud()
-        // but value needs to be converted to proper expected type
         T entity = getEntity(rowIndex);
         columns.get(columnIndex).setValue(value, entity);
+        updateRow(entity);
     }
 
     public T getEntity(int rowIndex) {
