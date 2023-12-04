@@ -19,8 +19,12 @@ public final class StringLengthValidator extends PropertyValidator<String> {
     @Override
     public ValidationResult validate(String string) {
         var result = new ValidationResult();
-        var length = string.length();
 
+        if (string == null) {
+            return result;
+        }
+
+        var length = string.length();
         if (min > length || length > max) {
             result.add("'%s' length is not between %d (inclusive) and %d (inclusive)"
                     .formatted(getName(string), min, max)

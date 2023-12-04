@@ -74,5 +74,4 @@ public class JsonImporter implements BatchImporter {
             return Duration.ofMinutes(json.getAsInt()); //json.getAsJsonPrimitive().getAsString());
         }
     }
-
 }

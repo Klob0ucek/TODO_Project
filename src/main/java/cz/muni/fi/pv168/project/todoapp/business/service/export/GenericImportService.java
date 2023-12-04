@@ -38,7 +38,7 @@ public class GenericImportService implements ImportService {
 
     @Override
     public void importData(String filePath, ImportOption option) {
-        Batch batch = getImporter(filePath).importBatch(filePath);
+        Batch batch = getJsonImporter().importBatch(filePath);
         if (option == ImportOption.REWRITE) {
             eventCrudService.deleteAll();
             templateCrudService.deleteAll();
@@ -97,6 +97,10 @@ public class GenericImportService implements ImportService {
     @Override
     public Collection<Format> getFormats() {
         return importers.getFormats();
+    }
+
+    private BatchImporter getJsonImporter() {
+        return importers.findByExtension("json");
     }
 
     private BatchImporter getImporter(String filePath) {
