@@ -3,7 +3,10 @@ package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.format.Format;
 import cz.muni.fi.pv168.project.todoapp.ui.util.Filter;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.util.Collection;
 
@@ -33,8 +36,8 @@ public class ImportExportDialog extends JDialog {
         return null;
     }
 
-    public boolean showConfirmationDialog(String path) {
-        int ret = JOptionPane.showConfirmDialog(null,
+    public boolean showConfirmationDialog(String path, JFrame frame) {
+        int ret = JOptionPane.showConfirmDialog(frame,
                 "Export into file: " + path,
                 "Confirm export file",
                 JOptionPane.YES_NO_OPTION);

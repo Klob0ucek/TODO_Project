@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
-import cz.muni.fi.pv168.project.todoapp.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.ExportService;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ImportExportDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
@@ -26,7 +25,7 @@ public class ExportAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         var exportDialog = new ImportExportDialog(exportService.getFormats());
         String exportPath = exportDialog.showFileChooserDialog(frame);
-        if (exportPath == null || !exportDialog.showConfirmationDialog(exportPath)) return;
+        if (exportPath == null || !exportDialog.showConfirmationDialog(exportPath, frame)) return;
 
         SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
             @Override
