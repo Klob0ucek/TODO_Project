@@ -9,8 +9,10 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,5 +97,54 @@ public class CrudHolder {
     public Optional<Category> getCategoryByGuid(String guid) {
         var categoryList = getCategories().stream().filter(category -> category.getGuid().equals(guid)).toList();
         return categoryList.isEmpty() ? Optional.empty() : Optional.of(categoryList.get(0));
+    }
+
+    public LocalDate getClosestDate() {
+        var dateList = getEvents().stream().map(Event::getDate).toList();
+        if (dateList.isEmpty()) {
+            return null;
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate closestFutureDate = null;
+
+        for (LocalDate date : dateList) {
+            if (date == null) {
+                continue;
+            }
+            if (date.isAfter(today) && (closestFutureDate == null || date.isBefore(closestFutureDate))) {
+                closestFutureDate = date;
+            }
+        }
+        return closestFutureDate;
+    }
+
+    public LocalDate getOldestEvent() {
+        var dateList = getEvents().stream().map(Event::getDate).toList();
+        if (dateList.isEmpty()) {
+            return null;
+        }
+        LocalDate oldestDate = null;
+
+        for (LocalDate date : dateList) {
+            if (date == null) {
+                continue;
+            }
+            if ((oldestDate == null) || date.isBefore(oldestDate)) {
+                oldestDate = date;
+            }
+        }
+
+        return oldestDate;
+    }
+
+    public Duration getEventsDurationTillToday() {
+        Duration totalDuration = Duration.ZERO;
+        LocalDate today = LocalDate.now();
+        for (Event event : getEvents()) {
+            if (event.getDate() != null && today.isAfter(event.getDate())) {
+                totalDuration = totalDuration.plus(event.getDuration());
+            }
+        }
+        return totalDuration;
     }
 }

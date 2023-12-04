@@ -21,7 +21,7 @@ public class NotificationDialog extends JDialog {
     private static final int HEADER_HEIGHT = 40;
     private static final int LINE_HEIGHT = 22;
     private static final int MIN_WIDTH = 160;
-    private static final int HEIGHT_OFFSET = 20;
+    private static final int HEIGHT_OFFSET = 30;
     private static final int WIDTH_OFFSET = 20;
     private static int displayTime = 10000; // 5 seconds
 

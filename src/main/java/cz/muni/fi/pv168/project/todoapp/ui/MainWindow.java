@@ -45,6 +45,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
+import cz.muni.fi.pv168.project.todoapp.ui.statistics.Statistics;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.GeneralTab;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
@@ -52,9 +53,12 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import javax.swing.DefaultComboBoxModel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -115,17 +119,16 @@ public class MainWindow {
         ToolBarManager toolBarManager = createToolBarManager(verticalToolBar, filter);
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
+        Statistics statistics = new Statistics(crudHolder);
+        addListeners(statistics);
+
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
         tabHolder.getCurrentTab().updateToolBar();
         frame.add(filter.getFilterBar(), BorderLayout.NORTH);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.add(verticalToolBar, BorderLayout.WEST);
-        frame.add(createBottomLine(), BorderLayout.SOUTH);
+        frame.add(statistics.getStats(), BorderLayout.SOUTH);
         frame.pack();
-    }
-
-    private JLabel createBottomLine() {
-        return new JLabel("BOTTOM-SIDE");
     }
 
     private DatabaseManager createDatabaseManager() {
@@ -207,6 +210,26 @@ public class MainWindow {
         }
         ((JTable) tabs.get(0).getComponent()).setRowSorter(rowSorter);
     }
+
+    private void addListeners(Statistics statistics) {
+        scheduleTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                statistics.refreshData();
+                System.out.println("refreshed");
+                frame.setVisible(true);
+            }
+        });
+        categoryTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                statistics.refreshData();
+                System.out.println("refreshed");
+                frame.setVisible(true);
+            }
+        });
+    }
+
 
     private void refreshModels() {
         scheduleTableModel.refreshFromCrud();
