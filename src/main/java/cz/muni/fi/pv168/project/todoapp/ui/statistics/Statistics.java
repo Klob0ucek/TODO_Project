@@ -81,21 +81,36 @@ public class Statistics {
     }
 
     private void fillCategoriesData() {
-        JPanel panel = new JPanel();
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+
         var categories = crudHolder.getCategories();
         var events = crudHolder.getEvents();
 
         if (categories.isEmpty()) {
-            panel.add(getLabel("There are no categories"));
+            topPanel.add(getLabel("There are no categories"));
+            statsPanel.add(topPanel);
             return;
         }
 
+        int row = 0;
         for (Category category : categories) {
             long references = events.stream().map(e -> e.getCategories()).filter(lc -> lc.contains(category)).count();
             double percent = ((double) references / events.size()) * 100;
-            panel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
+            if (row < 6) {
+                topPanel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
+            } else {
+                bottomPanel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
+            }
+            row++;
         }
-        statsPanel.add(panel);
+        statsPanel.add(topPanel);
+        statsPanel.add(bottomPanel);
     }
 
     public void refreshData() {
