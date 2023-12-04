@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.statistics;
 
+import cz.muni.fi.pv168.project.todoapp.business.model.AbstractCoreEvent;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
@@ -96,12 +97,12 @@ public class Statistics {
 
         int row = 0;
         for (Category category : categories) {
-            long references = events.stream().map(e -> e.getCategories()).filter(lc -> lc.contains(category)).count();
+            long references = events.stream().map(AbstractCoreEvent::getCategories).filter(lc -> lc.contains(category)).count();
             double percent = ((double) references / events.size()) * 100;
             if (row < 6) {
-                topPanel.add(getLabel(category.getName() + ": " + references + " (" + percent + "%)"));
+                topPanel.add(getLabel(String.format("%s: %d (%.2f%%)", category.getName(), references, percent)));
             } else {
-                bottomPanel.add(getLabel(category.getName() + ": " + references + " (" + percent + "%)"));
+                bottomPanel.add(getLabel(String.format("%s: %d (%.2f%%)", category.getName(), references, percent)));
             }
             row++;
         }
