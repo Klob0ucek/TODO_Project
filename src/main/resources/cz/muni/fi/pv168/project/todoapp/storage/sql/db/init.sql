@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "Intervalz"
 (
     `id`           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`         VARCHAR     NOT NULL UNIQUE,
-    `name`         VARCHAR(50) NOT NULL UNIQUE,
+    `name`         VARCHAR(60) NOT NULL UNIQUE,
     `abbreviation` VARCHAR(10) NOT NULL UNIQUE,
     `duration`     BIGINT      NOT NULL,
     `createdAt`    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS "Category"
 (
     `id`        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`      VARCHAR     NOT NULL UNIQUE,
-    `color`     VARCHAR(10) NOT NULL UNIQUE,
-    `name`      VARCHAR(50) NOT NULL UNIQUE,
+    `color`     VARCHAR(20) NOT NULL UNIQUE,
+    `name`      VARCHAR(60) NOT NULL UNIQUE,
     `createdAt` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 --
@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS "Category"
 CREATE TABLE IF NOT EXISTS "Template"
 (
     `id`           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    `guid`         VARCHAR      NOT NULL UNIQUE,
-    `templateName` VARCHAR(150) NOT NULL,
-    `eventName`    VARCHAR(150),
-    `isDone`       BOOLEAN      NOT NULL,
+    `guid`         VARCHAR     NOT NULL UNIQUE,
+    `templateName` VARCHAR(60) NOT NULL,
+    `eventName`    VARCHAR(60),
+    `isDone`       BOOLEAN     NOT NULL,
     `location`     VARCHAR(150),
-    `time`         VARCHAR(15),
+    `time`         VARCHAR(10),
     `duration`     INT,
-    `createdAt`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `createdAt`    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Event table definition
@@ -44,14 +44,14 @@ CREATE TABLE IF NOT EXISTS "Template"
 CREATE TABLE IF NOT EXISTS "Event"
 (
     `id`        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    `guid`      VARCHAR      NOT NULL UNIQUE,
-    `name`      VARCHAR(150) NOT NULL UNIQUE,
-    `isDone`    BOOLEAN      NOT NULL,
-    `location`  VARCHAR(15),
+    `guid`      VARCHAR     NOT NULL UNIQUE,
+    `name`      VARCHAR(60) NOT NULL UNIQUE,
+    `isDone`    BOOLEAN     NOT NULL,
+    `location`  VARCHAR(150),
     `date`      DATE,
     `time`      TIME,
-    `duration`  INT          NOT NULL,
-    `createdAt` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `duration`  INT         NOT NULL,
+    `createdAt` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 --
 -- Category mapping for Template and Event mapping to categories
