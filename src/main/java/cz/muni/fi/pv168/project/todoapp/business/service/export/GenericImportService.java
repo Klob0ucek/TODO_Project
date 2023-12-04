@@ -10,6 +10,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.export.batch.BatchImpor
 import cz.muni.fi.pv168.project.todoapp.business.service.export.batch.BatchOperationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.format.Format;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.format.FormatMapping;
+import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
 
 import java.util.Collection;
 
@@ -17,7 +18,6 @@ import java.util.Collection;
  * Generic synchronous implementation of the {@link ImportService}.
  */
 public class GenericImportService implements ImportService {
-
     private final CrudService<Event> eventCrudService;
     private final CrudService<Category> categoryCrudService;
     private final CrudService<Template> templateCrudService;
@@ -37,20 +37,25 @@ public class GenericImportService implements ImportService {
     }
 
     @Override
-    public void importData(String filePath) {
-        // TODO whole function should be transactional
-        eventCrudService.deleteAll();
-        templateCrudService.deleteAll();
-        categoryCrudService.deleteAll();
-        intervalCrudService.deleteAll();
+    public void importData(String filePath, ImportOption option) {
+        Batch batch = getJsonImporter().importBatch(filePath);
+        if (option == ImportOption.REWRITE) {
+            eventCrudService.deleteAll();
+            templateCrudService.deleteAll();
+            categoryCrudService.deleteAll();
+            intervalCrudService.deleteAll();
 
-        Batch batch = getImporter(filePath).importBatch(filePath);
-
-        // Categories have to be stored first - events and templates depends on them
-        batch.categories().forEach(this::createCategory);
-        batch.events().forEach(this::createEvent);
-        batch.templates().forEach(this::createTemplate);
-        batch.intervals().forEach(this::createInterval);
+            // Categories have to be stored first - events and templates depends on them
+            batch.categories().forEach(this::createCategory);
+            batch.events().forEach(this::createEvent);
+            batch.templates().forEach(this::createTemplate);
+            batch.intervals().forEach(this::createInterval);
+        } else {
+            batch.categories().forEach(this::mergeCategory);
+            batch.events().forEach(this::mergeEvent);
+            batch.templates().forEach(this::mergeTemplate);
+            batch.intervals().forEach(this::mergeInterval);
+        }
     }
 
     private void createEvent(Event event) {
@@ -69,9 +74,33 @@ public class GenericImportService implements ImportService {
         intervalCrudService.create(interval);
     }
 
+    private void mergeEvent(Event event) {
+        if (eventCrudService.existsByGuid(event.getGuid())) eventCrudService.update(event);
+        else eventCrudService.create(event);
+    }
+
+    private void mergeCategory(Category category) {
+        if (categoryCrudService.existsByGuid(category.getGuid())) categoryCrudService.update(category);
+        else categoryCrudService.create(category);
+    }
+
+    private void mergeTemplate(Template template) {
+        if (templateCrudService.existsByGuid(template.getGuid())) templateCrudService.update(template);
+        else templateCrudService.create(template);
+    }
+
+    private void mergeInterval(Interval interval) {
+        if (intervalCrudService.existsByGuid(interval.getGuid())) intervalCrudService.update(interval);
+        else intervalCrudService.create(interval);
+    }
+
     @Override
     public Collection<Format> getFormats() {
         return importers.getFormats();
+    }
+
+    private BatchImporter getJsonImporter() {
+        return importers.findByExtension("json");
     }
 
     private BatchImporter getImporter(String filePath) {

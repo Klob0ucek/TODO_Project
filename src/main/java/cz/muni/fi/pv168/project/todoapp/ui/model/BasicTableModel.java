@@ -96,14 +96,4 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
         this.rows = new ArrayList<>(crudService.findAll());
         fireTableDataChanged();
     }
-
-    public void refreshFromCrud(ImportOption importOption) {
-        if (importOption.equals(ImportOption.REWRITE)) {
-            this.rows = new ArrayList<>(crudService.findAll());
-        } else {
-            // TODO add validation of duplicity
-            this.rows.addAll(crudService.findAll());
-        }
-        fireTableDataChanged();
-    }
 }

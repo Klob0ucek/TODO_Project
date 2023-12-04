@@ -1,7 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -25,7 +23,7 @@ public class NotificationDialog extends JDialog {
     private static final int MIN_WIDTH = 160;
     private static final int HEIGHT_OFFSET = 30;
     private static final int WIDTH_OFFSET = 20;
-    private static final int DISPLAY_TIME = 5000; // 5 seconds
+    private static int displayTime = 10000; // 5 seconds
 
     private int width;
 
@@ -65,7 +63,6 @@ public class NotificationDialog extends JDialog {
         super(parentFrame, false);
         this.lines = errors.size();
         this.width = message.length() * AVERAGE_CHAR_SIZE;
-        ;
 
         setTitle(message);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -94,6 +91,11 @@ public class NotificationDialog extends JDialog {
         });
     }
 
+    public NotificationDialog(JFrame parentFrame, String message, List<String> errors, int displayTime) {
+        this(parentFrame, message, errors);
+        NotificationDialog.displayTime = displayTime;
+    }
+
     private JLabel generateLabel(String error) {
         JLabel newLabel = new JLabel(error);
         newLabel.setBorder(new EmptyBorder(4, 6, 2, 0));
@@ -113,7 +115,7 @@ public class NotificationDialog extends JDialog {
     // Method to display the notification
     public void showNotification() {
         setVisible(true);
-        Timer timer = new Timer(DISPLAY_TIME, new ActionListener() {
+        Timer timer = new Timer(displayTime, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 closeNotification();

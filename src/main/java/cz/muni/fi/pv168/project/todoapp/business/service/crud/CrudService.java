@@ -35,4 +35,9 @@ public interface CrudService<T extends Entity> {
      * Delete all entities.
      */
     void deleteAll();
+
+    /**
+     * Verifies if an entity with the given guid exists.
+     */
+    boolean existsByGuid(String guid);
 }
