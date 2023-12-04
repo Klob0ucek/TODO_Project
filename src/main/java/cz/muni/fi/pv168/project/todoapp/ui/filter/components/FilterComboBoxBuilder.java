@@ -6,11 +6,12 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.CustomValuesModelDecorator;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.AbstractRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.EitherRenderer;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
-import java.util.function.Consumer;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.ListModel;
+import java.util.function.Consumer;
 
 /**
  * Builder for {@link JComboBox} with {@link Either} as elements.
