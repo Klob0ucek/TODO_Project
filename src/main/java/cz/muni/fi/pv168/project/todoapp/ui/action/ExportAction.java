@@ -16,7 +16,7 @@ public class ExportAction extends AbstractAction {
     public ExportAction(JFrame frame, ExportService exportService) {
         super("Export", Icons.EXPORT.getIcon());
         this.frame = frame;
-        putValue(SHORT_DESCRIPTION, "Export selected data (Alt + o)");
+        putValue(SHORT_DESCRIPTION, "Export data (Alt + o)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_O);
         this.exportService = exportService;
     }
@@ -31,7 +31,7 @@ public class ExportAction extends AbstractAction {
             @Override
             protected Object doInBackground() {
                 exportService.exportData(exportPath);
-                new NotificationDialog(frame, "Successfully exported to selected folder.").showNotification();
+                new NotificationDialog(frame, "Successfully exported to selected file.").showNotification();
                 return null;
             }
         };
