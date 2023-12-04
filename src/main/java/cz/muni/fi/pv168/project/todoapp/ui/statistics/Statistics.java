@@ -44,7 +44,9 @@ public class Statistics {
         topPanel.add(getLabel("Events total: " + crudHolder.getEvents().size()));
         topPanel.add(getLabel("Planned events: " + crudHolder.getPlannedEventsCount()));
         topPanel.add(getLabel("Finished events: " + crudHolder.getDoneEventsCount()));
-        topPanel.add(getLabel("Duration of events till today: " + crudHolder.getEventsDurationTillToday()));
+        var hoursPart = crudHolder.getEventsDurationTillToday().toHoursPart();
+        var minutes = crudHolder.getEventsDurationTillToday().toMinutesPart();
+        topPanel.add(getLabel("Duration of events till today: " + hoursPart + " hours " + minutes + " minutes"));
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
