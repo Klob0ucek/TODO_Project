@@ -60,7 +60,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -131,10 +130,6 @@ public class MainWindow {
         frame.add(verticalToolBar, BorderLayout.WEST);
         frame.add(statistics.getStats(), BorderLayout.SOUTH);
         frame.pack();
-    }
-
-    private JLabel createBottomLine() {
-        return new JLabel("BOTTOM-SIDE");
     }
 
     private DatabaseManager createDatabaseManager() {

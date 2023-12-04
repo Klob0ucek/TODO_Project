@@ -4,7 +4,6 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
-import java.lang.constant.Constable;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -46,12 +45,10 @@ public class Statistics {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        topPanel.add(getLabel("Events total: " + crudHolder.getEvents().size()));
         topPanel.add(getLabel("Planned events: " + crudHolder.getPlannedEventsCount()));
         topPanel.add(getLabel("Finished events: " + crudHolder.getDoneEventsCount()));
-        topPanel.add(getLabel("Events total: " + crudHolder.getEvents().size()));
-        topPanel.add(getLabel("Categories: " + crudHolder.getCategories().size()));
-        topPanel.add(getLabel("Templates: " + crudHolder.getTemplates().size()));
-        topPanel.add(getLabel("Intervals: " + crudHolder.getIntervals().size()));
+        topPanel.add(getLabel("Duration of events till today: " + crudHolder.getEventsDurationTillToday()));
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
@@ -64,7 +61,7 @@ public class Statistics {
         } else {
             dataClosest = closest.format(formatter);
         }
-        bottomPanel.add(getLabel("Closest event: " + dataClosest));
+//        bottomPanel.add(getLabel("Closest event: " + dataClosest));
 
 
         var oldest = crudHolder.getOldestEvent();
@@ -74,7 +71,8 @@ public class Statistics {
         } else {
             dataOldest = oldest.format(formatter);
         }
-        bottomPanel.add(getLabel("Oldest event: " + dataOldest));
+//        bottomPanel.add(getLabel("Oldest event: " + dataOldest));
+
 
         statsPanel.add(topPanel);
         statsPanel.add(bottomPanel);
@@ -103,9 +101,9 @@ public class Statistics {
             long references = events.stream().map(e -> e.getCategories()).filter(lc -> lc.contains(category)).count();
             double percent = ((double) references / events.size()) * 100;
             if (row < 6) {
-                topPanel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
+                topPanel.add(getLabel(category.getName() + ": " + references + " (" + percent + "%)"));
             } else {
-                bottomPanel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
+                bottomPanel.add(getLabel(category.getName() + ": " + references + " (" + percent + "%)"));
             }
             row++;
         }

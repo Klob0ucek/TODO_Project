@@ -9,6 +9,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.time.LocalDate;
@@ -134,5 +135,16 @@ public class CrudHolder {
         }
 
         return oldestDate;
+    }
+
+    public Duration getEventsDurationTillToday() {
+        Duration totalDuration = Duration.ZERO;
+        LocalDate today = LocalDate.now();
+        for (Event event : getEvents()) {
+            if (event.getDate() != null && today.isAfter(event.getDate())) {
+                totalDuration = totalDuration.plus(event.getDuration());
+            }
+        }
+        return totalDuration;
     }
 }
