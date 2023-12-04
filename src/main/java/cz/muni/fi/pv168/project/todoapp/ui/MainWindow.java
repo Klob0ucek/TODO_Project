@@ -40,6 +40,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.ExportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.ImportAction;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.EventTableFilter;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.Filter;
+import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterCategoryValues;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
@@ -49,6 +50,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabChangeListener;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ImportOption;
+import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
@@ -92,7 +94,7 @@ public class MainWindow {
         categoryTableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                var selected = comboBoxModel.getSelectedItem();
+                Either<SpecialFilterCategoryValues, Category> selected = (Either<SpecialFilterCategoryValues, Category>) comboBoxModel.getSelectedItem();
                 Category placeholder = new Category("X", CategoryColor.YELLOW);
                 comboBoxModel.addElement(placeholder);
 
@@ -101,6 +103,10 @@ public class MainWindow {
                     if (!cat.getName().equals("X")) {
                         comboBoxModel.removeElementAt(size);
                     }
+                }
+                if ((selected instanceof Either<?, ?>) && selected.getLeft().isEmpty()) {
+                    var aux = crudHolder.getCategoryByGuid((selected.getRight().get()).getGuid());
+                    selected = aux.isPresent() ? Either.right(aux.get()) : Either.left(SpecialFilterCategoryValues.ALL);
                 }
                 comboBoxModel.addAll(crudHolder.getCategories());
                 comboBoxModel.removeElement(placeholder);
