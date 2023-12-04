@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class for holding all crud services
@@ -89,5 +90,10 @@ public class CrudHolder {
 
     public CategoryColor[] getAvailableColors() {
         return Arrays.stream(CategoryColor.values()).filter(categoryColor -> !getUsedColors().contains(categoryColor)).toArray(CategoryColor[]::new);
+    }
+
+    public Optional<Category> getCategoryByGuid(String guid) {
+        var categoryList = getCategories().stream().filter(category -> category.getGuid().equals(guid)).toList();
+        return categoryList.isEmpty() ? Optional.empty() : Optional.of(categoryList.get(0));
     }
 }
