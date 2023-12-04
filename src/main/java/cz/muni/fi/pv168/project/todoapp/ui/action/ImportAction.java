@@ -49,7 +49,7 @@ public class ImportAction extends AbstractAction {
                     filter.resetFilters();
                     refreshModels.run();
                 } catch (DataManipulationException exception) {
-                    new NotificationDialog(frame, "Broken file, import failed!").showNotification();
+                    new NotificationDialog(frame, exception.getMessage()).showNotification();
                 }
                 return null;
             }
