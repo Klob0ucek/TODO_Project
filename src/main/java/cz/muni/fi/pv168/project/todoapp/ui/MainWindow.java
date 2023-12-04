@@ -118,15 +118,10 @@ public class MainWindow {
                 comboBoxModel.setSelectedItem(selected);
             }
         });
+
         Statistics statistics = new Statistics(crudHolder);
-        scheduleTableModel.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                statistics.refreshData();
-                System.out.println("refreshed");
-                frame.setVisible(true);
-            }
-        });
+        addListeners(statistics);
+
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
@@ -218,6 +213,25 @@ public class MainWindow {
             tab.addToPane(tabbedPane);
         }
         ((JTable) tabs.get(0).getComponent()).setRowSorter(rowSorter);
+    }
+
+    private void addListeners(Statistics statistics) {
+        scheduleTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                statistics.refreshData();
+                System.out.println("refreshed");
+                frame.setVisible(true);
+            }
+        });
+        categoryTableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                statistics.refreshData();
+                System.out.println("refreshed");
+                frame.setVisible(true);
+            }
+        });
     }
 
 

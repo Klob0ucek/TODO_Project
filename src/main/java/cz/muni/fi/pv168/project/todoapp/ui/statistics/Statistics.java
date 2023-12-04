@@ -92,7 +92,7 @@ public class Statistics {
 
         for (Category category : categories) {
             long references = events.stream().map(e -> e.getCategories()).filter(lc -> lc.contains(category)).count();
-            double percent = ((double) references / categories.size()) * 100;
+            double percent = ((double) references / events.size()) * 100;
             panel.add(getLabel(category.getName() + " in " + references + " (" + percent + "%)"));
         }
         statsPanel.add(panel);
@@ -118,6 +118,7 @@ public class Statistics {
     private JButton createToggleButton() {
         JButton button = new JButton(Icons.UP.getSmallIcon());
         button.setToolTipText("Show statistics");
+        button.setBorder(null);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
