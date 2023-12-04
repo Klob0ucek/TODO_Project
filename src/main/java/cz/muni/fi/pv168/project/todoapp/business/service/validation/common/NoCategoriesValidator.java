@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.business.service.validation.common;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
+
 import java.util.List;
 
 public class NoCategoriesValidator extends PropertyValidator<List<Category>> {
@@ -12,9 +13,8 @@ public class NoCategoriesValidator extends PropertyValidator<List<Category>> {
     @Override
     public ValidationResult validate(List<Category> categories) {
         var result = new ValidationResult();
-        var size = categories.size();
 
-        if (size == 0) {
+        if (categories == null || categories.isEmpty()) {
             result.add("Event does not have any categories");
         }
 

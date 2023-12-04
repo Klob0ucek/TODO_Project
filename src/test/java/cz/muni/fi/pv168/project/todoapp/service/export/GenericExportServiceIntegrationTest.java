@@ -73,7 +73,14 @@ class GenericExportServiceIntegrationTest {
     void exportEmpty() throws IOException {
         genericExportService.exportData(exportFilePath.toString());
 
-        assertExportedContent("{\"events\":[],\"categories\":[],\"templates\":[],\"intervals\":[]}");
+        assertExportedContent("""
+                {
+                  "events": [],
+                  "categories": [],
+                  "templates": [],
+                  "intervals": []
+                }
+                """);
     }
 
     @Test
@@ -85,10 +92,29 @@ class GenericExportServiceIntegrationTest {
 
         assertExportedContent(
                 """
-                        {"events":[{"date":"2020-11-11","isDone":false,"name":"Tennis",
-                        "categories":[{"name":"Sport","color":"BLUE","guid":"99605972-dc16-4ca1-9fa3-987b7da996f4"}],
-                        "location":"Tennis Hall Lužánky","time":"12:45","duration":45,
-                        "guid":"76c59af3-6e9a-4fcb-bd7e-d0a163ed8b45"}],"categories":[],"templates":[],"intervals":[]}
+                        {
+                          "events": [
+                            {
+                              "date": "2020-11-11",
+                              "isDone": false,
+                              "name": "Tennis",
+                              "categories": [
+                                {
+                                  "name": "Sport",
+                                  "color": "BLUE",
+                                  "guid": "99605972-dc16-4ca1-9fa3-987b7da996f4"
+                                }
+                              ],
+                              "location": "Tennis Hall",
+                              "time": "12:45",
+                              "duration": 45,
+                              "guid": "76c59af3-6e9a-4fcb-bd7e-d0a163ed8b45"
+                            }
+                          ],
+                          "categories": [],
+                          "templates": [],
+                          "intervals": []
+                        }
                         """
         );
     }
@@ -103,14 +129,45 @@ class GenericExportServiceIntegrationTest {
 
         assertExportedContent(
                 """
-                        {"events":[{"date":"2020-11-11","isDone":false,"name":"Tennis",
-                        "categories":[{"name":"Sport","color":"BLUE","guid":"99605972-dc16-4ca1-9fa3-987b7da996f4"}],
-                        "location":"Tennis Hall Lužánky","time":"12:45","duration":45,
-                        "guid":"76c59af3-6e9a-4fcb-bd7e-d0a163ed8b45"},{"date":"2020-11-11",
-                        "isDone":false,"name":"Eating","categories":[{"name":"Sport","color":"BLUE",
-                        "guid":"99605972-dc16-4ca1-9fa3-987b7da996f4"}],"location":"Burger King",
-                        "time":"13:45","duration":30,"guid":"dc96a827-b56b-4252-bf24-bb8f25209f3e"}],
-                        "categories":[],"templates":[],"intervals":[]}
+                        {
+                          "events": [
+                            {
+                              "date": "2020-11-11",
+                              "isDone": false,
+                              "name": "Tennis",
+                              "categories": [
+                                {
+                                  "name": "Sport",
+                                  "color": "BLUE",
+                                  "guid": "99605972-dc16-4ca1-9fa3-987b7da996f4"
+                                }
+                              ],
+                              "location": "Tennis Hall",
+                              "time": "12:45",
+                              "duration": 45,
+                              "guid": "76c59af3-6e9a-4fcb-bd7e-d0a163ed8b45"
+                            },
+                            {
+                              "date": "2020-11-11",
+                              "isDone": false,
+                              "name": "Eating",
+                              "categories": [
+                                {
+                                  "name": "Sport",
+                                  "color": "BLUE",
+                                  "guid": "99605972-dc16-4ca1-9fa3-987b7da996f4"
+                                }
+                              ],
+                              "location": "Burger King",
+                              "time": "13:45",
+                              "duration": 30,
+                              "guid": "dc96a827-b56b-4252-bf24-bb8f25209f3e"
+                            }
+                          ],
+                          "categories": [],
+                          "templates": [],
+                          "intervals": []
+                        }
                         """
         );
     }
@@ -144,7 +201,7 @@ class GenericExportServiceIntegrationTest {
                 false,
                 "Tennis",
                 setUpCategories(),
-                "Tennis Hall Lužánky",
+                "Tennis Hall",
                 LocalDate.of(2020, 11, 11),
                 LocalTime.of(12, 45),
                 Duration.ofMinutes(45)
