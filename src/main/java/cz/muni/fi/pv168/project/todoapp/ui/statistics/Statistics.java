@@ -18,18 +18,14 @@ import java.time.format.DateTimeFormatter;
 
 public class Statistics {
     private final CrudHolder crudHolder;
-    private final JPanel statsPanel;
-    private final JButton toggleButton;
-    private final JButton categoryButton;
+    private final JPanel statsPanel = new JPanel();
+    private final JButton toggleButton = createToggleButton();
+    private final JButton categoryButton = createCategoryButton();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private boolean isCategoriesDisplayed;
+    private boolean isCategoriesDisplayed = false;
 
     public Statistics(CrudHolder crudHolder) {
         this.crudHolder = crudHolder;
-        this.statsPanel = new JPanel();
-        this.toggleButton = createToggleButton();
-        this.categoryButton = createCategoryButton();
-        isCategoriesDisplayed = false;
         setupStatsPanel();
     }
 
@@ -61,7 +57,7 @@ public class Statistics {
         } else {
             dataClosest = closest.format(formatter);
         }
-//        bottomPanel.add(getLabel("Closest event: " + dataClosest));
+        bottomPanel.add(getLabel("Closest event: " + dataClosest));
 
 
         var oldest = crudHolder.getOldestEvent();
@@ -71,7 +67,7 @@ public class Statistics {
         } else {
             dataOldest = oldest.format(formatter);
         }
-//        bottomPanel.add(getLabel("Oldest event: " + dataOldest));
+        bottomPanel.add(getLabel("Oldest event: " + dataOldest));
 
 
         statsPanel.add(topPanel);
