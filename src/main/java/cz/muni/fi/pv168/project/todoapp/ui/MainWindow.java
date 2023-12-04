@@ -119,6 +119,9 @@ public class MainWindow {
         ToolBarManager toolBarManager = createToolBarManager(verticalToolBar, filter);
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
+        Statistics statistics = new Statistics(crudHolder);
+        addListeners(statistics);
+
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));
         tabHolder.getCurrentTab().updateToolBar();
         frame.add(filter.getFilterBar(), BorderLayout.NORTH);
