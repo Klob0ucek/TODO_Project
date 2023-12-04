@@ -11,7 +11,9 @@ public enum CategoryColor {
     PURPLE(new Color(101, 8, 93)),
     PINK(new Color(241, 33, 209)),
     BLACK(new Color(30, 30, 30)),
-    CYAN(new Color(4, 128, 147));
+    CYAN(new Color(4, 128, 147)),
+    BROWN(new Color(102, 51, 0)),
+    GRAY(new Color(102, 102, 102));
 
     private final Color color;
 

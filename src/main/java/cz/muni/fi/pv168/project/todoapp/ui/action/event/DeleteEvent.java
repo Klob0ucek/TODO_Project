@@ -28,6 +28,6 @@ public class DeleteEvent extends AbstractDeleteAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        filter.resetFilters();
+        filter.resetIntervals();
     }
 }

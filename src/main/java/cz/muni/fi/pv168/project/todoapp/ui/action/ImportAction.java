@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action;
 
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.DataManipulationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.export.ImportService;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.ImportExportDialog;
@@ -50,6 +51,9 @@ public class ImportAction extends AbstractAction {
                     refreshModels.run();
                 } catch (DataManipulationException exception) {
                     new NotificationDialog(frame, "Broken file, import failed: " + exception.getMessage()).showNotification();
+                } catch (ValidationException validationException) {
+                    new NotificationDialog(frame, "Invalid object not imported!",
+                            validationException.getValidationErrors(), 15000).showNotification();
                 }
                 return null;
             }

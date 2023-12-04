@@ -3,10 +3,14 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.AbstractCoreEvent;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -79,4 +83,11 @@ public class CrudHolder {
         return max.isEmpty() ? 0 : (int) max.getAsLong();
     }
 
+    public Collection<CategoryColor> getUsedColors() {
+        return getCategories().stream().map(Category::getColor).toList();
+    }
+
+    public CategoryColor[] getAvailableColors() {
+        return Arrays.stream(CategoryColor.values()).filter(categoryColor -> !getUsedColors().contains(categoryColor)).toArray(CategoryColor[]::new);
+    }
 }
