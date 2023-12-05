@@ -43,6 +43,7 @@ public class AddEvent extends AbstractAddAction {
         while (newEntity.isPresent()) {
             try {
                 ((ScheduleTableModel) getTable().getModel()).addRow(newEntity.get());
+                System.out.println(newEntity.get().getGuid());
                 new NotificationDialog(getFrame(), "Event added successfully.").showNotification();
                 break;
             } catch (ValidationException validationException) {

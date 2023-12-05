@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class UniqueNameProvider {
 
-    public static String getUniqueName(String name, List<String> library) {
-        if (checkUniqueName(name, library)) {
+    public static String getUniqueName(String name, List<String> existing) {
+        if (checkUniqueName(name, existing)) {
             return name;
         }
         int i = 1;
@@ -28,7 +28,7 @@ public class UniqueNameProvider {
         do {
             newName = name + "(" + i + ")";
             i++;
-        } while (!checkUniqueName(newName, library));
+        } while (!checkUniqueName(newName, existing));
         return newName;
     }
 

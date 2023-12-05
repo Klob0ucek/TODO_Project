@@ -25,7 +25,7 @@ public class UniqueNameProviderTest {
 
 
     @Test
-    void testNameOne() {
+    void completelyNewName() {
         String newName = UniqueNameProvider.getUniqueName("New", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -35,7 +35,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameTwo() {
+    void cleanNameRename() {
         String newName = UniqueNameProvider.getUniqueName("Name", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -45,7 +45,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameThree() {
+    void renameWithNumber() {
         String newName = UniqueNameProvider.getUniqueName("Name(2)", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -55,7 +55,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameFour() {
+    void newCleanName() {
         String newName = UniqueNameProvider.getUniqueName("Gap", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -65,7 +65,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameFive() {
+    void fillGapRename() {
         String newName = UniqueNameProvider.getUniqueName("Gap(1)", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -75,7 +75,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameSix() {
+    void nextGapRename() {
         String newName = UniqueNameProvider.getUniqueName("Gap(3)", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -85,7 +85,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameSeven() {
+    void nameWithCapital() {
         String newName = UniqueNameProvider.getUniqueName("BIG", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -95,7 +95,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameEight() {
+    void nameWithHighNumber() {
         String newName = UniqueNameProvider.getUniqueName("Far(198)", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -105,7 +105,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameNine() {
+    void renameWithHighNumber() {
         String newName = UniqueNameProvider.getUniqueName("Far(199)", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -115,7 +115,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void testNameTen() {
+    void nameTooLong() {
         String newName = UniqueNameProvider.getUniqueName("TooBig(42069)", library);
 
         var result = stringLengthValidator.validate(newName);
