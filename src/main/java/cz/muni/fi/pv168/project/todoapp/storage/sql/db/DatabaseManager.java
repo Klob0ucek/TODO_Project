@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.todoapp.storage.sql.db;
 
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataStorageException;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.tinylog.Logger;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -81,13 +80,7 @@ public final class DatabaseManager {
         Path projectDbPath = Paths.get(projectDir, "db", PROJECT_NAME);
 
         File parentDir = projectDbPath.getParent().toFile();
-
-        if (parentDir.mkdirs()) {
-            Logger.debug("Created a new root directory for the database: {}", projectDbPath.getParent());
-        } else {
-            Logger.debug("Root directory for the database already exists: {}", projectDbPath.getParent());
-        }
-
+        
         if (!parentDir.exists()) {
             throw new DataStorageException("Unable to create database root directory");
         }

@@ -16,6 +16,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
         // TODO: Handle exceptions better
 
         System.err.println(e.getCause().toString());
+        e.printStackTrace(System.err);
         if (e instanceof FailedToDeleteCategoryException) {
             showGeneralError("Selected categories are linked to Event or Template.\nDelete that Event or Template first", false);
         } else if (e instanceof DataStorageException) {

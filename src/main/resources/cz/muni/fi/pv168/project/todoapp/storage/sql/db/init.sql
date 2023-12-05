@@ -2,7 +2,7 @@
 -- Interval table definition
 --
 
-CREATE TABLE IF NOT EXISTS "Intervalz"
+CREATE TABLE IF NOT EXISTS "Interval"
 (
     `id`           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     `guid`         VARCHAR     NOT NULL UNIQUE,
