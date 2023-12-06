@@ -128,6 +128,9 @@ public class EventDialog extends EntityDialog<Event> {
     private JComboBox<Interval> intervalComboBoxSetup() {
         intervalComboBox.setModel(intervalListModel);
         intervalComboBox.setRenderer(new ComboBoxRenderer());
+        intervalComboBox.addActionListener(e -> {
+            quantitySpinner.setValue(0);
+        });
         return intervalComboBox;
     }
 
