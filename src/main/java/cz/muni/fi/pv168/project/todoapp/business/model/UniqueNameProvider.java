@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 public class UniqueNameProvider {
 
+    private static final Pattern completePattern = Pattern.compile("^\\w+\\(\\d+\\)$", Pattern.CASE_INSENSITIVE);
+
+    private static final Pattern numberPattern = Pattern.compile("\\(\\d+\\)$");
+
     public static String getUniqueName(String name, List<String> existing) {
         if (checkUniqueName(name, existing)) {
             return name;
@@ -13,11 +17,9 @@ public class UniqueNameProvider {
         int i = 1;
         String newName = "";
 
-        Pattern pattern = Pattern.compile("^\\w+\\(\\d+\\)$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(name);
+        Matcher matcher = completePattern.matcher(name);
         if (matcher.matches()) {
-            Pattern lastNumber = Pattern.compile("\\(\\d+\\)$");
-            Matcher endMatcher = lastNumber.matcher(name);
+            Matcher endMatcher = numberPattern.matcher(name);
             if (endMatcher.find()) {
                 String parentheses = endMatcher.group();
                 i = Integer.parseInt(parentheses.substring(1, parentheses.length() - 1));
