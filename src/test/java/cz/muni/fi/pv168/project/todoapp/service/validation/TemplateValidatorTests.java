@@ -119,7 +119,7 @@ public class TemplateValidatorTests {
     }
 
     @Test
-    void TemplateNameTooLong() {
+    void templateNameTooLong() {
         var newTemplate = new Template("Tennis training template name should never be that long - think about it",
                 true,
                 "Tennis",

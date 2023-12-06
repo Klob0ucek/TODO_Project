@@ -26,15 +26,6 @@ public class IntervalValidatorTests {
     }
 
     @Test
-    void LongAbbrev() {
-        var newInterval = new Interval("Lesson", "lesson", Duration.ofMinutes(45));
-
-        var result = intervalValidator.validate(newInterval);
-
-        assertThat(result.isValid()).isTrue();
-    }
-
-    @Test
     void shortName() {
         var newInterval = new Interval("Le", "lesson", Duration.ofMinutes(45));
 

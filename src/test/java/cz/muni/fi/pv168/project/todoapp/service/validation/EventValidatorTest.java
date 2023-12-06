@@ -39,7 +39,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void validEventWithoutLocation() {
+    void withoutLocation() {
         Event newEvent = new Event(false,
                 "Tennis",
                 List.of(categories.get(0)),
@@ -52,7 +52,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void validEventNoDateTime() {
+    void withoutDateTime() {
         Event newEvent = new Event(true,
                 "Tennis",
                 List.of(categories.get(0)),
@@ -65,7 +65,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void LocationTooShort() {
+    void locationTooShort() {
         Event newEvent = new Event(false,
                 "Tennis",
                 List.of(categories.get(0)),
@@ -79,7 +79,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void NameTooShort() {
+    void nameTooShort() {
         Event newEvent = new Event(false,
                 "T",
                 List.of(categories.get(0)),
@@ -93,7 +93,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void NoName() {
+    void noName() {
         Event newEvent = new Event(false,
                 "",
                 List.of(categories.get(0)),
@@ -120,7 +120,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void NoCategories() {
+    void withoutCategories() {
         Event newEvent = new Event(true,
                 "Tennis",
                 List.of(),
@@ -134,7 +134,7 @@ public class EventValidatorTest {
     }
 
     @Test
-    void MultipleValidations() {
+    void multipleValidations() {
         Event newEvent = new Event(false,
                 "T",
                 List.of(),

@@ -35,7 +35,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void cleanNameRename() {
+    void uniqueNameRename() {
         String newName = UniqueNameProvider.getUniqueName("Name", library);
 
         var result = stringLengthValidator.validate(newName);
@@ -55,7 +55,7 @@ public class UniqueNameProviderTest {
     }
 
     @Test
-    void newCleanName() {
+    void newUniqueName() {
         String newName = UniqueNameProvider.getUniqueName("Gap", library);
 
         var result = stringLengthValidator.validate(newName);

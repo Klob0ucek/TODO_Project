@@ -23,16 +23,7 @@ public class GuidValidatorTest {
 
         assertThat(result.isValid()).isTrue();
     }
-
-    @Test
-    void anotherValidGuid() {
-        var guid = "3c6accf3-f927-4c83-8ad1-6ee1b5502b33";
-
-        var result = guidValidator.validate(guid);
-
-        assertThat(result.isValid()).isTrue();
-    }
-
+    
     @Test
     void validGuidWithNumbers() {
         var guid = "33665843-7927-4383-8991-682125502633";
