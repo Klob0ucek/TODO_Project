@@ -9,7 +9,16 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CategoriesListTest {
+public class CategoriesRendererTest {
+    @Test
+    void testOneCategory() {
+        List<Category> categories = List.of(new Category("Sleep", CategoryColor.BLUE));
+
+        String result = CategoryListRenderer.renderListCategory(categories);
+
+        assertThat(result).isEqualTo("Sleep");
+    }
+
     @Test
     void testThreeCategories() {
         List<Category> categories = List.of(new Category("Sleep", CategoryColor.BLUE),
