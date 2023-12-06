@@ -4,7 +4,6 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.GuidValidator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
