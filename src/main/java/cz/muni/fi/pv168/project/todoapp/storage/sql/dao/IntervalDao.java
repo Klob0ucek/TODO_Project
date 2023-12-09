@@ -27,7 +27,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
     @Override
     public IntervalEntity create(IntervalEntity newInterval) {
         var sql = """
-                INSERT INTO Intervalz(
+                INSERT INTO "Interval"(
                     guid,
                     name,
                     abbreviation,
@@ -73,7 +73,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                         name,
                         abbreviation,
                         duration
-                FROM Intervalz
+                FROM "Interval"
                 """;
         try (
                 var connection = connections.get();
@@ -102,7 +102,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                         name,
                         abbreviation,
                         duration
-                FROM Intervalz
+                FROM "Interval"
                 WHERE id = ?
                 """;
         try (
@@ -130,7 +130,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                         name,
                         abbreviation,
                         duration
-                FROM Intervalz
+                FROM "Interval"
                 WHERE guid = ?
                 """;
         try (
@@ -153,7 +153,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
     @Override
     public IntervalEntity update(IntervalEntity entity) {
         var sql = """
-                UPDATE Intervalz
+                UPDATE "Interval"
                 SET name = ?,
                     abbreviation = ?,
                     duration = ?
@@ -184,7 +184,9 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
 
     @Override
     public void deleteByGuid(String guid) {
-        var sql = "DELETE FROM Intervalz WHERE guid = ?";
+        var sql = """
+                DELETE FROM "Interval" WHERE guid = ?
+                """;
         try (
                 var connection = connections.get();
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
@@ -205,7 +207,9 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
 
     @Override
     public void deleteAll() {
-        var sql = "DELETE FROM Intervalz";
+        var sql = """
+                    DELETE FROM Interval
+                """;
         try (
                 var connection = connections.get();
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
@@ -220,7 +224,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
     public boolean existsByGuid(String guid) {
         var sql = """
                 SELECT id
-                FROM Intervalz
+                FROM "Interval"
                 WHERE guid = ?
                 """;
         try (
