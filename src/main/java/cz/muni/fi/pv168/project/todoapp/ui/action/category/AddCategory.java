@@ -11,6 +11,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -20,7 +21,7 @@ public class AddCategory extends AbstractAddAction {
             JFrame frame,
             CrudHolder crudHolder
     ) {
-        super(Icons.ADD.getIcon(), table, frame, crudHolder);
+        super(table, frame, crudHolder);
         putValue(SHORT_DESCRIPTION, "Add new category (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A); // Alt + A
         // putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl N")); Doesnt work for me
