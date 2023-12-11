@@ -20,6 +20,11 @@ public class HelpTab extends GeneralTab {
     }
 
     @Override
+    protected void addActionManager() {
+        return;
+    }
+
+    @Override
     public void updateToolBar() {
         this.getToolBarManager()
                 .reset()
