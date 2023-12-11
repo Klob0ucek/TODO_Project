@@ -1,4 +1,4 @@
-INSERT INTO "Intervalz" ("guid", "name", "abbreviation", "duration")
+INSERT INTO "Interval" ("guid", "name", "abbreviation", "duration")
 VALUES ('02d2cfaf-0448-452c-9b2e-514cf701cdd3', 'short break', 'sb', '15'),
        ('830aa6d3-64ff-4544-93f8-39cb989fa2c9', 'long break', 'long', '22'),
        ('2162e761-20d4-436d-a98c-4bf660e1ea6d', 'sleep', 'see', '69')
