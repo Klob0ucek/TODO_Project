@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 
-import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
@@ -18,7 +17,7 @@ public class ComboBoxRenderer extends DefaultListCellRenderer {
             setText(template.getTemplateName());
         }
         if (value instanceof Interval interval) {
-            setText(interval.getName());
+            setText(interval.getName() + " (" + interval.getAbbreviation() + ")");
         }
         if (value instanceof CategoryColor color) {
             this.setBackground(color.getColor());

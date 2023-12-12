@@ -13,8 +13,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.JPanel;
-import javax.swing.Box;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,9 +75,7 @@ public class TemplateDialog extends EntityDialog<Template> {
 
     private void addFields() {
         add("Template name:", templateNameField);
-        JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", eventNameField);
-        panel.add(Box.createHorizontalStrut(10));
-        panel.add(categoriesMenuBar);
+        addThreeComponentPanel("Done?", doneField, "Name:", eventNameField, "", categoriesMenuBar);
         add("Location:", locationField);
         add("Time:", timePicker);
         add("Duration in minutes:", durationSpinner);

@@ -22,8 +22,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.Box;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +42,8 @@ public class EventDialog extends EntityDialog<Event> {
     );
     private final ComboBoxModel<Interval> intervalListModel;
     private final JComboBox<Interval> intervalComboBox = new JComboBox<>();
+    private final JSpinner quantitySpinner = new JSpinner(
+            new SpinnerNumberModel(0, 0, 525600, 1));
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
@@ -91,12 +91,11 @@ public class EventDialog extends EntityDialog<Event> {
 
     private void addFields() {
         addTwoComponentPanel("From template:", templateComboBoxSetup(), "", clearButtonSetup());
-        JPanel panel = addTwoComponentPanel("Done?", doneField, "Name:", nameField);
-        panel.add(Box.createHorizontalStrut(10));
-        panel.add(categoriesMenuBar);
+        addThreeComponentPanel("Done?", doneField, "Name:", nameField, "", categoriesMenuBar);
         add("Location:", locationField);
         add("Date and time:", dateTimePicker);
-        addTwoComponentPanel("Interval:", intervalComboBoxSetup(), "Duration in minutes:", durationSpinner);
+        addThreeComponentPanel("Interval:", intervalComboBoxSetup(), "Quantity:", quantitySpinnerSetup(),
+                "Duration in minutes:", durationSpinner);
     }
 
     private JComboBox<Template> templateComboBoxSetup() {
@@ -108,6 +107,7 @@ public class EventDialog extends EntityDialog<Event> {
 
             categoryOptions.setDefault();
             intervalComboBox.setSelectedIndex(-1);
+            quantitySpinner.setEnabled(false);
             doneField.setSelected(template.isDone());
             nameField.setText(template.getName());
             locationField.setText(template.getLocation());
@@ -130,12 +130,24 @@ public class EventDialog extends EntityDialog<Event> {
         intervalComboBox.setModel(intervalListModel);
         intervalComboBox.setRenderer(new ComboBoxRenderer());
         intervalComboBox.addActionListener(e -> {
-            Interval interval = (Interval) intervalComboBox.getSelectedItem();
-            if (interval == null) return;
-            durationSpinner.setValue(interval.getDuration().toMinutes());
+            if (!quantitySpinner.isEnabled()) {
+                quantitySpinner.setEnabled(true);
+            }
+            quantitySpinner.setValue(0);
         });
-
         return intervalComboBox;
+    }
+
+    private JSpinner quantitySpinnerSetup() {
+        quantitySpinner.setEnabled(false);
+        quantitySpinner.addChangeListener(e -> {
+            Interval interval = (Interval) intervalComboBox.getSelectedItem();
+            if (interval != null) {
+                var duration = interval.getDuration().toMinutes() * (((Number) quantitySpinner.getValue()).longValue());
+                durationSpinner.setValue(duration);
+            }
+        });
+        return quantitySpinner;
     }
 
     private JButton clearButtonSetup() {
@@ -149,6 +161,7 @@ public class EventDialog extends EntityDialog<Event> {
             locationField.setText("");
             dateTimePicker.clear();
             intervalComboBox.setSelectedIndex(-1);
+            quantitySpinner.setEnabled(false);
             durationSpinner.setValue(0);
         });
 

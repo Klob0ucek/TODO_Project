@@ -40,6 +40,15 @@ abstract class EntityDialog<E> {
         return newPanel;
     }
 
+    public void addThreeComponentPanel(String firstLabelText, JComponent firstComponent,
+                                       String secondLabelText, JComponent secondComponent,
+                                       String thirdLabelText, JComponent thirdComponent) {
+        JPanel newPanel = addTwoComponentPanel(firstLabelText, firstComponent, secondLabelText, secondComponent);
+        newPanel.add(Box.createHorizontalStrut(10));
+        newPanel.add(new JLabel(thirdLabelText + " "));
+        newPanel.add(thirdComponent);
+    }
+
     abstract E getEntity();
 
     public Optional<E> show(Component parentComponent, String title) {
