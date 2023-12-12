@@ -17,11 +17,7 @@ public class ComboBoxRenderer extends DefaultListCellRenderer {
             setText(template.getTemplateName());
         }
         if (value instanceof Interval interval) {
-            String text = interval.getName();
-            if (interval.getAbbreviation() != null) {
-                text += " (" + interval.getAbbreviation() + ")";
-            }
-            setText(text);
+            setText(interval.getName() + " (" + interval.getAbbreviation() + ")");
         }
         if (value instanceof CategoryColor color) {
             this.setBackground(color.getColor());

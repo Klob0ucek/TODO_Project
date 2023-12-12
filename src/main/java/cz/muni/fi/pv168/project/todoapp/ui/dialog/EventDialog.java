@@ -107,6 +107,7 @@ public class EventDialog extends EntityDialog<Event> {
 
             categoryOptions.setDefault();
             intervalComboBox.setSelectedIndex(-1);
+            quantitySpinner.setEnabled(false);
             doneField.setSelected(template.isDone());
             nameField.setText(template.getName());
             locationField.setText(template.getLocation());
@@ -129,12 +130,16 @@ public class EventDialog extends EntityDialog<Event> {
         intervalComboBox.setModel(intervalListModel);
         intervalComboBox.setRenderer(new ComboBoxRenderer());
         intervalComboBox.addActionListener(e -> {
+            if (!quantitySpinner.isEnabled()) {
+                quantitySpinner.setEnabled(true);
+            }
             quantitySpinner.setValue(0);
         });
         return intervalComboBox;
     }
 
     private JSpinner quantitySpinnerSetup() {
+        quantitySpinner.setEnabled(false);
         quantitySpinner.addChangeListener(e -> {
             Interval interval = (Interval) intervalComboBox.getSelectedItem();
             if (interval != null) {
@@ -156,6 +161,7 @@ public class EventDialog extends EntityDialog<Event> {
             locationField.setText("");
             dateTimePicker.clear();
             intervalComboBox.setSelectedIndex(-1);
+            quantitySpinner.setEnabled(false);
             durationSpinner.setValue(0);
         });
 
