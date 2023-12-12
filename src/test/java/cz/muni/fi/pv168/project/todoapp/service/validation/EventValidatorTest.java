@@ -107,6 +107,34 @@ public class EventValidatorTest {
     }
 
     @Test
+    void nullName() {
+        Event newEvent = new Event(false,
+                null,
+                List.of(categories.get(0)),
+                "TennisHall",
+                LocalDate.of(1999, 10, 10), LocalTime.of(10, 0), Duration.ofMinutes(45));
+
+        var result = eventValidator.validate(newEvent);
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.getValidationErrors().size() == 1).isTrue();
+    }
+
+    @Test
+    void nullCategoriesList() {
+        Event newEvent = new Event(false,
+                "Ponožka",
+                null,
+                "TennisHall",
+                LocalDate.of(1999, 10, 10), LocalTime.of(10, 0), Duration.ofMinutes(45));
+
+        var result = eventValidator.validate(newEvent);
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.getValidationErrors().size() == 1).isTrue();
+    }
+
+    @Test
     void moreCategories() {
         Event newEvent = new Event(false,
                 "Tennis",

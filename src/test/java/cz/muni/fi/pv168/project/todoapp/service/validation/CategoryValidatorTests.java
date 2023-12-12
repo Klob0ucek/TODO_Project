@@ -34,6 +34,15 @@ public class CategoryValidatorTests {
     }
 
     @Test
+    void nullName() {
+        var newCategory = new Category(null, CategoryColor.BLUE);
+
+        var result = categoryValidator.validate(newCategory);
+
+        assertThat(result.isValid()).isFalse();
+    }
+
+    @Test
     void nameTooLong() {
         var newCategory = new Category("SooooooThisNameIsSoooLongThatItWillNotPassValidationNoINeed60Chars", CategoryColor.BLUE);
 

@@ -46,6 +46,28 @@ public class IntervalValidatorTests {
     }
 
     @Test
+    void nullName() {
+        var newInterval = new Interval(null,
+                "tr", Duration.ofMinutes(300));
+
+        var result = intervalValidator.validate(newInterval);
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.getValidationErrors().size() == 1).isTrue();
+    }
+
+    @Test
+    void nullAbbrev() {
+        var newInterval = new Interval("Ponožka",
+                null, Duration.ofMinutes(300));
+
+        var result = intervalValidator.validate(newInterval);
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.getValidationErrors().size() == 1).isTrue();
+    }
+
+    @Test
     void longValidAbbrev() {
         var newInterval = new Interval("Tennis training",
                 "training5h", Duration.ofMinutes(300));

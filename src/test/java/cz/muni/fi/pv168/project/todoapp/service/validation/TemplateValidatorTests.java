@@ -163,7 +163,22 @@ public class TemplateValidatorTests {
 
         assertThat(result.isValid()).isFalse();
         assertThat(result.getValidationErrors().size() == 1).isTrue();
+    }
 
+    @Test
+    void nullName() {
+        var newTemplate = new Template(null,
+                true,
+                "topGamer",
+                List.of(categories.get(0), categories.get(1)),
+                "Home",
+                LocalTime.of(15, 0),
+                Duration.ofMinutes(120));
+
+        var result = templateValidator.validate(newTemplate);
+
+        assertThat(result.isValid()).isFalse();
+        assertThat(result.getValidationErrors().size() == 1).isTrue();
     }
 
     @Test

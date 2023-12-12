@@ -21,6 +21,7 @@ public final class StringLengthValidator extends PropertyValidator<String> {
         var result = new ValidationResult();
 
         if (string == null) {
+            result.add("Name is null");
             return result;
         }
 
