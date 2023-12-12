@@ -15,7 +15,7 @@ public class DeleteCategory extends AbstractDeleteAction {
             JFrame frame,
             CrudHolder crudHolder
     ) {
-        super(Icons.DELETE.getIcon(), table, frame, crudHolder);
+        super(table, frame, crudHolder);
         putValue(SHORT_DESCRIPTION, "Delete selected category/categories (Alt + d)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_D);
     }

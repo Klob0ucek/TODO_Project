@@ -11,6 +11,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+
 import java.awt.Component;
 
 public abstract class GeneralTab {
@@ -128,12 +129,32 @@ public abstract class GeneralTab {
     ) {
         this.title = buildTemplate.title;
         this.component = buildTemplate.component;
+
         this.addAction = buildTemplate.addAction;
         this.editAction = buildTemplate.editAction;
         this.deleteAction = buildTemplate.deleteAction;
 
         this.toolBarManager = buildTemplate.toolBarManager;
         this.refresher = buildTemplate.refresher;
+
+        addActionManager();
+    }
+
+    protected void addActionManager() {
+        var table = (JTable) this.getComponent();
+        table.getSelectionModel().addListSelectionListener(
+                (e) -> manageActions(table.getSelectedRowCount())
+        );
+
+        editAction.setEnabled(false);
+        deleteAction.setEnabled(false);
+    }
+
+    private void manageActions(
+            int selectedRows
+    ) {
+        editAction.setEnabled(selectedRows == 1);
+        deleteAction.setEnabled(selectedRows >= 1);
     }
 
     public Component getComponent() {
