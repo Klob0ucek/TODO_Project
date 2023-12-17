@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.service.crud;
+package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;

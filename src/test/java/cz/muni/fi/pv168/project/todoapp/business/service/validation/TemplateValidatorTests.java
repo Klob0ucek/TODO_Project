@@ -1,15 +1,18 @@
-package cz.muni.fi.pv168.project.todoapp.service.validation;
+package cz.muni.fi.pv168.project.todoapp.business.service.validation;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.TemplateValidator;
+
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TemplateValidatorTests {

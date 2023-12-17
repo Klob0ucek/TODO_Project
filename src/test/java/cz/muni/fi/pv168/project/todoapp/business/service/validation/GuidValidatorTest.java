@@ -1,10 +1,13 @@
-package cz.muni.fi.pv168.project.todoapp.service.validation;
+package cz.muni.fi.pv168.project.todoapp.business.service.validation;
 
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.GuidValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.common.StringLengthValidator;
+
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GuidValidatorTest {
@@ -23,7 +26,7 @@ public class GuidValidatorTest {
 
         assertThat(result.isValid()).isTrue();
     }
-    
+
     @Test
     void validGuidWithNumbers() {
         var guid = "33665843-7927-4383-8991-682125502633";
