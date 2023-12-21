@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 
 public class Event extends AbstractCoreEvent {
     private LocalDate date;
@@ -62,17 +61,5 @@ public class Event extends AbstractCoreEvent {
                 ", duration=" + duration +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Event event)) return false;
-
-        return date.equals(event.date) && super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, super.hashCode());
-    }
+    
 }
