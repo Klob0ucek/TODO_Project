@@ -53,10 +53,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import javax.swing.DefaultComboBoxModel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -216,7 +212,6 @@ public class MainWindow {
             @Override
             public void tableChanged(TableModelEvent e) {
                 statistics.refreshData();
-                System.out.println("refreshed");
                 frame.setVisible(true);
             }
         });
@@ -224,7 +219,6 @@ public class MainWindow {
             @Override
             public void tableChanged(TableModelEvent e) {
                 statistics.refreshData();
-                System.out.println("refreshed");
                 frame.setVisible(true);
             }
         });

@@ -114,7 +114,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
             if (resultSet.next()) {
                 return Optional.of(intervalFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -142,7 +142,7 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
             if (resultSet.next()) {
                 return Optional.of(intervalFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {

@@ -6,8 +6,6 @@ import cz.muni.fi.pv168.project.todoapp.storage.sql.entity.EventEntity;
 
 import java.sql.*;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -63,7 +61,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
                 if (keyResultSet.next()) {
                     throw new DataStorageException("Multiple keys returned for: " + newEvent);
                 }
-                CategoryConnectionDao.createGuidConnection(connections, newEvent.guid(), newEvent.categories(), true);
+                CategoryConnectionDao.createEventConnection(connections, eventId, newEvent.categories());
                 return findById(eventId).orElseThrow();
             }
         } catch (SQLException ex) {
@@ -126,7 +124,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             if (resultSet.next()) {
                 return Optional.of(eventFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -155,9 +153,10 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             statement.setString(1, guid);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                resultSet.close();
                 return Optional.of(eventFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -197,8 +196,8 @@ public final class EventDao implements DataAccessObject<EventEntity> {
                 throw new DataStorageException("More then 1 event (rows=%d) has been updated: %s"
                         .formatted(rowsUpdated, entity));
             }
-            CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, entity.guid(), true);
-            CategoryConnectionDao.createGuidConnection(connections, entity.guid(), entity.categories(), true);
+            CategoryConnectionDao.deleteEventConnectionsById(connections, entity.id());
+            CategoryConnectionDao.createEventConnection(connections, entity.id(), entity.categories());
             return entity;
         } catch (SQLException ex) {
             throw new DataStorageException("Failed to update event: " + entity, ex);
@@ -207,7 +206,8 @@ public final class EventDao implements DataAccessObject<EventEntity> {
 
     @Override
     public void deleteByGuid(String guid) {
-        CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, guid, true);
+        Optional<EventEntity> entity = findByGuid(guid);
+        CategoryConnectionDao.deleteEventConnectionsById(connections, entity.get().id());
         var sql = "DELETE FROM Event WHERE guid = ?";
         try (
                 var connection = connections.get();
@@ -229,7 +229,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
 
     @Override
     public void deleteAll() {
-        CategoryConnectionDao.deleteAllCategoryConnections(connections, true);
+        CategoryConnectionDao.deleteAllEventConnections(connections);
         var sql = "DELETE FROM Event";
         try (
                 var connection = connections.get();
@@ -261,7 +261,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
     }
 
     private EventEntity eventFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsByGuid(connections, resultSet.getString("guid"), true);
+        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsById(connections, resultSet.getLong("id"), true);
         Date date = resultSet.getDate("date");
         Time time = resultSet.getTime("time");
         return new EventEntity(
