@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -42,20 +43,32 @@ public class ImportAction extends AbstractAction {
         if (importOption.isEmpty()) return;
 
         SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+            private NotificationDialog resultDialog;
+
             @Override
             protected Object doInBackground() {
                 try {
                     importService.importData(importPath, importOption.get());
-                    new NotificationDialog(frame, "File imported successfully").showNotification();
                     filter.resetFilters();
                     refreshModels.run();
+                    this.resultDialog = new NotificationDialog(
+                            frame, "File imported successfully"
+                    );
                 } catch (DataManipulationException exception) {
-                    new NotificationDialog(frame, "Broken file, import failed: " + exception.getMessage()).showNotification();
+                    this.resultDialog = new NotificationDialog(
+                            frame, "Broken file, import failed: " + exception.getMessage()
+                    );
                 } catch (ValidationException validationException) {
-                    new NotificationDialog(frame, "Invalid object not imported!",
-                            validationException.getValidationErrors(), 15000).showNotification();
+                    new NotificationDialog(
+                            frame, "Invalid object not imported!", validationException.getValidationErrors(), 15000
+                    );
                 }
                 return null;
+            }
+
+            @Override
+            protected void done() {
+                this.resultDialog.showNotification();
             }
         };
 
