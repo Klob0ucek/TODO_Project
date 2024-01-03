@@ -1,10 +1,11 @@
-package cz.muni.fi.pv168.project.todoapp.service.validation;
+package cz.muni.fi.pv168.project.todoapp.business.service.validation;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
-import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;
-import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntervalValidatorTests {
