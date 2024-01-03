@@ -119,7 +119,7 @@ public class MainWindow {
         ToolBarManager toolBarManager = createToolBarManager(verticalToolBar, filter);
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
-        Statistics statistics = new Statistics(crudHolder);
+        Statistics statistics = new Statistics(crudHolder.getEventCrudService(), crudHolder.getCategoryCrudService());
         addListeners(statistics);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));

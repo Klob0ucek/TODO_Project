@@ -68,14 +68,6 @@ public class CrudHolder {
         return intervalCrudService.findAll();
     }
 
-    public long getDoneEventsCount() {
-        return getEvents().stream().filter((AbstractCoreEvent::isDone)).count();
-    }
-
-    public long getPlannedEventsCount() {
-        return getEvents().size() - getDoneEventsCount();
-    }
-
     public int getLowestDuration() {
         var min = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).min();
         return min.isEmpty() ? 0 : (int) min.getAsLong();
@@ -99,52 +91,19 @@ public class CrudHolder {
         return categoryList.isEmpty() ? Optional.empty() : Optional.of(categoryList.get(0));
     }
 
-    public LocalDate getClosestDate() {
-        var dateList = getEvents().stream().map(Event::getDate).toList();
-        if (dateList.isEmpty()) {
-            return null;
-        }
-        LocalDate today = LocalDate.now();
-        LocalDate closestFutureDate = null;
-
-        for (LocalDate date : dateList) {
-            if (date == null) {
-                continue;
-            }
-            if (date.isAfter(today) && (closestFutureDate == null || date.isBefore(closestFutureDate))) {
-                closestFutureDate = date;
-            }
-        }
-        return closestFutureDate;
+    public CrudService<Event> getEventCrudService() {
+        return eventCrudService;
     }
 
-    public LocalDate getOldestEvent() {
-        var dateList = getEvents().stream().map(Event::getDate).toList();
-        if (dateList.isEmpty()) {
-            return null;
-        }
-        LocalDate oldestDate = null;
-
-        for (LocalDate date : dateList) {
-            if (date == null) {
-                continue;
-            }
-            if ((oldestDate == null) || date.isBefore(oldestDate)) {
-                oldestDate = date;
-            }
-        }
-
-        return oldestDate;
+    public CrudService<Category> getCategoryCrudService() {
+        return categoryCrudService;
     }
 
-    public Duration getEventsDurationTillToday() {
-        Duration totalDuration = Duration.ZERO;
-        LocalDate today = LocalDate.now();
-        for (Event event : getEvents()) {
-            if (event.getDate() != null && today.isAfter(event.getDate())) {
-                totalDuration = totalDuration.plus(event.getDuration());
-            }
-        }
-        return totalDuration;
+    public CrudService<Template> getTemplateCrudService() {
+        return templateCrudService;
+    }
+
+    public CrudService<Interval> getIntervalCrudService() {
+        return intervalCrudService;
     }
 }
