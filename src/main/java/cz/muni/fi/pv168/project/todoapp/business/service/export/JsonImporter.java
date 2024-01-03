@@ -38,11 +38,13 @@ public class JsonImporter implements BatchImporter {
             Gson gson = gsonBuilder.create();
 
             batch = gson.fromJson(reader, Batch.class);
-        } catch (IOException | JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             int colonIndex = e.getMessage().indexOf(":");
             int pathIndex = e.getMessage().indexOf("path");
             String newMsg = e.getMessage().substring(colonIndex + 1, pathIndex).trim();
             throw new DataManipulationException(newMsg, e);
+        } catch (IOException e) {
+            throw new DataManipulationException("Failed to load file: " + filePath, e);
         }
         return batch;
     }
