@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.DataStorageException;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.FailedToDeleteCategoryException;
 import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.IntervalAbbrevNotUniqueException;
+import cz.muni.fi.pv168.project.todoapp.storage.sql.dao.IntervalNameNotUniqueException;
 import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
 
 import javax.swing.JButton;
@@ -16,8 +17,10 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     public void uncaughtException(Thread t, Throwable e) {
 
 
-        if (e instanceof IntervalAbbrevNotUniqueException) {
-            showGeneralError("Abbreviation already exists - please use unique abbreviation!", false);
+        if (e instanceof IntervalNameNotUniqueException) {
+            showGeneralError(e.getMessage(), false);
+        } else if (e instanceof IntervalAbbrevNotUniqueException) {
+            showGeneralError(e.getMessage(), false);
         } else if (e instanceof FailedToDeleteCategoryException) {
             showGeneralError("Selected categories are linked to Event or Template.\nDelete that Event or Template first", false);
         } else if (e instanceof DataStorageException) {

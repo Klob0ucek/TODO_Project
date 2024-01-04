@@ -61,8 +61,10 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                 return findById(eventId).orElseThrow();
             }
         } catch (SQLException ex) {
-            if (ex.toString().contains("Unique")) {
-                throw new IntervalAbbrevNotUniqueException("Abbreviation not unique", ex);
+            if (ex.toString().contains("name NULLS FIRST")) {
+                throw new IntervalNameNotUniqueException("Name '" + newInterval.abbreviation() + "' already exists - please use unique name!", ex);
+            } else if (ex.toString().contains("abbreviation NULLS FIRST")) {
+                throw new IntervalAbbrevNotUniqueException("Abbreviation '" + newInterval.abbreviation() + "' already exists - please use unique abbreviation!", ex);
             }
             throw new DataStorageException("Failed to store: " + newInterval, ex);
         }
@@ -181,6 +183,11 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
             }
             return entity;
         } catch (SQLException ex) {
+            if (ex.toString().contains("name NULLS FIRST")) {
+                throw new IntervalNameNotUniqueException("Name '" + entity.abbreviation() + "' already exists - please use unique name!", ex);
+            } else if (ex.toString().contains("abbreviation NULLS FIRST")) {
+                throw new IntervalAbbrevNotUniqueException("Abbreviation '" + entity.abbreviation() + "' already exists - please use unique abbreviation!", ex);
+            }
             throw new DataStorageException("Failed to update interval: " + entity, ex);
         }
     }

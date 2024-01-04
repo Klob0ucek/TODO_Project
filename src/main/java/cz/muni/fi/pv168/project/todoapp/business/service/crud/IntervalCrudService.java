@@ -2,10 +2,8 @@ package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
 import cz.muni.fi.pv168.project.todoapp.business.Repository;
 import cz.muni.fi.pv168.project.todoapp.business.error.EntityAlreadyExistsException;
-import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
-import cz.muni.fi.pv168.project.todoapp.business.error.ExistingNameException;
 import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
-
+import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.Validator;
 
@@ -39,10 +37,6 @@ public class IntervalCrudService implements CrudService<Interval> {
             throw new EntityAlreadyExistsException("Category with given guid already exists: " + newEntity.getGuid());
         }
         if (validationResult.isValid()) {
-            if (nameNotUnique(newEntity)) {
-                throw new ExistingNameException("\"" + newEntity.getName() + "\" already exists - please use unique name!",
-                        "Entity name not Unique");
-            }
             intervalRepository.create(newEntity);
         } else {
             throw new ValidationException("Added interval not valid", validationResult.getValidationErrors());
@@ -54,25 +48,12 @@ public class IntervalCrudService implements CrudService<Interval> {
     public boolean update(Interval entity) {
         var validationResult = intervalValidator.validate(entity);
         if (validationResult.isValid()) {
-            if (nameNotUnique(entity)) {
-                throw new ExistingNameException("\"" + entity.getName() + "\" already exists - please use unique name!",
-                        "Entity name not Unique");
-            }
             intervalRepository.update(entity);
         } else {
             throw new ValidationException("Edited interval not valid", validationResult.getValidationErrors());
         }
 
         return validationResult.isValid();
-    }
-
-    private boolean nameNotUnique(Interval newInterval) {
-        for (Interval old : intervalRepository.findAll()) {
-            if (!newInterval.getGuid().equals(old.getGuid()) && newInterval.getName().equals(old.getName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
