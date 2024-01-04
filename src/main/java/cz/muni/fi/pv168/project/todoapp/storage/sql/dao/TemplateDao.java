@@ -264,7 +264,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
     }
 
     private TemplateEntity templateFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsById(connections, resultSet.getLong("id"), false);
+        List<Category> cats = CategoryConnectionDao.findTemplateCategoriesById(connections, resultSet.getLong("id"));
         Time time = resultSet.getTime("time");
         return new TemplateEntity(
                 resultSet.getString("guid"),

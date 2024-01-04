@@ -34,10 +34,8 @@ public class CategoryConnectionDao {
         createCategoryConnection(connections, id, categories, sql);
     }
 
-    public static void createCategoryConnection(Supplier<ConnectionHandler> connections, long id, Iterable<Category> categories, String sql) {
+    private static void createCategoryConnection(Supplier<ConnectionHandler> connections, long id, Iterable<Category> categories, String sql) {
         for (var category : categories) {
-
-
             try (
                     var connection = connections.get();
                     var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
@@ -71,7 +69,7 @@ public class CategoryConnectionDao {
         deleteAllCategoryConnectionsByGuid(connections, id, sql);
     }
 
-    public static void deleteAllCategoryConnectionsByGuid(Supplier<ConnectionHandler> connections, long id, String sql) {
+    private static void deleteAllCategoryConnectionsByGuid(Supplier<ConnectionHandler> connections, long id, String sql) {
         try (
                 var connection = connections.get();
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
@@ -93,7 +91,7 @@ public class CategoryConnectionDao {
         deleteAllCategoryConnections(connections, sql);
     }
 
-    public static void deleteAllCategoryConnections(Supplier<ConnectionHandler> connections, String sql) {
+    private static void deleteAllCategoryConnections(Supplier<ConnectionHandler> connections, String sql) {
         try (
                 var connection = connections.get();
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
@@ -104,23 +102,28 @@ public class CategoryConnectionDao {
         }
     }
 
-    public static List<Category> findAllCategoryConnectionsById(Supplier<ConnectionHandler> connections, long id, boolean event) {
-        String sql;
-        if (event) {
-            sql = """
-                    SELECT "eventId",
-                           "categoryId"
-                    FROM "EventCategories"
-                    WHERE "eventId" = ?
-                    """;
-        } else {
-            sql = """
-                    SELECT "templateId",
-                           "categoryId"
-                    FROM "TemplateCategories"
-                    WHERE "templateId" = ?
-                    """;
-        }
+    public static List<Category> findEventCategoriesById(Supplier<ConnectionHandler> connections, long id) {
+        String sql = """
+                SELECT "eventId",
+                       "categoryId"
+                FROM "EventCategories"
+                WHERE "eventId" = ?
+                """;
+        return findAllCategoryConnectionsById(connections, id, sql);
+    }
+
+    public static List<Category> findTemplateCategoriesById(Supplier<ConnectionHandler> connections, long id) {
+        String sql = """
+                SELECT "templateId",
+                       "categoryId"
+                FROM "TemplateCategories"
+                WHERE "templateId" = ?
+                """;
+        return findAllCategoryConnectionsById(connections, id, sql);
+    }
+
+
+    private static List<Category> findAllCategoryConnectionsById(Supplier<ConnectionHandler> connections, long id, String sql) {
         try (
                 var connection = connections.get();
                 var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
