@@ -30,93 +30,19 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-/**
- * Integration tests for the {@link GenericImportService}
- */
-class GenericImportServiceIntegrationTest {
+class GenericImportServiceTest {
     private static final Path PROJECT_ROOT = Paths.get(System.getProperty("project.basedir", "")).toAbsolutePath();
     private static final Path TEST_RESOURCES = PROJECT_ROOT.resolve(Path.of("src", "test", "resources"));
 
-    private static final Category FOOD = new Category(
-            "d3e8a63c-8fd2-49c7-bb90-af105a915a2d",
-            "Food",
-            CategoryColor.RED
-    );
-
-    private static final Category SPORT = new Category(
-            "0c5a64aa-6003-4817-8948-7ab3fde76e28",
-            "Sport",
-            CategoryColor.BLUE
-    );
-
-    private static final Event EATING_KFC = new Event(
-            "9b5fb19e-76a1-4f0e-af43-ec7c8d88a127",
-            false,
-            "Eating kfc",
-            List.of(FOOD),
-            "KFC",
-            LocalDate.of(2020, 11, 11),
-            LocalTime.of(12, 45),
-            Duration.ofMinutes(30)
-    );
-
-    private static final Event TENNIS = new Event(
-            "ecde3bf8-464b-4103-a42d-460fc0372330",
-            false,
-            "Tennis",
-            List.of(SPORT),
-            "Tennis Hall Lužánky",
-            LocalDate.of(2020, 11, 11),
-            LocalTime.of(12, 45),
-            Duration.ofMinutes(45)
-    );
-
-    private static final Event EATING_BURGER_KING = new Event(
-            "fa1d7c6e-3bfd-4d59-8519-36716fd5a006",
-            false,
-            "Eating",
-            List.of(FOOD),
-            "Burger King",
-            LocalDate.of(2020, 11, 11),
-            LocalTime.of(13, 45),
-            Duration.ofMinutes(30)
-    );
-
-    private static final Template MY_SLEEP = new Template(
-            "a29f12c4-aecc-478d-91cf-d9b6c97a9f8f",
-            "My sleep",
-            false,
-            "Sleeping",
-            List.of(),
-            "Lovely bed",
-            null,
-            Duration.ofMinutes(69)
-    );
-
-    private static final Template GOLF = new Template(
-            "34b7995c-7a7e-4a7c-9a1c-8ac0047943d6",
-            "Golfing",
-            false,
-            "Golf",
-            List.of(SPORT),
-            "Golf course",
-            null,
-            Duration.ofMinutes(45)
-    );
-
-    private static final Interval SHORT_BREAK = new Interval(
-            "7e6f5d81-02ef-4d74-83af-0d21b90c87b6",
-            "short break",
-            "sb",
-            Duration.ofMinutes(15)
-    );
-
-    private static final Interval LONG_BREAK = new Interval(
-            "d81b9e5e-7757-4d51-8b4b-6cbcf47c1221",
-            "long break",
-            "lb",
-            Duration.ofMinutes(30)
-    );
+    private static Category food;
+    private static Category sport;
+    private static Event eating_kfc;
+    private static Event tennis;
+    private static Event eating_burger_king;
+    private static Template my_sleep;
+    private static Template golf;
+    private static Interval short_break;
+    private static Interval long_break;
 
     private EventCrudService eventCrudService;
     private CategoryCrudService categoryCrudService;
@@ -126,10 +52,91 @@ class GenericImportServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(List.of(EATING_KFC));
-        InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(List.of(FOOD));
-        InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(List.of(MY_SLEEP));
-        InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(List.of(SHORT_BREAK));
+        food = new Category(
+                "d3e8a63c-8fd2-49c7-bb90-af105a915a2d",
+                "Food",
+                CategoryColor.RED
+        );
+
+        sport = new Category(
+                "0c5a64aa-6003-4817-8948-7ab3fde76e28",
+                "Sport",
+                CategoryColor.BLUE
+        );
+
+        eating_kfc = new Event(
+                "9b5fb19e-76a1-4f0e-af43-ec7c8d88a127",
+                false,
+                "Eating kfc",
+                List.of(food),
+                "KFC",
+                LocalDate.of(2020, 11, 11),
+                LocalTime.of(12, 45),
+                Duration.ofMinutes(30)
+        );
+
+        tennis = new Event(
+                "ecde3bf8-464b-4103-a42d-460fc0372330",
+                false,
+                "Tennis",
+                List.of(sport),
+                "Tennis Hall Lužánky",
+                LocalDate.of(2020, 11, 11),
+                LocalTime.of(12, 45),
+                Duration.ofMinutes(45)
+        );
+
+        eating_burger_king = new Event(
+                "fa1d7c6e-3bfd-4d59-8519-36716fd5a006",
+                false,
+                "Eating",
+                List.of(food),
+                "Burger King",
+                LocalDate.of(2020, 11, 11),
+                LocalTime.of(13, 45),
+                Duration.ofMinutes(30)
+        );
+
+        my_sleep = new Template(
+                "a29f12c4-aecc-478d-91cf-d9b6c97a9f8f",
+                "My sleep",
+                false,
+                "Sleeping",
+                List.of(),
+                "Lovely bed",
+                null,
+                Duration.ofMinutes(69)
+        );
+
+        golf = new Template(
+                "34b7995c-7a7e-4a7c-9a1c-8ac0047943d6",
+                "Golfing",
+                false,
+                "Golf",
+                List.of(sport),
+                "Golf course",
+                null,
+                Duration.ofMinutes(45)
+        );
+
+        short_break = new Interval(
+                "7e6f5d81-02ef-4d74-83af-0d21b90c87b6",
+                "short break",
+                "sb",
+                Duration.ofMinutes(15)
+        );
+
+        long_break = new Interval(
+                "d81b9e5e-7757-4d51-8b4b-6cbcf47c1221",
+                "long break",
+                "lb",
+                Duration.ofMinutes(30)
+        );
+
+        InMemoryRepository<Event> eventRepository = new InMemoryRepository<>(List.of(eating_kfc));
+        InMemoryRepository<Category> categoryRepository = new InMemoryRepository<>(List.of(food));
+        InMemoryRepository<Template> templateRepository = new InMemoryRepository<>(List.of(my_sleep));
+        InMemoryRepository<Interval> intervalRepository = new InMemoryRepository<>(List.of(short_break));
 
         eventCrudService = new EventCrudService(eventRepository, new EventValidator());
         categoryCrudService = new CategoryCrudService(categoryRepository, new CategoryValidator());
@@ -141,7 +148,7 @@ class GenericImportServiceIntegrationTest {
     }
 
     @Test
-    void importNoEventsRewrite() {
+    void emptyImportRewrite() {
         Path importFilePath = TEST_RESOURCES.resolve("empty.json");
         genericImportService.importData(importFilePath.toString(), ImportOption.REWRITE);
 
@@ -152,22 +159,22 @@ class GenericImportServiceIntegrationTest {
     }
 
     @Test
-    void importNoEventsMerge() {
+    void emptyImportMerge() {
         Path importFilePath = TEST_RESOURCES.resolve("empty.json");
         genericImportService.importData(importFilePath.toString(), ImportOption.MERGE);
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_KFC);
+                .containsExactly(eating_kfc);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(FOOD);
+                .containsExactly(food);
         assertThat(templateCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(MY_SLEEP);
+                .containsExactly(my_sleep);
         assertThat(intervalCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SHORT_BREAK);
+                .containsExactly(short_break);
     }
 
     @Test
@@ -177,10 +184,10 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(TENNIS);
+                .containsExactly(tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT);
+                .containsExactly(sport);
         assertThat(templateCrudService.findAll()).isEmpty();
         assertThat(intervalCrudService.findAll()).isEmpty();
     }
@@ -192,16 +199,16 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_KFC, TENNIS);
+                .containsExactly(eating_kfc, tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT, FOOD);
+                .containsExactly(sport, food);
         assertThat(templateCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(MY_SLEEP);
+                .containsExactly(my_sleep);
         assertThat(intervalCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SHORT_BREAK);
+                .containsExactly(short_break);
     }
 
     @Test
@@ -211,10 +218,10 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_BURGER_KING, TENNIS);
+                .containsExactly(eating_burger_king, tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT, FOOD);
+                .containsExactly(sport, food);
         assertThat(templateCrudService.findAll()).isEmpty();
         assertThat(intervalCrudService.findAll()).isEmpty();
     }
@@ -226,16 +233,16 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_KFC, EATING_BURGER_KING, TENNIS);
+                .containsExactly(eating_kfc, eating_burger_king, tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT, FOOD);
+                .containsExactly(sport, food);
         assertThat(templateCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(MY_SLEEP);
+                .containsExactly(my_sleep);
         assertThat(intervalCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SHORT_BREAK);
+                .containsExactly(short_break);
     }
 
     @Test
@@ -245,16 +252,16 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_BURGER_KING, TENNIS);
+                .containsExactly(eating_burger_king, tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT, FOOD);
+                .containsExactly(sport, food);
         assertThat(templateCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(GOLF);
+                .containsExactly(golf);
         assertThat(intervalCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(LONG_BREAK);
+                .containsExactly(long_break);
     }
 
     @Test
@@ -264,16 +271,16 @@ class GenericImportServiceIntegrationTest {
 
         assertThat(eventCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(EATING_KFC, EATING_BURGER_KING, TENNIS);
+                .containsExactly(eating_kfc, eating_burger_king, tennis);
         assertThat(categoryCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(SPORT, FOOD);
+                .containsExactly(sport, food);
         assertThat(templateCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(GOLF, MY_SLEEP);
+                .containsExactly(golf, my_sleep);
         assertThat(intervalCrudService.findAll())
                 .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(LONG_BREAK, SHORT_BREAK);
+                .containsExactly(long_break, short_break);
     }
 
     @Test
