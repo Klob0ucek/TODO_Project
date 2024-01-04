@@ -15,6 +15,7 @@ import javax.swing.SwingWorker;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.ExecutionException;
 
 public class ImportAction extends AbstractAction {
     private final ImportService importService;
@@ -42,33 +43,34 @@ public class ImportAction extends AbstractAction {
         var importOption = importOptionDialog.show(frame, "Import data");
         if (importOption.isEmpty()) return;
 
-        SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
-            private NotificationDialog resultDialog;
-
+        SwingWorker<NotificationDialog, Object> swingWorker = new SwingWorker<>() {
             @Override
-            protected Object doInBackground() {
+            protected NotificationDialog doInBackground() {
                 try {
                     importService.importData(importPath, importOption.get());
                     filter.resetFilters();
                     refreshModels.run();
-                    this.resultDialog = new NotificationDialog(
-                            frame, "File imported successfully"
+                    return new NotificationDialog(
+                            frame, "File imported successfully!"
                     );
                 } catch (DataManipulationException exception) {
-                    this.resultDialog = new NotificationDialog(
-                            frame, "Broken file, import failed: " + exception.getMessage()
+                    return new NotificationDialog(
+                            frame, "Import failed - broken file: " + exception.getMessage()
                     );
                 } catch (ValidationException validationException) {
-                    new NotificationDialog(
-                            frame, "Invalid object not imported!", validationException.getValidationErrors(), 15000
+                    return new NotificationDialog(
+                            frame, "Invalid object cannot be imported!", validationException.getValidationErrors()
                     );
                 }
-                return null;
             }
 
             @Override
             protected void done() {
-                this.resultDialog.showNotification();
+                try {
+                    get().showNotification();
+                } catch (InterruptedException | ExecutionException e) {
+                    new NotificationDialog(frame, "Import failed - an error occurred: " + e.getMessage());
+                }
             }
         };
 
