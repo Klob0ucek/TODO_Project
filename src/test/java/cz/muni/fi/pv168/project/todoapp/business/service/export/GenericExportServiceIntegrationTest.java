@@ -9,8 +9,6 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CategoryCrudServic
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.EventCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.IntervalCrudService;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.TemplateCrudService;
-import cz.muni.fi.pv168.project.todoapp.business.service.export.GenericExportService;
-import cz.muni.fi.pv168.project.todoapp.business.service.export.JsonExporter;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.CategoryValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.EventValidator;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.IntervalValidator;

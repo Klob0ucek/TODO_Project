@@ -13,6 +13,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterCategoryVa
 import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterDoneValues;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
+
 import java.time.LocalDate;
 import java.util.stream.Stream;
 import javax.swing.table.TableRowSorter;
