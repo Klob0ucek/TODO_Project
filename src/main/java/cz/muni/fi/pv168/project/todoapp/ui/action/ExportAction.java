@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -31,8 +32,14 @@ public class ExportAction extends AbstractAction {
             @Override
             protected Object doInBackground() {
                 exportService.exportData(exportPath);
-                new NotificationDialog(frame, "Successfully exported to selected file.").showNotification();
                 return null;
+            }
+
+            @Override
+            protected void done() {
+                new NotificationDialog(
+                        frame, "Successfully exported to selected file."
+                ).showNotification();
             }
         };
 
