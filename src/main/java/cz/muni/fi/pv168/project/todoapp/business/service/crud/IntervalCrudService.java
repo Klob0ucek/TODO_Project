@@ -43,10 +43,6 @@ public class IntervalCrudService implements CrudService<Interval> {
                 throw new ExistingNameException("\"" + newEntity.getName() + "\" already exists - please use unique name!",
                         "Entity name not Unique");
             }
-            if (abbrevNotUnique(newEntity)) {
-                throw new ExistingNameException("\"" + newEntity.getAbbreviation() + "\" already exists - please use unique abbreviation!",
-                        "Entity abbreviation not Unique");
-            }
             intervalRepository.create(newEntity);
         } else {
             throw new ValidationException("Added interval not valid", validationResult.getValidationErrors());
@@ -73,15 +69,6 @@ public class IntervalCrudService implements CrudService<Interval> {
     private boolean nameNotUnique(Interval newInterval) {
         for (Interval old : intervalRepository.findAll()) {
             if (!newInterval.getGuid().equals(old.getGuid()) && newInterval.getName().equals(old.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean abbrevNotUnique(Interval newInterval) {
-        for (Interval old : intervalRepository.findAll()) {
-            if (!newInterval.getGuid().equals(old.getGuid()) && newInterval.getAbbreviation().equals(old.getAbbreviation())) {
                 return true;
             }
         }

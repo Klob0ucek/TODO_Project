@@ -61,6 +61,9 @@ public final class IntervalDao implements DataAccessObject<IntervalEntity> {
                 return findById(eventId).orElseThrow();
             }
         } catch (SQLException ex) {
+            if (ex.toString().contains("Unique")) {
+                throw new IntervalAbbrevNotUniqueException("Abbreviation not unique", ex);
+            }
             throw new DataStorageException("Failed to store: " + newInterval, ex);
         }
     }
