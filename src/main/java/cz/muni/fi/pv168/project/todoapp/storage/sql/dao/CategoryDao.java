@@ -109,7 +109,33 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
             if (resultSet.next()) {
                 return Optional.of(categoryFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
+                return Optional.empty();
+            }
+        } catch (SQLException ex) {
+            throw new DataStorageException("Failed to load category by id", ex);
+        }
+    }
+
+    static public Optional<CategoryEntity> findById(long id, Supplier<ConnectionHandler> connections) {
+        var sql = """
+                SELECT  id,
+                        guid,
+                        name,
+                        color
+                FROM Category
+                WHERE id = ?
+                """;
+        try (
+                var connection = connections.get();
+                var statement = connection.use().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setLong(1, id);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(categoryFromResultSet(resultSet));
+            } else {
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -136,7 +162,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
             if (resultSet.next()) {
                 return Optional.of(categoryFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -162,7 +188,7 @@ public final class CategoryDao implements DataAccessObject<CategoryEntity> {
             if (resultSet.next()) {
                 return Optional.of(categoryFromResultSet(resultSet));
             } else {
-                // event not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {

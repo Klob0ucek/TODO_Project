@@ -65,7 +65,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
                 if (keyResultSet.next()) {
                     throw new DataStorageException("Multiple keys returned for: " + newTemplate);
                 }
-                CategoryConnectionDao.createGuidConnection(connections, newTemplate.guid(), newTemplate.categories(), false);
+                CategoryConnectionDao.createTemplateConnection(connections, templateId, newTemplate.categories());
                 return findById(templateId).orElseThrow();
             }
         } catch (SQLException ex) {
@@ -128,7 +128,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             if (resultSet.next()) {
                 return Optional.of(templateFromResultSet(resultSet));
             } else {
-                // template not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -159,7 +159,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
             if (resultSet.next()) {
                 return Optional.of(templateFromResultSet(resultSet));
             } else {
-                // template not found
+                resultSet.close();
                 return Optional.empty();
             }
         } catch (SQLException ex) {
@@ -199,8 +199,8 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
                 throw new DataStorageException("More then 1 template (rows=%d) has been updated: %s"
                         .formatted(rowsUpdated, entity));
             }
-            CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, entity.guid(), false);
-            CategoryConnectionDao.createGuidConnection(connections, entity.guid(), entity.categories(), false);
+            CategoryConnectionDao.deleteTemplateConnectionsById(connections, entity.id());
+            CategoryConnectionDao.createTemplateConnection(connections, entity.id(), entity.categories());
             return entity;
         } catch (SQLException ex) {
             throw new DataStorageException("Failed to update template: " + entity, ex);
@@ -209,7 +209,8 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
 
     @Override
     public void deleteByGuid(String guid) {
-        CategoryConnectionDao.deleteAllCategoryConnectionsByGuid(connections, guid, false);
+        Optional<TemplateEntity> entity = findByGuid(guid);
+        CategoryConnectionDao.deleteTemplateConnectionsById(connections, entity.get().id());
         var sql = "DELETE FROM Template WHERE guid = ?";
         try (
                 var connection = connections.get();
@@ -231,7 +232,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
 
     @Override
     public void deleteAll() {
-        CategoryConnectionDao.deleteAllCategoryConnections(connections, false);
+        CategoryConnectionDao.deleteAllTemplateConnections(connections);
         var sql = "DELETE FROM Template";
         try (
                 var connection = connections.get();
@@ -263,7 +264,7 @@ public final class TemplateDao implements DataAccessObject<TemplateEntity> {
     }
 
     private TemplateEntity templateFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsByGuid(connections, resultSet.getString("guid"), false);
+        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsById(connections, resultSet.getLong("id"), false);
         Time time = resultSet.getTime("time");
         return new TemplateEntity(
                 resultSet.getString("guid"),

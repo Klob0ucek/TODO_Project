@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.todoapp.service.validation;
+package cz.muni.fi.pv168.project.todoapp.business.service.validation;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.UniqueNameProvider;
 import cz.muni.fi.pv168.project.todoapp.business.service.validation.ValidationResult;
