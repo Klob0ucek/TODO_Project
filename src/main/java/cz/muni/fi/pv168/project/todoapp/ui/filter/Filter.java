@@ -2,7 +2,9 @@ package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
+import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.components.FilterComboBoxBuilder;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterCategoryValues;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterDoneValues;
@@ -12,6 +14,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterDoneValuesRende
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,7 +34,7 @@ public class Filter {
     private final DefaultComboBoxModel<Category> categoriesModel;
     private JComboBox<Either<SpecialFilterCategoryValues, Category>> categoryComboBox;
     private final EventTableFilter eventTableFilter;
-    private final CrudHolder crudHolder;
+    private final CrudService<Event> eventCrudService;
     private final DatePicker fromDate = new DatePicker(CustomDatePickerSettings.getSettings());
     private final DatePicker toDate = new DatePicker(CustomDatePickerSettings.getSettings());
     private final JSpinner intervalLower;
@@ -40,19 +43,22 @@ public class Filter {
 
 
     public Filter(
-            CrudHolder crudHolder,
+            CrudService<Event> eventCrudService,
             EventTableFilter eventTableFilter,
             DefaultComboBoxModel<Category> catsModel
     ) {
-        this.crudHolder = crudHolder;
+        this.eventCrudService = eventCrudService;
         this.eventTableFilter = eventTableFilter;
         this.categoriesModel = catsModel;
         this.doneComboBox = createDoneFilter(eventTableFilter);
         this.categoryComboBox = createCategoryFilter(eventTableFilter);
+
+        var events = eventCrudService.findAll();
+
         this.intervalLower = new JSpinner(
-                new SpinnerNumberModel(crudHolder.getLowestDuration(), 0, 525600, 5));
+                new SpinnerNumberModel(EventTableFilter.getLowestDuration(events), 0, 525600, 5));
         this.intervalUpper = new JSpinner(
-                new SpinnerNumberModel(crudHolder.getHighestDuration(), 0, 525600, 5));
+                new SpinnerNumberModel(EventTableFilter.getHighestDuration(events), 0, 525600, 5));
         initIntervals();
         initDates();
         resetButton.addActionListener(e -> resetFilters());
@@ -118,8 +124,9 @@ public class Filter {
     }
 
     public void resetIntervals() {
-        intervalLower.setValue(crudHolder.getLowestDuration());
-        intervalUpper.setValue(crudHolder.getHighestDuration());
+        var events = eventCrudService.findAll();
+        intervalLower.setValue(EventTableFilter.getLowestDuration(events));
+        intervalUpper.setValue(EventTableFilter.getHighestDuration(events));
     }
 
     public void resetFilters() {

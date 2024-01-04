@@ -51,7 +51,7 @@ public class TabFactory {
             CrudHolder crudHolder
     ) {
         return new TemplatesTab.BuildTemplate()
-                .addTabDetails("Templates", ComponentFactory.createTemplateTable(model, crudHolder), frame, crudHolder)
+                .addTabDetails("Templates", ComponentFactory.createTemplateTable(model, crudHolder.getCategoryCrudService()), frame, crudHolder)
                 .addToolBarManager(toolBarManager)
                 .build();
     }

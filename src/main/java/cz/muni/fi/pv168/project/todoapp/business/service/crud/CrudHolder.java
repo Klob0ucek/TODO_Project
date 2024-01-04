@@ -68,29 +68,6 @@ public class CrudHolder {
         return intervalCrudService.findAll();
     }
 
-    public int getLowestDuration() {
-        var min = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).min();
-        return min.isEmpty() ? 0 : (int) min.getAsLong();
-    }
-
-    public int getHighestDuration() {
-        var max = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).max();
-        return max.isEmpty() ? 0 : (int) max.getAsLong();
-    }
-
-    public Collection<CategoryColor> getUsedColors() {
-        return getCategories().stream().map(Category::getColor).toList();
-    }
-
-    public CategoryColor[] getAvailableColors() {
-        return Arrays.stream(CategoryColor.values()).filter(categoryColor -> !getUsedColors().contains(categoryColor)).toArray(CategoryColor[]::new);
-    }
-
-    public Optional<Category> getCategoryByGuid(String guid) {
-        var categoryList = getCategories().stream().filter(category -> category.getGuid().equals(guid)).toList();
-        return categoryList.isEmpty() ? Optional.empty() : Optional.of(categoryList.get(0));
-    }
-
     public CrudService<Event> getEventCrudService() {
         return eventCrudService;
     }
