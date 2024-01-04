@@ -153,7 +153,6 @@ public final class EventDao implements DataAccessObject<EventEntity> {
             statement.setString(1, guid);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                resultSet.close();
                 return Optional.of(eventFromResultSet(resultSet));
             } else {
                 resultSet.close();
@@ -261,7 +260,7 @@ public final class EventDao implements DataAccessObject<EventEntity> {
     }
 
     private EventEntity eventFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Category> cats = CategoryConnectionDao.findAllCategoryConnectionsById(connections, resultSet.getLong("id"), true);
+        List<Category> cats = CategoryConnectionDao.findEventCategoriesById(connections, resultSet.getLong("id"));
         Date date = resultSet.getDate("date");
         Time time = resultSet.getTime("time");
         return new EventEntity(
