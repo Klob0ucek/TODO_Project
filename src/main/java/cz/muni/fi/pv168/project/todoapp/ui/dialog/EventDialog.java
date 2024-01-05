@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class EventDialog extends EntityDialog<Event> {
     private final ComboBoxModel<Template> templateListModel;
@@ -158,7 +160,12 @@ public class EventDialog extends EntityDialog<Event> {
 
     @Override
     Event getEntity() {
-        return new Event(guid, doneField.isSelected(), nameField.getText(), categories, locationField.getText(),
+        var checkBoxes = categoryOptions.getCheckBoxes();
+        var newCategories = IntStream.range(0, checkBoxes.size())
+                .filter(i -> checkBoxes.get(i).getState())
+                .mapToObj(this.categories::get)
+                .collect(Collectors.toList());
+        return new Event(guid, doneField.isSelected(), nameField.getText(), newCategories, locationField.getText(),
                 dateTimePicker.getDatePicker().getDate(), dateTimePicker.getTimePicker().getTime(),
                 Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }

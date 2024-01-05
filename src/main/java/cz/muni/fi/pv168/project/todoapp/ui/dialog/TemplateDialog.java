@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TemplateDialog extends EntityDialog<Template> {
     private final JCheckBox doneField = new JCheckBox();
@@ -72,7 +74,12 @@ public class TemplateDialog extends EntityDialog<Template> {
 
     @Override
     Template getEntity() {
-        return new Template(guid, templateNameField.getText(), doneField.isSelected(), eventNameField.getText(), categories, locationField.getText(),
+        var checkBoxes = categoryOptions.getCheckBoxes();
+        var newCategories = IntStream.range(0, checkBoxes.size())
+                .filter(i -> checkBoxes.get(i).getState())
+                .mapToObj(this.categories::get)
+                .collect(Collectors.toList());
+        return new Template(guid, templateNameField.getText(), doneField.isSelected(), eventNameField.getText(), newCategories, locationField.getText(),
                 timePicker.getTime(), Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }
