@@ -52,6 +52,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.tab.TabFactory;
 import cz.muni.fi.pv168.project.todoapp.ui.tab.TabHolder;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
+import java.util.Optional;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -63,10 +64,6 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainWindow {
     private final JFrame frame = createFrame();
@@ -86,15 +83,17 @@ public class MainWindow {
         TabHolder tabHolder = new TabHolder(tabbedPane, tabs);
         TableRowSorter<ScheduleTableModel> rowSorter = new TableRowSorter<>(scheduleTableModel);
         rowSorter.toggleSortOrder(4);
-        EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder);
-        DefaultComboBoxModel<Category> comboBoxModel = new DefaultComboBoxModel<>(crudHolder.getCategories().toArray(Category[]::new));
-        Filter filter = new Filter(crudHolder, eventTableFilter, comboBoxModel);
+        EventTableFilter eventTableFilter = new EventTableFilter(rowSorter, crudHolder.getEventCrudService().findAll());
+        DefaultComboBoxModel<Category> comboBoxModel = new DefaultComboBoxModel<>(crudHolder.getCategoryCrudService().findAll().toArray(Category[]::new));
+        Filter filter = new Filter(crudHolder.getEventCrudService(), eventTableFilter, comboBoxModel);
         categoryTableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 Either<SpecialFilterCategoryValues, Category> selected = (Either<SpecialFilterCategoryValues, Category>) comboBoxModel.getSelectedItem();
                 Category placeholder = new Category("X", CategoryColor.YELLOW);
                 comboBoxModel.addElement(placeholder);
+
+                var categories = crudHolder.getCategoryCrudService().findAll();
 
                 for (int size = comboBoxModel.getSize() - 1; size >= 0; size--) {
                     Category cat = comboBoxModel.getElementAt(size);
@@ -103,19 +102,24 @@ public class MainWindow {
                     }
                 }
                 if ((selected instanceof Either<?, ?>) && selected.getLeft().isEmpty()) {
-                    var aux = crudHolder.getCategoryByGuid((selected.getRight().get()).getGuid());
+                    var aux = getCategoryByGuid((selected.getRight().get()).getGuid(), categories);
                     selected = aux.isPresent() ? Either.right(aux.get()) : Either.left(SpecialFilterCategoryValues.ALL);
                 }
-                comboBoxModel.addAll(crudHolder.getCategories());
+                comboBoxModel.addAll(categories);
                 comboBoxModel.removeElement(placeholder);
                 comboBoxModel.setSelectedItem(selected);
+            }
+
+            private Optional<Category> getCategoryByGuid(String guid, List<Category> categories) {
+                var categoryList = categories.stream().filter(category -> category.getGuid().equals(guid)).toList();
+                return categoryList.isEmpty() ? Optional.empty() : Optional.of(categoryList.get(0));
             }
         });
 
         ToolBarManager toolBarManager = createToolBarManager(verticalToolBar, filter);
         createTabs(toolBarManager, tabbedPane, filter, rowSorter);
 
-        Statistics statistics = new Statistics(crudHolder);
+        Statistics statistics = new Statistics(crudHolder.getEventCrudService(), crudHolder.getCategoryCrudService());
         addListeners(statistics);
 
         tabbedPane.addChangeListener(new TabChangeListener(tabHolder));

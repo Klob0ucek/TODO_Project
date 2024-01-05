@@ -29,7 +29,7 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
         );
     }
 
-    public void setRowBackgroundColors(JTable table, CrudHolder crudHolder) {
-        table.setDefaultRenderer(Object.class, new EventColorRenderer(crudHolder));
+    public void setRowBackgroundColors(JTable table, CrudService<Category> categoryCrudService) {
+        table.setDefaultRenderer(Object.class, new EventColorRenderer(categoryCrudService));
     }
 }

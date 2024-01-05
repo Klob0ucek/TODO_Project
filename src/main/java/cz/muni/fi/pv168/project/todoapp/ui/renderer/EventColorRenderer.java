@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.util.ColorMixer;
 
 import java.awt.Color;
@@ -17,10 +18,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class EventColorRenderer extends DefaultTableCellRenderer {
-    private final CrudHolder crudHolder;
+    private final CrudService<Category> categoryCrudService;
 
-    public EventColorRenderer(CrudHolder crudHolder) {
-        this.crudHolder = crudHolder;
+    public EventColorRenderer(CrudService<Category> categoryCrudService) {
+        this.categoryCrudService = categoryCrudService;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class EventColorRenderer extends DefaultTableCellRenderer {
                 return this;
             }
 
-            List<Color> colors = crudHolder.getCategories().stream()
+            List<Color> colors = categoryCrudService.findAll().stream()
                     .filter(c -> names.contains(c.getName()))
                     .map(c -> c.getColor().getColor())
                     .toList();

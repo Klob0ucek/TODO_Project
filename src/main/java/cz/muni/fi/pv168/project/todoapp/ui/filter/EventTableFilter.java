@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.filter;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EntityMatcher;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EntityMatchers;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EventCategoryMatcher;
@@ -15,6 +16,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.table.TableRowSorter;
 
@@ -24,8 +26,8 @@ import javax.swing.table.TableRowSorter;
 public final class EventTableFilter {
     private final EventCompoundMatcher eventCompoundMatcher;
 
-    public EventTableFilter(TableRowSorter<ScheduleTableModel> rowSorter, CrudHolder crudHolder) {
-        eventCompoundMatcher = new EventCompoundMatcher(rowSorter, crudHolder);
+    public EventTableFilter(TableRowSorter<ScheduleTableModel> rowSorter, List<Event> events) {
+        eventCompoundMatcher = new EventCompoundMatcher(rowSorter, events);
         rowSorter.setRowFilter(eventCompoundMatcher);
     }
 
@@ -59,6 +61,16 @@ public final class EventTableFilter {
         eventCompoundMatcher.setToDate(toDate);
     }
 
+    public static int getLowestDuration(List<Event> events) {
+        var min = events.stream().mapToLong(e -> e.getDuration().toMinutes()).min();
+        return min.isEmpty() ? 0 : (int) min.getAsLong();
+    }
+
+    public static int getHighestDuration(List<Event> events) {
+        var max = events.stream().mapToLong(e -> e.getDuration().toMinutes()).max();
+        return max.isEmpty() ? 0 : (int) max.getAsLong();
+    }
+
     /**
      * Container class for all matchers for the ScheduleTable.
      * <p>
@@ -73,9 +85,10 @@ public final class EventTableFilter {
         private final EventDurationMatcher durationMatcher;
         private final EventDateMatcher dateMatcher;
 
-        private EventCompoundMatcher(TableRowSorter<ScheduleTableModel> rowSorter, CrudHolder crudHolder) {
+        private EventCompoundMatcher(TableRowSorter<ScheduleTableModel> rowSorter, List<Event> events) {
             this.rowSorter = rowSorter;
-            durationMatcher = new EventDurationMatcher(crudHolder.getLowestDuration(), crudHolder.getHighestDuration());
+
+            durationMatcher = new EventDurationMatcher(getLowestDuration(events), getHighestDuration(events));
             dateMatcher = new EventDateMatcher();
         }
 

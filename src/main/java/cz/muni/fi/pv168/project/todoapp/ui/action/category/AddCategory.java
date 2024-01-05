@@ -7,7 +7,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.CategoryDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.NotificationDialog;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
-import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -29,8 +28,8 @@ public class AddCategory extends AbstractAddAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var dialog = new CategoryDialog(getCrudHolder());
-        if (getCrudHolder().getAvailableColors().length == 0) {
+        var dialog = new CategoryDialog(getCrudHolder().getCategoryCrudService().findAll());
+        if (dialog.getAvailableColors(getCrudHolder().getCategoryCrudService().findAll()).length == 0) {
             new NotificationDialog(getFrame(), "You have too many categories. Delete some before adding new.").showNotification();
             return;
         }
