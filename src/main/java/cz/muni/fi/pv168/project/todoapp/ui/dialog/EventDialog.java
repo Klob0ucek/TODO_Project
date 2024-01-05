@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
@@ -44,8 +45,7 @@ public class EventDialog extends EntityDialog<Event> {
             new SpinnerNumberModel(0, 0, 525600, 1));
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
-
-    private Event event;
+    private String guid;
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories) {
@@ -55,26 +55,14 @@ public class EventDialog extends EntityDialog<Event> {
         OptionGroupInitializer.initializer("Categories", JCheckBoxMenuItem::new,
                 categories.stream().map(Category::getName).toList(), categoriesMenuBar, categoryOptions);
         addFields();
+        guid = UniqueIdProvider.newId();
     }
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories, Event event) {
         this(templateListModel, intervalListModel, categories);
-        makeCopy(event);
+        guid = event.getGuid();
         setFields(event);
-    }
-
-    private void makeCopy(Event event) {
-        this.event = new Event(
-                event.getGuid(),
-                event.isDone(),
-                event.getName(),
-                event.getCategories(),
-                event.getLocation(),
-                event.getDate(),
-                event.getTime(),
-                event.getDuration()
-        );
     }
 
     private void setFields(Event event) {
@@ -170,7 +158,7 @@ public class EventDialog extends EntityDialog<Event> {
 
     @Override
     Event getEntity() {
-        return new Event(doneField.isSelected(), nameField.getText(), categories, locationField.getText(),
+        return new Event(guid, doneField.isSelected(), nameField.getText(), categories, locationField.getText(),
                 dateTimePicker.getDatePicker().getDate(), dateTimePicker.getTimePicker().getTime(),
                 Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
