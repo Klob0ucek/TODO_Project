@@ -3,16 +3,15 @@ package cz.muni.fi.pv168.project.todoapp.ui.renderer;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class CategoryListRenderer {
     public static String renderListCategory(List<Category> categories) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < categories.size(); i++) {
-            stringBuilder.append(categories.get(i).getName());
-            if (i != categories.size() - 1) {
-                stringBuilder.append(", ");
-            }
+        StringJoiner stringJoiner = new StringJoiner(", ");
+        stringJoiner.setEmptyValue("");
+        for (Category category : categories) {
+            stringJoiner.add(category.getName());
         }
-        return stringBuilder.toString();
+        return stringJoiner.toString();
     }
 }

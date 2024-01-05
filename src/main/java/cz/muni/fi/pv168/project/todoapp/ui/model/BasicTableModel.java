@@ -36,7 +36,7 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object o = columns.get(columnIndex).getValue(getEntity(rowIndex));
 
-        if (o instanceof List && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof Category) {
+        if (o instanceof List) {
             return CategoryListRenderer.renderListCategory((List<Category>) o);
         } else if (o instanceof Duration) {
             return DurationRenderer.renderDuration((Duration) o);
@@ -61,10 +61,9 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        // TODO should call crudService.update(entity) and then call refreshFromCrud()
-        // but value needs to be converted to proper expected type
         T entity = getEntity(rowIndex);
         columns.get(columnIndex).setValue(value, entity);
+        updateRow(entity);
     }
 
     public T getEntity(int rowIndex) {
@@ -95,16 +94,6 @@ public abstract class BasicTableModel<T extends Entity> extends AbstractTableMod
 
     public void refreshFromCrud() {
         this.rows = new ArrayList<>(crudService.findAll());
-        fireTableDataChanged();
-    }
-
-    public void refreshFromCrud(ImportOption importOption) {
-        if (importOption.equals(ImportOption.REWRITE)) {
-            this.rows = new ArrayList<>(crudService.findAll());
-        } else {
-            // TODO add validation of duplicity
-            this.rows.addAll(crudService.findAll());
-        }
         fireTableDataChanged();
     }
 }

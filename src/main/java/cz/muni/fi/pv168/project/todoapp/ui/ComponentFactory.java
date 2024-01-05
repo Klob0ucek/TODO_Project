@@ -3,15 +3,17 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
+import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.model.CategoryTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.HelpTab;
 import cz.muni.fi.pv168.project.todoapp.ui.model.IntervalTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ScheduleTableModel;
 import cz.muni.fi.pv168.project.todoapp.ui.model.TemplateTableModel;
 
-import java.util.List;
-import java.util.Locale;
-import javax.swing.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -43,7 +45,11 @@ public class ComponentFactory {
 
     public static JTable createScheduleTable(ScheduleTableModel model, CrudHolder crudHolder) {
         JTable table = createTableFromModel(model);
-        model.setRowBackgroundColors(table, crudHolder);
+        model.setRowBackgroundColors(table, crudHolder.getCategoryCrudService());
+        table.getColumnModel().getColumn(0).setPreferredWidth(5);
+        table.getColumnModel().getColumn(4).setPreferredWidth(10);
+        table.getColumnModel().getColumn(5).setPreferredWidth(10);
+        table.getColumnModel().getColumn(6).setPreferredWidth(10);
         return table;
     }
 
@@ -58,9 +64,12 @@ public class ComponentFactory {
         return table;
     }
 
-    public static JTable createTemplateTable(TemplateTableModel model, CrudHolder crudHolder) {
+    public static JTable createTemplateTable(TemplateTableModel model, CrudService<Category> categoryCrudService) {
         JTable table = createTableFromModel(model);
-        model.setRowBackgroundColors(table, crudHolder);
+        model.setRowBackgroundColors(table, categoryCrudService);
+        table.getColumnModel().getColumn(1).setPreferredWidth(5);
+        table.getColumnModel().getColumn(5).setPreferredWidth(10);
+        table.getColumnModel().getColumn(6).setPreferredWidth(10);
         return table;
     }
 

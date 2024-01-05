@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 
 public class Event extends AbstractCoreEvent {
     private LocalDate date;
@@ -22,7 +21,18 @@ public class Event extends AbstractCoreEvent {
         this.date = date;
     }
 
-    public Event() {
+    public Event(
+            String guid,
+            boolean isDone,
+            String name,
+            List<Category> categories,
+            String location,
+            LocalDate date,
+            LocalTime time,
+            Duration duration
+    ) {
+        super(guid, isDone, name, categories, location, time, duration);
+        this.date = date;
     }
 
     public LocalDate getDate() {
@@ -49,16 +59,4 @@ public class Event extends AbstractCoreEvent {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Event event)) return false;
-
-        return date.equals(event.date) && super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, super.hashCode());
-    }
 }

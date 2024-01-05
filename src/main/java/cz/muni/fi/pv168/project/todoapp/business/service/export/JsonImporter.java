@@ -30,16 +30,21 @@ public class JsonImporter implements BatchImporter {
     public Batch importBatch(String filePath) {
         Batch batch;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath, Charset.defaultCharset()));) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath, Charset.defaultCharset()))) {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
             gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeDeserializer());
             gsonBuilder.registerTypeAdapter(Duration.class, new DurationDeserializer());
             Gson gson = gsonBuilder.create();
 
-            batch = gson.fromJson(reader.readLine(), Batch.class);
-        } catch (IOException | JsonSyntaxException e) {
-            throw new DataManipulationException("Import failed", e);
+            batch = gson.fromJson(reader, Batch.class);
+        } catch (JsonSyntaxException e) {
+            int colonIndex = e.getMessage().indexOf(":");
+            int pathIndex = e.getMessage().indexOf("path");
+            String newMsg = e.getMessage().substring(colonIndex + 1, pathIndex).trim();
+            throw new DataManipulationException(newMsg, e);
+        } catch (IOException e) {
+            throw new DataManipulationException("Failed to load file: " + filePath, e);
         }
         return batch;
     }
@@ -71,5 +76,4 @@ public class JsonImporter implements BatchImporter {
             return Duration.ofMinutes(json.getAsInt()); //json.getAsJsonPrimitive().getAsString());
         }
     }
-
 }

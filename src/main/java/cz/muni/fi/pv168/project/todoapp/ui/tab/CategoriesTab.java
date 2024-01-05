@@ -18,10 +18,11 @@ public class CategoriesTab extends GeneralTab {
             var table = (JTable) this.getComponent();
             var frame = this.getFrame();
             var crudHolder = this.getCrudHolder();
+            var refresher = this.getRefresher();
             return new CategoriesTab(
                     this
                             .addAddAction(new AddCategory(table, frame, crudHolder))
-                            .addEditAction(new EditCategory(table, frame, crudHolder))
+                            .addEditAction(new EditCategory(table, frame, crudHolder, refresher))
                             .addDeleteAction(new DeleteCategory(table, frame, crudHolder))
                             .addPopupMenu(table)
             );

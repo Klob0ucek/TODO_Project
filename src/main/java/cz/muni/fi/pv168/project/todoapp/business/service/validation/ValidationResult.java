@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 
 /**
  * Validation result stores the list of validation errors

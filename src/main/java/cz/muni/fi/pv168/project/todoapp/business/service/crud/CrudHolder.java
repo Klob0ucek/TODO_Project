@@ -1,12 +1,11 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
-
-import cz.muni.fi.pv168.project.todoapp.business.model.AbstractCoreEvent;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+
 import java.util.List;
 
 /**
@@ -61,22 +60,19 @@ public class CrudHolder {
         return intervalCrudService.findAll();
     }
 
-    public long getDoneEventsCount() {
-        return getEvents().stream().filter((AbstractCoreEvent::isDone)).count();
+    public CrudService<Event> getEventCrudService() {
+        return eventCrudService;
     }
 
-    public long getPlannedEventsCount() {
-        return getEvents().size() - getDoneEventsCount();
+    public CrudService<Category> getCategoryCrudService() {
+        return categoryCrudService;
     }
 
-    public int getLowestDuration() {
-        var min = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).min();
-        return min.isEmpty() ? 0 : (int) min.getAsLong();
+    public CrudService<Template> getTemplateCrudService() {
+        return templateCrudService;
     }
 
-    public int getHighestDuration() {
-        var max = getEvents().stream().mapToLong(e -> e.getDuration().toMinutes()).max();
-        return max.isEmpty() ? 0 : (int) max.getAsLong();
+    public CrudService<Interval> getIntervalCrudService() {
+        return intervalCrudService;
     }
-
 }

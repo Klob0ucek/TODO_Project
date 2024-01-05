@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.todoapp.ui.action;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.model.BasicTableModel;
 
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
@@ -19,12 +20,11 @@ public abstract class AbstractDeleteAction extends AbstractAction {
     private final CrudHolder crudHolder;
 
     public AbstractDeleteAction(
-            Icon icon,
             JTable table,
             JFrame frame,
             CrudHolder crudHolder
     ) {
-        super("Delete", icon);
+        super("Delete", Icons.DELETE.getIcon());
         this.table = table;
         this.frame = frame;
         this.crudHolder = crudHolder;

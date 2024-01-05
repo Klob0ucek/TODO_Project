@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.action.template;
 
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ExistingNameException;
-import cz.muni.fi.pv168.project.todoapp.business.service.exeptions.ValidationException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ExistingNameException;
+import cz.muni.fi.pv168.project.todoapp.business.error.ValidationException;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.ui.action.AbstractAddAction;
 import cz.muni.fi.pv168.project.todoapp.ui.dialog.TemplateDialog;
@@ -11,6 +11,7 @@ import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JTable;
 
@@ -20,7 +21,7 @@ public class AddTemplate extends AbstractAddAction {
             JFrame frame,
             CrudHolder crudHolder
     ) {
-        super(Icons.ADD.getIcon(), table, frame, crudHolder);
+        super(table, frame, crudHolder);
         putValue(SHORT_DESCRIPTION, "Add new template (Alt + a)");
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
     }

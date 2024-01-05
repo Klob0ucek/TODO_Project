@@ -3,7 +3,6 @@ package cz.muni.fi.pv168.project.todoapp.business.model;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class AbstractCoreEvent extends Entity {
     protected boolean isDone;
@@ -15,6 +14,7 @@ public abstract class AbstractCoreEvent extends Entity {
 
     protected AbstractCoreEvent(boolean isDone, String name, List<Category> categories,
                                 String location, LocalTime time, Duration duration) {
+        super(UniqueIdProvider.newId());
         this.isDone = isDone;
         this.name = name;
         this.categories = categories;
@@ -23,7 +23,10 @@ public abstract class AbstractCoreEvent extends Entity {
         this.duration = duration;
     }
 
-    public AbstractCoreEvent() {
+    protected AbstractCoreEvent(String guid, boolean isDone, String name, List<Category> categories,
+                                String location, LocalTime time, Duration duration) {
+        this(isDone, name, categories, location, time, duration);
+        this.guid = guid;
     }
 
     public boolean isDone() {
@@ -76,30 +79,5 @@ public abstract class AbstractCoreEvent extends Entity {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AbstractCoreEvent that)) return false;
-
-        if (isDone != that.isDone) return false;
-        if (!Objects.equals(name, that.name)) return false;
-        if (!Objects.equals(categories, that.categories)) return false;
-        if (!Objects.equals(location, that.location)) return false;
-        if (!Objects.equals(time, that.time)) return false;
-        return Objects.equals(duration, that.duration);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (isDone ? 1 : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (categories != null ? categories.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
-        return result;
     }
 }

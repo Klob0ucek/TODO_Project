@@ -25,19 +25,17 @@ import java.util.List;
 public class JsonExporter implements BatchExporter {
     @Override
     public void exportBatch(Batch batch, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
             gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeSerializer());
             gsonBuilder.registerTypeAdapter(Duration.class, new DurationSerializer());
-            Gson gson = gsonBuilder.create();
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
             writer.write(gson.toJson(batch));
             writer.newLine();
             writer.flush();
         } catch (IOException ignored) {
-
         }
-
     }
 
     @Override

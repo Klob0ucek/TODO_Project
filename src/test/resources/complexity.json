@@ -1,0 +1,73 @@
+{
+  "events": [
+    {
+      "date": "2020-11-11",
+      "isDone": false,
+      "name": "Tennis",
+      "categories": [
+        {
+          "name": "Sport",
+          "color": "BLUE",
+          "guid": "0c5a64aa-6003-4817-8948-7ab3fde76e28"
+        }
+      ],
+      "location": "Tennis Hall Lužánky",
+      "time": "12:45",
+      "duration": 45,
+      "guid": "ecde3bf8-464b-4103-a42d-460fc0372330"
+    },
+    {
+      "date": "2020-11-11",
+      "isDone": false,
+      "name": "Eating",
+      "categories": [
+        {
+          "name": "Food",
+          "color": "RED",
+          "guid": "d3e8a63c-8fd2-49c7-bb90-af105a915a2d"
+        }
+      ],
+      "location": "Burger King",
+      "time": "13:45",
+      "duration": 30,
+      "guid": "fa1d7c6e-3bfd-4d59-8519-36716fd5a006"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Sport",
+      "color": "BLUE",
+      "guid": "0c5a64aa-6003-4817-8948-7ab3fde76e28"
+    },
+    {
+      "name": "Food",
+      "color": "RED",
+      "guid": "d3e8a63c-8fd2-49c7-bb90-af105a915a2d"
+    }
+  ],
+  "templates": [
+    {
+      "templateName": "Golfing",
+      "isDone": false,
+      "name": "Golf",
+      "categories": [
+        {
+          "name": "Sport",
+          "color": "BLUE",
+          "guid": "0c5a64aa-6003-4817-8948-7ab3fde76e28"
+        }
+      ],
+      "location": "Golf course",
+      "duration": 45,
+      "guid": "34b7995c-7a7e-4a7c-9a1c-8ac0047943d6"
+    }
+  ],
+  "intervals": [
+    {
+      "name": "long break",
+      "abbreviation": "lb",
+      "duration": 30,
+      "guid": "d81b9e5e-7757-4d51-8b4b-6cbcf47c1221"
+    }
+  ]
+}

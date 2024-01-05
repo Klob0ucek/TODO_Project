@@ -7,6 +7,7 @@ import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.ColorRowRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.EventColorRenderer;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,7 +29,7 @@ public class ScheduleTableModel extends BasicTableModel<Event> {
         );
     }
 
-    public void setRowBackgroundColors(JTable table, CrudHolder crudHolder) {
-        table.setDefaultRenderer(Object.class, new EventColorRenderer(crudHolder));
+    public void setRowBackgroundColors(JTable table, CrudService<Category> categoryCrudService) {
+        table.setDefaultRenderer(Object.class, new EventColorRenderer(categoryCrudService));
     }
 }

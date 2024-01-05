@@ -16,10 +16,10 @@ public class GuidValidator extends PropertyValidator<String> {
         }
 
         if (guid.length() != 36
-                && guid.charAt(8) != '-'
-                && guid.charAt(13) != '-'
-                && guid.charAt(18) != '-'
-                && guid.charAt(23) != '-') {
+                || guid.charAt(8) != '-'
+                || guid.charAt(13) != '-'
+                || guid.charAt(18) != '-'
+                || guid.charAt(23) != '-') {
             result.add("'%s' length is not in format XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX");
         }
 

@@ -2,6 +2,7 @@ package cz.muni.fi.pv168.project.todoapp.ui;
 
 import cz.muni.fi.pv168.project.todoapp.ui.action.PlaceholderAction;
 import cz.muni.fi.pv168.project.todoapp.ui.action.QuitAction;
+import cz.muni.fi.pv168.project.todoapp.ui.resources.Icons;
 
 import javax.swing.Action;
 import javax.swing.JToolBar;
@@ -10,7 +11,6 @@ import javax.swing.BoxLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 
 public class ToolBarManager {
 
@@ -23,7 +23,12 @@ public class ToolBarManager {
     static {
         for (var modifyAction : ActionType.values()) {
             MODIFY_PLACEHOLDERS[modifyAction.ordinal()] = new PlaceholderAction(
-                    toTitle(modifyAction), null
+                    toTitle(modifyAction),
+                    switch (modifyAction) {
+                        case ADD -> Icons.ADD.getIcon();
+                        case EDIT -> Icons.EDIT.getIcon();
+                        case DELETE -> Icons.DELETE.getIcon();
+                    }
             );
         }
     }
