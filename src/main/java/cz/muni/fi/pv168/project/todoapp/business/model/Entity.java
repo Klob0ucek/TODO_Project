@@ -3,17 +3,11 @@ package cz.muni.fi.pv168.project.todoapp.business.model;
 import java.util.Objects;
 
 public abstract class Entity {
-
     protected String guid;
-
-    protected Entity() {
-        this.guid = UniqueIdProvider.newId();
-    }
 
     protected Entity(String guid) {
         this.guid = guid;
     }
-
 
     /**
      * Returns globally unique identifier of the given entity.

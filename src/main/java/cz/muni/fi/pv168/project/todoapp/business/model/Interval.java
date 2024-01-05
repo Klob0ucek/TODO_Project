@@ -7,14 +7,12 @@ public class Interval extends Entity {
     private String abbreviation;
     private Duration duration;
 
-    public Interval() {
-    }
-
     public Interval(
             String name,
             String abbreviation,
             Duration duration
     ) {
+        super(UniqueIdProvider.newId());
         this.name = name;
         this.abbreviation = abbreviation;
         this.duration = duration;
