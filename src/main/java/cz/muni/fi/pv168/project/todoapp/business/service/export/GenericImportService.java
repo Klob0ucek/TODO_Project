@@ -39,22 +39,25 @@ public class GenericImportService implements ImportService {
     @Override
     public void importData(String filePath, ImportOption option) {
         Batch batch = getJsonImporter().importBatch(filePath);
-        if (option == ImportOption.REWRITE) {
-            eventCrudService.deleteAll();
-            templateCrudService.deleteAll();
-            categoryCrudService.deleteAll();
-            intervalCrudService.deleteAll();
+        switch (option) {
+            case REWRITE -> {
+                eventCrudService.deleteAll();
+                templateCrudService.deleteAll();
+                categoryCrudService.deleteAll();
+                intervalCrudService.deleteAll();
 
-            // Categories have to be stored first - events and templates depends on them
-            batch.categories().forEach(this::createCategory);
-            batch.events().forEach(this::createEvent);
-            batch.templates().forEach(this::createTemplate);
-            batch.intervals().forEach(this::createInterval);
-        } else {
-            batch.categories().forEach(this::mergeCategory);
-            batch.events().forEach(this::mergeEvent);
-            batch.templates().forEach(this::mergeTemplate);
-            batch.intervals().forEach(this::mergeInterval);
+                // Categories have to be stored first - events and templates depends on them
+                batch.categories().forEach(this::createCategory);
+                batch.events().forEach(this::createEvent);
+                batch.templates().forEach(this::createTemplate);
+                batch.intervals().forEach(this::createInterval);
+            }
+            case MERGE -> {
+                batch.categories().forEach(this::mergeCategory);
+                batch.events().forEach(this::mergeEvent);
+                batch.templates().forEach(this::mergeTemplate);
+                batch.intervals().forEach(this::mergeInterval);
+            }
         }
     }
 
