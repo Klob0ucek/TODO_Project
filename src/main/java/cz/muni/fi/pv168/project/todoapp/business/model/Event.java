@@ -8,9 +8,6 @@ import java.util.List;
 public class Event extends AbstractCoreEvent {
     private LocalDate date;
 
-    public Event() {
-    }
-
     public Event(
             boolean isDone,
             String name,

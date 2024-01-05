@@ -47,7 +47,7 @@ public class EventDialog extends EntityDialog<Event> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private final Event event = new Event();
+    private Event event;
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories) {
@@ -67,14 +67,16 @@ public class EventDialog extends EntityDialog<Event> {
     }
 
     private void makeCopy(Event event) {
-        this.event.setGuid(event.getGuid());
-        this.event.setDone(event.isDone());
-        this.event.setName(event.getName());
-        this.event.setCategories(event.getCategories());
-        this.event.setLocation(event.getLocation());
-        this.event.setDate(event.getDate());
-        this.event.setTime(event.getTime());
-        this.event.setDuration(event.getDuration());
+        this.event = new Event(
+                event.getGuid(),
+                event.isDone(),
+                event.getName(),
+                event.getCategories(),
+                event.getLocation(),
+                event.getDate(),
+                event.getTime(),
+                event.getDuration()
+        );
     }
 
     private void setFields(Event event) {

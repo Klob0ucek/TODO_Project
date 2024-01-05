@@ -12,11 +12,9 @@ public abstract class AbstractCoreEvent extends Entity {
     protected LocalTime time;
     protected Duration duration;
 
-    public AbstractCoreEvent() {
-    }
-
     protected AbstractCoreEvent(boolean isDone, String name, List<Category> categories,
                                 String location, LocalTime time, Duration duration) {
+        super(UniqueIdProvider.newId());
         this.isDone = isDone;
         this.name = name;
         this.categories = categories;

@@ -7,9 +7,6 @@ import java.util.List;
 public class Template extends AbstractCoreEvent {
     String templateName;
 
-    public Template() {
-    }
-
     public Template(String templateName,
                     boolean isDone,
                     String eventName,

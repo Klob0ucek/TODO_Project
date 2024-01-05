@@ -13,7 +13,7 @@ public class IntervalDialog extends EntityDialog<Interval> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private final Interval interval = new Interval();
+    private Interval interval;
 
     public IntervalDialog() {
         addFields();
@@ -26,10 +26,12 @@ public class IntervalDialog extends EntityDialog<Interval> {
     }
 
     private void makeCopy(Interval interval) {
-        this.interval.setGuid(interval.getGuid());
-        this.interval.setName(interval.getName());
-        this.interval.setAbbreviation(interval.getAbbreviation());
-        this.interval.setDuration(interval.getDuration());
+        this.interval = new Interval(
+                interval.getGuid(),
+                interval.getName(),
+                interval.getAbbreviation(),
+                interval.getDuration()
+        );
     }
 
     private void setFields(Interval interval) {

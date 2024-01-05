@@ -4,10 +4,8 @@ public class Category extends Entity {
     private String name;
     private CategoryColor color;
 
-    public Category() {
-    }
-
     public Category(String name, CategoryColor color) {
+        super(UniqueIdProvider.newId());
         this.name = name;
         this.color = color;
     }
