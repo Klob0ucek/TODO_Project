@@ -16,6 +16,7 @@ public class ApplicationErrorHandler implements Thread.UncaughtExceptionHandler 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
 
+        e.printStackTrace(System.err);
 
         if (e instanceof IntervalNameNotUniqueException) {
             showGeneralError(e.getMessage(), false);

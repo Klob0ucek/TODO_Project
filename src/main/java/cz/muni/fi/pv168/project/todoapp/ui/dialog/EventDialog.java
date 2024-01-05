@@ -13,19 +13,17 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.ComboBoxRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
 import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class EventDialog extends EntityDialog<Event> {
     private final ComboBoxModel<Template> templateListModel;
@@ -172,18 +170,8 @@ public class EventDialog extends EntityDialog<Event> {
 
     @Override
     Event getEntity() {
-        event.setDone(doneField.isSelected());
-        List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
-        List<Category> categories = IntStream.range(0, checkBoxes.size())
-                .filter(i -> checkBoxes.get(i).getState())
-                .mapToObj(this.categories::get)
-                .collect(Collectors.toList());
-        event.setCategories(categories);
-        event.setName(nameField.getText());
-        event.setLocation(locationField.getText());
-        event.setDate(dateTimePicker.getDatePicker().getDate());
-        event.setTime(dateTimePicker.getTimePicker().getTime());
-        event.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return event;
+        return new Event(doneField.isSelected(), nameField.getText(), categories, locationField.getText(),
+                dateTimePicker.getDatePicker().getDate(), dateTimePicker.getTimePicker().getTime(),
+                Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }

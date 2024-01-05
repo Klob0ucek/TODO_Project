@@ -4,13 +4,13 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.ui.renderer.ComboBoxRenderer;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import javax.swing.JTextField;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class CategoryDialog extends EntityDialog<Category> {
     private final JTextField nameField = new JTextField();
@@ -60,8 +60,6 @@ public class CategoryDialog extends EntityDialog<Category> {
 
     @Override
     Category getEntity() {
-        category.setName(nameField.getText());
-        category.setColor((CategoryColor) categoryColorModel.getSelectedItem());
-        return category;
+        return new Category(nameField.getText(), (CategoryColor) categoryColorModel.getSelectedItem());
     }
 }

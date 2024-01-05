@@ -7,16 +7,14 @@ import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class TemplateDialog extends EntityDialog<Template> {
     private final JCheckBox doneField = new JCheckBox();
@@ -85,18 +83,7 @@ public class TemplateDialog extends EntityDialog<Template> {
 
     @Override
     Template getEntity() {
-        template.setTemplateName(templateNameField.getText());
-        template.setDone(doneField.isSelected());
-        template.setName(eventNameField.getText());
-        List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
-        List<Category> categories = IntStream.range(0, checkBoxes.size())
-                .filter(i -> checkBoxes.get(i).getState())
-                .mapToObj(this.categories::get)
-                .collect(Collectors.toList());
-        template.setCategories(categories);
-        template.setLocation(locationField.getText());
-        template.setTime(timePicker.getTime());
-        template.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return template;
+        return new Template(templateNameField.getText(), doneField.isSelected(), eventNameField.getText(), categories, locationField.getText(),
+                timePicker.getTime(), Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }

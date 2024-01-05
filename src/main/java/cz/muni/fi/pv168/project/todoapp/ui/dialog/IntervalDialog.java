@@ -48,9 +48,6 @@ public class IntervalDialog extends EntityDialog<Interval> {
 
     @Override
     Interval getEntity() {
-        interval.setName(nameField.getText());
-        interval.setAbbreviation(abbreviationField.getText());
-        interval.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return interval;
+        return new Interval(nameField.getText(), abbreviationField.getText(), Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }
