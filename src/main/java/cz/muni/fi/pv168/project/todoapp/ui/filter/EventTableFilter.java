@@ -2,8 +2,6 @@ package cz.muni.fi.pv168.project.todoapp.ui.filter;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EntityMatcher;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EntityMatchers;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.matcher.EventCategoryMatcher;

@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
@@ -13,25 +14,17 @@ public class IntervalDialog extends EntityDialog<Interval> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Interval interval;
+    private String guid;
 
     public IntervalDialog() {
         addFields();
+        guid = UniqueIdProvider.newId();
     }
 
     public IntervalDialog(Interval interval) {
         addFields();
-        makeCopy(interval);
+        guid = interval.getGuid();
         setFields(interval);
-    }
-
-    private void makeCopy(Interval interval) {
-        this.interval = new Interval(
-                interval.getGuid(),
-                interval.getName(),
-                interval.getAbbreviation(),
-                interval.getDuration()
-        );
     }
 
     private void setFields(Interval interval) {
@@ -48,9 +41,6 @@ public class IntervalDialog extends EntityDialog<Interval> {
 
     @Override
     Interval getEntity() {
-        interval.setName(nameField.getText());
-        interval.setAbbreviation(abbreviationField.getText());
-        interval.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return interval;
+        return new Interval(guid, nameField.getText(), abbreviationField.getText(), Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }

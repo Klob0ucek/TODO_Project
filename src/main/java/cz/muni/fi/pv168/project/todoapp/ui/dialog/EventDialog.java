@@ -5,6 +5,7 @@ import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 import cz.muni.fi.pv168.project.todoapp.ui.model.ComboBoxModelAdapter;
@@ -13,15 +14,15 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.ComboBoxRenderer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,8 +47,7 @@ public class EventDialog extends EntityDialog<Event> {
             new SpinnerNumberModel(0, 0, 525600, 1));
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
-
-    private Event event;
+    private String guid;
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories) {
@@ -57,26 +57,14 @@ public class EventDialog extends EntityDialog<Event> {
         OptionGroupInitializer.initializer("Categories", JCheckBoxMenuItem::new,
                 categories.stream().map(Category::getName).toList(), categoriesMenuBar, categoryOptions);
         addFields();
+        guid = UniqueIdProvider.newId();
     }
 
     public EventDialog(ListModel<Template> templateListModel, ListModel<Interval> intervalListModel,
                        List<Category> categories, Event event) {
         this(templateListModel, intervalListModel, categories);
-        makeCopy(event);
+        guid = event.getGuid();
         setFields(event);
-    }
-
-    private void makeCopy(Event event) {
-        this.event = new Event(
-                event.getGuid(),
-                event.isDone(),
-                event.getName(),
-                event.getCategories(),
-                event.getLocation(),
-                event.getDate(),
-                event.getTime(),
-                event.getDuration()
-        );
     }
 
     private void setFields(Event event) {
@@ -172,18 +160,13 @@ public class EventDialog extends EntityDialog<Event> {
 
     @Override
     Event getEntity() {
-        event.setDone(doneField.isSelected());
-        List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
-        List<Category> categories = IntStream.range(0, checkBoxes.size())
+        var checkBoxes = categoryOptions.getCheckBoxes();
+        var newCategories = IntStream.range(0, checkBoxes.size())
                 .filter(i -> checkBoxes.get(i).getState())
                 .mapToObj(this.categories::get)
                 .collect(Collectors.toList());
-        event.setCategories(categories);
-        event.setName(nameField.getText());
-        event.setLocation(locationField.getText());
-        event.setDate(dateTimePicker.getDatePicker().getDate());
-        event.setTime(dateTimePicker.getTimePicker().getTime());
-        event.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return event;
+        return new Event(guid, doneField.isSelected(), nameField.getText(), newCategories, locationField.getText(),
+                dateTimePicker.getDatePicker().getDate(), dateTimePicker.getTimePicker().getTime(),
+                Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }

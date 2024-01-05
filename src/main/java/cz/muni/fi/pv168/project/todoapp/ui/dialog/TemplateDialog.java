@@ -3,15 +3,16 @@ package cz.muni.fi.pv168.project.todoapp.ui.dialog;
 import com.github.lgooddatepicker.components.TimePicker;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
+import cz.muni.fi.pv168.project.todoapp.business.model.UniqueIdProvider;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.CheckGroup;
 import cz.muni.fi.pv168.project.todoapp.ui.auxiliary.OptionGroupInitializer;
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomTimePickerSettings;
 
-import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import java.time.Duration;
 import java.util.List;
@@ -30,32 +31,20 @@ public class TemplateDialog extends EntityDialog<Template> {
     private final JSpinner durationSpinner = new JSpinner(
             new SpinnerNumberModel(0, 0, 525600, 1));
 
-    private Template template;
+    private String guid;
 
     public TemplateDialog(List<Category> categories) {
         this.categories = categories;
         OptionGroupInitializer.initializer("Categories", JCheckBoxMenuItem::new,
                 categories.stream().map(Category::getName).toList(), categoriesMenuBar, categoryOptions);
         addFields();
+        guid = UniqueIdProvider.newId();
     }
 
     public TemplateDialog(List<Category> categories, Template template) {
         this(categories);
-        makeCopy(template);
+        guid = template.getGuid();
         setFields(template);
-    }
-
-    private void makeCopy(Template template) {
-        this.template = new Template(
-                template.getGuid(),
-                template.getTemplateName(),
-                template.isDone(),
-                template.getName(),
-                template.getCategories(),
-                template.getLocation(),
-                template.getTime(),
-                template.getDuration()
-        );
     }
 
     private void setFields(Template template) {
@@ -85,18 +74,12 @@ public class TemplateDialog extends EntityDialog<Template> {
 
     @Override
     Template getEntity() {
-        template.setTemplateName(templateNameField.getText());
-        template.setDone(doneField.isSelected());
-        template.setName(eventNameField.getText());
-        List<JCheckBoxMenuItem> checkBoxes = categoryOptions.getCheckBoxes();
-        List<Category> categories = IntStream.range(0, checkBoxes.size())
+        var checkBoxes = categoryOptions.getCheckBoxes();
+        var newCategories = IntStream.range(0, checkBoxes.size())
                 .filter(i -> checkBoxes.get(i).getState())
                 .mapToObj(this.categories::get)
                 .collect(Collectors.toList());
-        template.setCategories(categories);
-        template.setLocation(locationField.getText());
-        template.setTime(timePicker.getTime());
-        template.setDuration(Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
-        return template;
+        return new Template(guid, templateNameField.getText(), doneField.isSelected(), eventNameField.getText(), newCategories, locationField.getText(),
+                timePicker.getTime(), Duration.ofMinutes(((Number) durationSpinner.getValue()).longValue()));
     }
 }
