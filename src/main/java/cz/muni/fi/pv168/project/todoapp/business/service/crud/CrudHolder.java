@@ -1,20 +1,12 @@
 package cz.muni.fi.pv168.project.todoapp.business.service.crud;
 
-
-import cz.muni.fi.pv168.project.todoapp.business.model.AbstractCoreEvent;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
-import cz.muni.fi.pv168.project.todoapp.business.model.CategoryColor;
 import cz.muni.fi.pv168.project.todoapp.business.model.Entity;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
 import cz.muni.fi.pv168.project.todoapp.business.model.Interval;
 import cz.muni.fi.pv168.project.todoapp.business.model.Template;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collection;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Class for holding all crud services

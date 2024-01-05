@@ -3,7 +3,6 @@ package cz.muni.fi.pv168.project.todoapp.ui.filter;
 import com.github.lgooddatepicker.components.DatePicker;
 import cz.muni.fi.pv168.project.todoapp.business.model.Category;
 import cz.muni.fi.pv168.project.todoapp.business.model.Event;
-import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudHolder;
 import cz.muni.fi.pv168.project.todoapp.business.service.crud.CrudService;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.components.FilterComboBoxBuilder;
 import cz.muni.fi.pv168.project.todoapp.ui.filter.values.SpecialFilterCategoryValues;
@@ -14,7 +13,6 @@ import cz.muni.fi.pv168.project.todoapp.ui.renderer.SpecialFilterDoneValuesRende
 import cz.muni.fi.pv168.project.todoapp.ui.settings.CustomDatePickerSettings;
 import cz.muni.fi.pv168.project.todoapp.utils.Either;
 
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
