@@ -52,3 +52,7 @@ Draft MR sign means that MR is still in progress, but review is welcome.
 | PM              | [Andrej Vaculciak](https://is.muni.cz/auth/osoba/248487) | 
 | Technical Coach | [Ondrej Konecny](https://is.muni.cz/auth/osoba/248483)   | 
 
+## Notes
+This project was developed during Fall semester 2023 as a team project. 
+We used GitLab to make Merge Requests, code reviews and track issues - unfortunetelly It did not carry on during the rebase to GitHub.
+
